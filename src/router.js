@@ -11,12 +11,22 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/mainSideBar',
+      name: 'mainSideBar',
+      component: () => import('./components/MainSideBar'),
+    },
+    {
       path: '/mainMap',
       name: 'mainMap',
       component: () => import('./views/MainMap'),
     },
     {
       path: '/',
+      name: 'login',
+      component: () => import('./views/Login'),
+    },
+    {
+      path: '/home',
       name: 'home',
       component: () => import('./views/Home'),
     },

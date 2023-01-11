@@ -1,11 +1,13 @@
 <template>
-  <div id="map">
-<!--    카카오맵은 id가 map인 영역을 찾아서 랜더링 함-->
-
+  <div >
+    <div id="map">
+      <!--    카카오맵은 id가 map인 영역을 찾아서 랜더링 함-->
+    </div>
   </div>
 </template>
 
 <script>
+
 
 export default {
   name: 'mainMap',
