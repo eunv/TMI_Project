@@ -11,9 +11,14 @@ export default new Router({
       component: () => import('./views/MainMap'),
     },
     {
-      path: '/',
+      path: '/home',
       name: 'home',
       component: () => import('./views/Home'),
+    },
+    {
+      path: '/',
+      name: 'SignUp',
+      component: () => import('./views/SignUp'),
     },
   ]
 })
