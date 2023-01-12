@@ -11,17 +11,32 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/login',
+      name: 'login',
+      component: () => import('./views/Login'),
+    },
+    {
+      path: '/mainSideBar',
+      name: 'mainSideBar',
+      component: () => import('./components/MainSideBar'),
+    },
+    {
       path: '/mainMap',
       name: 'mainMap',
       component: () => import('./views/MainMap'),
     },
     {
       path: '/',
+      name: 'startPage',
+      component: () => import('./views/StartPage.vue'),
+    },
+    {
+      path: '/home',
       name: 'home',
       component: () => import('./views/Home'),
     },
     {
-      path: '/signup',
+      path: '/signUp',
       name: 'SignUp',
       component: () => import('./views/SignUp'),
     },
