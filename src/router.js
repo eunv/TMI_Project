@@ -11,6 +11,11 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/login',
+      name: 'login',
+      component: () => import('./views/Login'),
+    },
+    {
       path: '/mainSideBar',
       name: 'mainSideBar',
       component: () => import('./components/MainSideBar'),
@@ -22,8 +27,8 @@ const router = new Router({
     },
     {
       path: '/',
-      name: 'login',
-      component: () => import('./views/Login'),
+      name: 'startPage',
+      component: () => import('./views/StartPage.vue'),
     },
     {
       path: '/home',
