@@ -6,14 +6,18 @@
       <h2><span class = "text-red">I</span>nformation</h2>
     </div>
     <hr align = "center" width = "500px" color="white"/>
-    <button class = "loginButton white">구글로 시작하기</button>
+
+    <button class = "loginButton white" @click="googleLoginBtn">구글로 시작하기</button>
     <img class = "googleImg" src = "../assets/images/googleImage.png">
+
     <router-link to="login" class="loginLink">로그인</router-link>
     <router-link to="signUp" class="signUpLink">회원가입</router-link>
   </div>
 </template>
 
 <script>
+import {firebase} from "@/firebase/firebaseConfig";
+
 export default {
   name: 'login',
   data() {
@@ -21,7 +25,34 @@ export default {
 
     }
   },
+  methods: {
+    googleLoginBtn() {
+      const self = this;
+      const provider = new firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({
+        'login_hint': 'user@example.com'
+      });
 
+      // 로그인 팝업창 띄우기
+      firebase.auth().signInWithPopup(provider)
+          .then(function(result) {
+        const token = result.credential.accessToken;  //eslint-disable-line no-unused-vars
+        const user = result.user;
+        // ...
+        console.log(user);
+        self.$router.push("/mainMAp");
+      }).catch(function(error) {
+        // Handle Errors here.
+        const errorCode = error.code; //eslint-disable-line no-unused-vars
+        const errorMessage = error.message; //eslint-disable-line no-unused-vars
+        // The email of the user's account used.
+        const email = error.email;  //eslint-disable-line no-unused-vars
+        // The firebase.auth.AuthCredential type that was used.
+        const credential = error.credential;    //eslint-disable-line no-unused-vars
+        // ...
+      });
+    },
+  },
 }
 </script>
 
