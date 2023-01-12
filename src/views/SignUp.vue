@@ -3,7 +3,7 @@
     <div class="white-bg">
       <p class="h4 text-center mb-4">회원가입 하기</p>
       <label for="defaultFormRegisterNameEx" class="grey-text">이름</label>
-      <input v-model="name" type="text" id="defaultFormRegisterNameEx" class="form-control" maxlength=10/>
+      <input v-model="name" type="text" id="defaultFormRegisterNameEx" class="form-control" maxlength=10 @change="validateName(name)"/>
       <br />
       <label for="defaultFormRegisterNameEx" class="grey-text">닉네임</label>
       <input v-model="nickName" type="text" id="defaultFormRegisterNameEx" class="form-control" maxlength="10" @change="validateNickName(nickName)"/>
@@ -47,7 +47,8 @@ export default {
       autoHyphen:'',
       compare: '',
       openBtn: false,
-      closeInput: false
+      closeInput: false,
+      randomStr: Math.random().toString(36).substring(2, 12)
     }
   },
   methods: {
@@ -66,6 +67,9 @@ export default {
                       nickName: self.nickName,
                       phoneNum: self.phoneNum,
                       id: self.id,
+                      googleId: '',
+                      code: self.randomStr,
+                      otherCode: [self.randomStr]
                     })
                 alert('회원가입 완료!');
                 user.updateProfile({displayName: self.name, photoURL: self.level})
@@ -104,6 +108,15 @@ export default {
               self.closeInput = true
             }
           })
+    },
+    validateName(name) {
+      const nameRegExp = /^[가-힣]{2,4}$/;
+      if (!nameRegExp.test(name)) {
+        alert("이름이 올바르지 않습니다.");
+        this.name = ''
+        return false;
+      }
+      return true; //확인이 완료되었을 때
     },
     validateNickName(nickName) {
       // let specialCharacter = nickName.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?+=)(,]/gi);
@@ -160,15 +173,6 @@ export default {
         console.log("통과");
         return true;
       }
-    },
-    checkName(name) {
-
-      const nameRegExp = /^[가-힣]{2,4}$/;
-      if (!nameRegExp.test(name)) {
-        alert("이름이 올바르지 않습니다.");
-        return false;
-      }
-      return true; //확인이 완료되었을 때
     },
     passwordConfirm(){
       if(this.password === this.comparePassword){
