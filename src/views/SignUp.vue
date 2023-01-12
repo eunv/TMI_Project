@@ -3,16 +3,18 @@
     <div class="white-bg">
       <p class="h4 text-center mb-4">Sign up</p>
       <label for="defaultFormRegisterNameEx" class="grey-text">이름</label>
-      <input v-model="name" type="text" id="defaultFormRegisterNameEx" class="form-control" />
+      <input v-model="name" type="text" id="defaultFormRegisterNameEx" class="form-control" maxlength=10/>
       <br />
       <label for="defaultFormRegisterNameEx" class="grey-text">닉네임</label>
-      <input v-model="nickName" type="text" id="defaultFormRegisterNameEx" class="form-control" />
+      <input v-model="nickName" type="text" id="defaultFormRegisterNameEx" class="form-control" maxlength="5"/>
       <br />
       <label for="defaultFormRegisterConfirmEx" class="grey-text">전화번호</label>
-      <input v-model="phoneNum" type="text" id="defaultFormRegisterConfirmEx" class="form-control" />
+      <input v-model="phoneNum" type="text" id="defaultFormRegisterConfirmEx" class="form-control" maxlength="13"
+             oninput="javascript: this.value = this.value.replace(/[^0-9]/, '').replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);"/>
       <br />
       <label for="defaultFormRegisterEmailEx" class="grey-text">아이디</label>
       <input v-model="id" type="text" id="defaultFormRegisterEmailEx" class="form-control" />
+      <button class="btn btn-unique" type="submit" @click="overlapCheckId(id)">중복확인</button>
       <br />
       <label for="defaultFormRegisterConfirmEx" class="grey-text">비밀번호</label>
       <input v-model="password" type="password" id="defaultFormRegisterConfirmEx" class="form-control" />
@@ -40,6 +42,7 @@ export default {
       id:'',
       password: '',
       comparePassword: '',
+      autoHyphen:''
     }
   },
   methods: {
@@ -55,6 +58,7 @@ export default {
                   name: self.name,
                   nickName: self.nickName,
                   phoneNum: self.phoneNum,
+                  id: self.id,
                 })
             alert('회원가입 완료!');
             user.updateProfile({displayName: self.name, photoURL: self.level})
@@ -65,12 +69,37 @@ export default {
         alert('에러 : ' + err.message)
       })
     },
-    autoHyphen(){ = (target) => {
-      target.value = target.value
-          .replace(/[^0-9]/g, '')
-          .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
-    }
-    }
+    overlapCheckId(id){
+      const self = this;
+      const db = firebase.firestore();
+      db.collection(self.fbCollection)
+          .where("id", "==", id + '@timproject.co.kr')
+          .get()
+          .then((querySnapshot) => {
+
+            if (querySnapshot.size == 1) {
+              self.id=''
+            }
+            else {
+              return
+            }
+          })
+    },
+    validateId() {
+      let id = document.getElementById('id').value
+
+      console.log(id)
+
+      if (id.length < 6) {
+        alert("아이디는 최소 6자리 이상입니다.")
+        return false
+      } else if (id.search(/\s/) !== -1) {
+        alert("아이디에 공백은 불가능합니다.")
+        return false
+      } else {
+        return true
+      }
+    },
   },
 }
 </script>
