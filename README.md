@@ -1,5 +1,5 @@
 # TMI_Project
-[TMI]TravelMemoryInformation
+[TMI]TripMemoryInformation
 
 ## 개발환경
 - 개발언어 : Vue.js
