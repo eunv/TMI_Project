@@ -9,6 +9,7 @@
     <button class = "loginButton white">구글로 시작하기</button>
     <img class = "googleImg" src = "../assets/images/googleImage.png">
     <router-link to="login" class="loginLink">로그인</router-link>
+    <router-link to="signUp" class="signUpLink">회원가입</router-link>
   </div>
 </template>
 
@@ -90,7 +91,14 @@ hr {
 }
 .loginLink {
   position: absolute;
-  left: 41%;
+  left: 42%;
+  top: 77%;
+  font-size:23px;
+  color: white;
+}
+.signUpLink {
+  position: absolute;
+  left: 50%;
   top: 77%;
   font-size:23px;
   color: white;
