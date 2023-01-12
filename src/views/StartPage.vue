@@ -22,25 +22,33 @@ export default {
   name: 'login',
   data() {
     return {
-
+      fbCollection: 'users',
     }
   },
   methods: {
     googleLoginBtn() {
       const self = this;
+      const db = firebase.firestore();
       const provider = new firebase.auth.GoogleAuthProvider();
       provider.setCustomParameters({
         'login_hint': 'user@example.com'
       });
-
       // 로그인 팝업창 띄우기
       firebase.auth().signInWithPopup(provider)
           .then(function(result) {
         const token = result.credential.accessToken;  //eslint-disable-line no-unused-vars
         const user = result.user;
-        // ...
         console.log(user);
+        db.collection(self.fbCollection)
+            .where("googleId",'==',user.email)
+            .get()
+            .then(() => {
+              alert('회원가입 필요')
+              console.log('회원가입 안됨')
+              self.$router.push("/SignUp");
+            })
         self.$router.push("/mainMAp");
+
       }).catch(function(error) {
         // Handle Errors here.
         const errorCode = error.code; //eslint-disable-line no-unused-vars
@@ -51,6 +59,23 @@ export default {
         const credential = error.credential;    //eslint-disable-line no-unused-vars
         // ...
       });
+    },
+    loginCheck(){
+      const self = this;
+      const db = firebase.firestore();
+      db.collection(self.fbCollection)
+          .where("googleId",'==',)
+          .get()
+          .then((querySnapshot) => {
+            if (querySnapshot.size === 0) {
+              return
+            }
+            querySnapshot.forEach((doc) => {
+              const _data = doc.data();
+              _data.id = doc.id
+              self.rows.push(_data);
+            });
+          })
     },
   },
 }
