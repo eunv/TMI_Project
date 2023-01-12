@@ -43,7 +43,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 body {
   background-image: url("../assets/images/bgPhoto.jpg");
   background-color:rgba(0, 0, 0, 0.5);

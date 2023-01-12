@@ -90,7 +90,7 @@ export default {
 
 <style>
 body{
-  background-image: url("bgPhoto.jpg");
+  background-image: url("../assets/images/bgPhoto.jpg");
   background-size: cover;
 }
 .black-bg {
