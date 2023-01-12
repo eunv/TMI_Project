@@ -13,11 +13,11 @@
              oninput="javascript: this.value = this.value.replace(/[^0-9]/, '').replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);"/>
       <br />
       <label for="defaultFormRegisterEmailEx" class="grey-text">아이디</label>
-      <input v-model="id" type="text" id="defaultFormRegisterEmailEx" class="form-control" />
+      <input v-model="id" type="text" id="defaultFormRegisterEmailEx" class="form-control"  @change="validateId(id)"/>
       <button class="btn btn-unique" type="submit" @click="overlapCheckId(id)">중복확인</button>
       <br />
       <label for="defaultFormRegisterConfirmEx" class="grey-text">비밀번호</label>
-      <input v-model="password" type="password" id="defaultFormRegisterConfirmEx" class="form-control" />
+      <input v-model="password" type="password" id="defaultFormRegisterConfirmEx" class="form-control" placeholder="영문자+숫자+특수문자 조합"/>
       <br />
       <label for="defaultFormRegisterPasswordEx" class="grey-text">비밀번호 확인</label>
       <input v-model="comparePassword" type="password" id="defaultFormRegisterPasswordEx" class="form-control" />
@@ -73,28 +73,28 @@ export default {
       const self = this;
       const db = firebase.firestore();
       db.collection(self.fbCollection)
-          .where("id", "==", id + '@timproject.co.kr')
+          .where("id", "==", id )
           .get()
           .then((querySnapshot) => {
-
-            if (querySnapshot.size == 1) {
+            console.log(querySnapshot.size)
+            if (querySnapshot.size >= 1) {
+              alert('중복된 아이디가 있습니다')
               self.id=''
             }
             else {
-              return
+              alert('사용 가능합니다')
             }
           })
     },
-    validateId() {
-      let id = document.getElementById('id').value
-
-      console.log(id)
+    validateId(id) {
 
       if (id.length < 6) {
         alert("아이디는 최소 6자리 이상입니다.")
+        this.id=''
         return false
       } else if (id.search(/\s/) !== -1) {
         alert("아이디에 공백은 불가능합니다.")
+        this.id=''
         return false
       } else {
         return true
