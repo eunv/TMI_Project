@@ -1,57 +1,85 @@
 <template>
-  <div>
-    <div class='mainSideBar'>
-      <ul>
-        <li id='logo'>
-          <div>Inventory</div>
-          <div>Manager</div>
-        </li>
-        <li>HOME</li>
-        <li>MANAGER</li>
-        <li>STATE</li>
-        <li>RESISTER</li>
-        <li id='company'>
-          <div>Welcomt to Inventory</div>
-          <div>Seoul Gangnam <br> ... </div>
-          <div>@copyright demnodey</div>
-        </li>
-      </ul>
-    </div>
+  <div class>
+    <b-sidebar id="sidebar-1" shadow>
+      <div class="px-3 py-2">
+        <h3>
+          {{userInfo.nickName}}'s Map
+        </h3>
+        {{memoryList}}
+      </div>
+      <div class="px-3 py-2 dataFalse" v-if="whatData">
+        <p>
+          추억을 남겨보세요
+        </p>
+      </div>
+      <router-link to="maPage">My Page</router-link>
+    </b-sidebar>
   </div>
 </template>
 
 <script>
+
+import {firebase} from "@/firebase/firebaseConfig";
+
 export default {
   name: 'mainSideBar',
   data() {
     return {
-
+      fbCollection: 'users',
+      userInfo : [],
+      memoryList: [],
+      whatData : false,
     }
   },
   mounted() {
+    const self = this;
+    self.init();
   },
   methods: {
-  //   resize: function () {
-  //     $(window).resize(function () {
-  //       const height = (window.innerHeight / 2) + 'px'
-  //       $('#left_btn').css({'top': height})
-  //     })
-  //   }
+    init() {
+      const self = this;
+      self.getData();
+    },
+    getData() {
+      const self = this;
+      const db = firebase.firestore();
+      db.collection(self.fbCollection)
+          .doc(self.$store.state.user.uid)
+          .get()
+          .then((snapshot) => {
+            self.userInfo = snapshot.data();
+            setTimeout(() => {this.getDatalist()},1);
+          })
+    },
+    getDatalist() {
+      const self = this;
+      const db = firebase.firestore();
+      console.log(self.whatData)
+      db.collection("memory")
+      .where("userId",'==',self.$store.state.user.uid)
+      .get()
+      .then((querySnapshot) => {
+        if (querySnapshot.size === 0) {
+          self.whatData = true
+          console.log(self.whatData)
+        }
+        querySnapshot.forEach((memory) => {
+          const _data = memory.data();
+          _data.id = memory.id
+          self.memoryList.push(_data);
+          console.log(self.memoryList)
+          });
+      })
+    },
+    goMyPage() {
+      self.$router.push('/myPage')
+    },
+
   },
+
 }
 </script>
 
 <style>
-a{color:black}
-a:hover{color:rgb(255,98,124);}
-.mainSideBar{;
-  width:250px;
-  height:100vh;
-}
-.mainSideBar ul {padding: 0 30px}
-.mainSideBar ul li { font-size:25px;  height:75px;}
-.mainSideBar ul li#logo {font-family: 'Passion One', cursive; font-size:50px; height:170px;}
-.mainSideBar ul li#logo div {line-height: 0.8}
-.mainSideBar ul li#company {font-size:16px; margin-top:150px; }
-#left_btn {position:fixed; top:495px; left:-60px; cursor:pointer}
+
 </style>
