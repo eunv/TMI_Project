@@ -21,7 +21,7 @@
       <br />
       <label for="defaultFormRegisterPasswordEx" class="grey-text">비밀번호 확인</label>
       <input v-model="comparePassword" type="password" id="defaultFormRegisterPasswordEx" class="form-control" @change="passwordConfirm"/>
-      <h6>{{compare}}</h6>
+      <h10>{{compare}}</h10>
       <div class="text-center mt-4">
         <button v-bind:disabled="openBtn==false" class="btn btn-unique" type="submit" @click="signup">회원가입</button>
         <button class="btn btn-unique" type="submit" @click="goMain">뒤로가기</button>
