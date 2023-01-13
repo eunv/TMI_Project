@@ -1,8 +1,9 @@
 <template>
-  <div >
+  <div style="position:relative">
     <MainSideBar></MainSideBar>
     <div id="map">
       <!--    카카오맵은 id가 map인 영역을 찾아서 랜더링 함-->
+      <b-button v-b-toggle.sidebar-1 id="sidebar_openBtn" class = "sideOpenBtn">sidebar open</b-button>
     </div>
 
   </div>
@@ -19,6 +20,8 @@ export default {
   data() {
     return {
       map: null,
+      xPosition:0,
+      yPosition:0,
     }
   },
   mounted() {
@@ -47,10 +50,29 @@ export default {
         center: new window.kakao.maps.LatLng(37.485474, 126.806064),
         level: 3,
       };
-      this.map = new window.kakao.maps.Map(container, options);
+      let map = new window.kakao.maps.Map(container, options);
+      this.map = map;
+      let marker = new kakao.maps.Marker({
+        position: map.getCenter()
+      });
+
+      marker.setMap(map);
+
+      kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+
+        // 클릭한 위도, 경도 정보를 가져옵니다
+        let latlng = mouseEvent.latLng;
+
+        // 마커 위치를 클릭한 위치로 옮깁니다
+        marker.setPosition(latlng);
+
+        this.xPosition = latlng.La;  //바인딩이 되질 않습니다.
+        this.yPosition = latlng.Ma;
+        console.log(this.xPosition)
+      });
     },
 
-  }
+  },
 
 }
 </script>
@@ -60,8 +82,11 @@ export default {
   width: 100%;
   height: 100vh;
 }
-.side_bar {
-  width: 130px;
-  height: 100vh;
+.sideOpenBtn{
+  position: absolute;
+  z-index:2;
+  /*left: 42%;*/
+  /*top: 85%;*/
 }
+
 </style>
