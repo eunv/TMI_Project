@@ -3,12 +3,12 @@
     <div id="map">
       <!--    카카오맵은 id가 map인 영역을 찾아서 랜더링 함-->
     </div>
+
   </div>
+
 </template>
 
 <script>
-
-
 export default {
   name: 'mainMap',
   data() {
@@ -32,7 +32,7 @@ export default {
       script.onload = () => window.kakao.maps.load(this.loadMap);
       script.src =
           // 동적로딩을 위해서 autoload=fales 추가
-          "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=149ca1b26e1a09a847fc3342c98b0a30";
+          "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=f486e714c436dbd1f7761ca8d96e43c8";
       document.head.appendChild(script);
     },
     loadMap() {
@@ -44,7 +44,8 @@ export default {
       };
       this.map = new window.kakao.maps.Map(container, options);
     },
-
+  },
+  components: {
   }
 
 }
@@ -54,9 +55,12 @@ export default {
 #map {
   width: 100%;
   height: 100vh;
+
 }
-.side_bar {
-  width: 130px;
-  height: 100vh;
+.side-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
 }
 </style>
