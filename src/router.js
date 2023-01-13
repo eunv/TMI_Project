@@ -16,6 +16,11 @@ const router = new Router({
       component: () => import('./views/Login'),
     },
     {
+      path: '/myPage',
+      name: 'myPage',
+      component: () => import('./components/MyPage'),
+    },
+    {
       path: '/mainSideBar',
       name: 'mainSideBar',
       component: () => import('./components/MainSideBar'),

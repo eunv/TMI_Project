@@ -9,6 +9,7 @@
     <input type="password" id="pwIn" class="form-control" v-model = "password"/>
     <div class="text-center mt-4">
       <button class="btn btn-indigo" type="submit" @click="login">Login</button>
+      <button class="btn btn-indigo" type="submit" @click="goMain">뒤로가기</button>
     </div>
   <!-- Default form login -->
       </div>
@@ -39,6 +40,9 @@ export default {
             alert(error)
           })
     },
+    goMain(){
+      this.$router.push('/')
+    }
   },
 }
 </script>

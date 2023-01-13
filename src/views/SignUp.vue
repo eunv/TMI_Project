@@ -46,7 +46,6 @@
 
 <script>
 import {firebase} from '@/firebase/firebaseConfig';
-
 export default {
   name: "SignUp",
   data() {
@@ -133,9 +132,7 @@ export default {
       }
     },
     validateNickName(nickName) {
-
       const checkSpecial = /[~₩!@#$%^&*()+=,/?"':;'><]/gi;
-
       if (nickName.length < 2) {
         alert("닉네임은 최소 2글자 이상 10글자 이하입니다.")
         this.nickName = ''
@@ -154,7 +151,6 @@ export default {
     },
     validateId(id) {
       let checkId = /[ㄱ-ㅎㅏ-ㅣ가-힣~₩!@#$%^&*()+._=,/?"':;'><]/
-
       if (id.length < 6) {
         alert("아이디는 최소 6자리 이상입니다.")
         this.id = ''
@@ -175,7 +171,6 @@ export default {
       let number = pw.search(/[0-9]/g);
       let english = pw.search(/[a-z]/ig);
       let specialCharacter = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-
       if (pw.length < 8 || pw.length > 20) {
         alert("8자리 ~ 20자리 이내로 입력해주세요.");
         this.password = ''
@@ -214,7 +209,6 @@ body {
   background-image: url("../assets/images/bgPhoto.jpg");
   background-size: cover;
 }
-
 .black-bg {
   width: 100%;
   height: 100%;
@@ -222,7 +216,6 @@ body {
   position: fixed;
   padding: 20px;
 }
-
 .white-bg {
   width: 60%;
   background: white;
@@ -233,7 +226,6 @@ body {
   left: 24%;
   margin: -50px 0 0 -50px;
 }
-
 .ImButton {
   height: 38px !important;
   white-space: nowrap;
