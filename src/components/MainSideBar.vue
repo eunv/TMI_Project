@@ -9,6 +9,8 @@
         </p>
         <b-img src="https://picsum.photos/500/500/?image=54" fluid thumbnail></b-img>
       </div>
+      <b-button variant="success" @click="this.$router.push('/')">작성완료</b-button>
+
     </b-sidebar>
   </div>
 </template>
