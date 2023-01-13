@@ -1,16 +1,21 @@
 <template>
   <div >
+    <MainSideBar></MainSideBar>
     <div id="map">
       <!--    카카오맵은 id가 map인 영역을 찾아서 랜더링 함-->
     </div>
+
   </div>
 </template>
 
 <script>
 
 
+import MainSideBar from "@/components/MainSideBar.vue";
+
 export default {
   name: 'mainMap',
+  components: {MainSideBar},
   data() {
     return {
       map: null,

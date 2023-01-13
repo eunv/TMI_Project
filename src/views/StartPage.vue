@@ -5,9 +5,10 @@
       <h2><span class = "text-red">M</span>emory</h2>
       <h2><span class = "text-red">I</span>nformation</h2>
     </div>
-    <hr align = "center" width = "500px" color="white"/>
+    <hr align = "center" width = "550px" color="white"/>
 
-    <button class = "loginButton white" @click="googleLoginBtn">구글로 시작하기</button>
+    <h3>추억을 한 눈에 보고 싶을 때</h3>
+    <button class = "loginButton white" @click="googleLoginBtn">Sign in with Google</button>
     <img class = "googleImg" src = "../assets/images/googleImage.png">
 
     <router-link to="login" class="loginLink">로그인</router-link>
@@ -60,23 +61,6 @@ export default {
         // ...
       });
     },
-    loginCheck(){
-      const self = this;
-      const db = firebase.firestore();
-      db.collection(self.fbCollection)
-          .where("googleId",'==',)
-          .get()
-          .then((querySnapshot) => {
-            if (querySnapshot.size === 0) {
-              return
-            }
-            querySnapshot.forEach((doc) => {
-              const _data = doc.data();
-              _data.id = doc.id
-              self.rows.push(_data);
-            });
-          })
-    },
   },
 }
 </script>
@@ -119,8 +103,18 @@ h2{
 hr {
   position: absolute;
   left: 37%;
-  top: 67%;
+  top: 74%;
   height: 3px;
+}
+h3{
+  position: absolute;
+  left: 45%;
+  top: 70%;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  color: white;
+  line-height: 59px;
 }
 .text-red {
   color: red;
@@ -129,33 +123,34 @@ hr {
   position: absolute;
   width: 350px;
   height: 60px;
-  left: 40%;
-  top: 70%;
+  left: 41%;
+  top: 78%;
   font-size:23px;
   line-height: 50px;
   text-align: center;
   background: white;
+  color: gray;
   /*border: solid 2px grey;*/
   border-radius: 12px;
 }
 .googleImg {
   position: absolute;
   left: 42%;
-  top: 70.8%;
+  top: 78.8%;
   width: 40px;
   height: 40px;
 }
 .loginLink {
   position: absolute;
   left: 42%;
-  top: 77%;
+  top: 85%;
   font-size:23px;
   color: white;
 }
 .signUpLink {
   position: absolute;
   left: 50%;
-  top: 77%;
+  top: 85%;
   font-size:23px;
   color: white;
 }
