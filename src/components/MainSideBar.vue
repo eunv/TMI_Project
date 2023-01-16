@@ -14,9 +14,9 @@
       </div>
 <!--      <b-button v-b-toggle.sidebar-2 id="sidebar_openBtn">subPage</b-button>-->
       <b-icon v-b-toggle.sidebar-2 id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="goMypage"></b-icon>
-      <b-button variant="outline-info" class="mb-2 logOutBtn">
+      <button @click="logout" class="logOutBtn btn-outline-light-blue" >
         <b-icon icon="power" aria-hidden="true"></b-icon> Logout
-      </b-button>
+      </button>
     </b-sidebar>
   </div>
 </template>
@@ -76,7 +76,11 @@ export default {
           });
       })
     },
-
+    logout() {
+      firebase.auth().signOut()
+      this.$router.push('/')
+      console.log("로그아웃 왜안됨?????")
+    },
   },
 
 }
