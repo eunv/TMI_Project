@@ -1,6 +1,7 @@
 <template>
   <div>
-    <MainSideBar></MainSideBar>
+    <MainSideBar :lat="lat" :long="long"></MainSideBar>
+
     <b-button v-b-toggle.sidebar-1 id="sidebar_openBtn" class = "sideOpenBtn">sidebar open</b-button>
     <vue-daum-map
         :appKey="appkey"
@@ -30,7 +31,7 @@ export default {
   components: {MainSideBar, VueDaumMap},
   data() {
     return {
-      appkey: '149ca1b26e1a09a847fc3342c98b0a30',
+      appkey: 'f486e714c436dbd1f7761ca8d96e43c8',
       center: {lat: 37.5411, lng: 127.068},
       level: 3,
       mapTypeId: VueDaumMap.MapTypeId.NORMAL,
@@ -44,8 +45,9 @@ export default {
       userId: this.$store.state.user.uid,
       markersInMap: [],
       geoCoder: '',
-      xPosition: 0,
-      yPosition: 0,
+      lat: 0,
+      long: 0,
+      makerOn: false,
     }
   },
   async mounted() {
@@ -70,9 +72,9 @@ export default {
         // 마커 위치를 클릭한 위치로 옮깁니다
         marker.setPosition(latlng);
 
-        this.xPosition = latlng.La;
-        this.yPosition = latlng.Ma;
-        console.log(this.xPosition)
+        this.lat = latlng.La;
+        this.long = latlng.Ma;
+        console.log(this.lat)
       });
     },
     async getDataList() {
@@ -88,8 +90,8 @@ export default {
             querySnapshot.forEach((doc) => {
               const _data = doc.data();
               _data.id = doc.id //각 유저 필드에 따로 id값이 없지만 유저 고유 id를 불로올 수 있음
-              console.log(_data.marker._lat)
-              console.log(_data.marker._long)
+              // console.log(_data.marker._lat)
+              // console.log(_data.marker._long)
               this.sendFromAppLatLngMarker(_data.marker._lat, _data.marker._long)
             });
           })
