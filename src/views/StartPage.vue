@@ -108,11 +108,11 @@ hr {
 }
 h3{
   position: absolute;
-  left: 45%;
+  left: 46%;
   top: 70%;
   font-style: normal;
   font-weight: 500;
-  font-size: 30px;
+  font-size: 27px;
   color: white;
   line-height: 59px;
 }

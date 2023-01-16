@@ -1,11 +1,26 @@
 <template>
   <div class>
-    <b-sidebar id="sidebar-1" shadow>
+    <b-sidebar class="mainSide" id="sidebar-1" shadow>
       <div class="px-3 py-2">
-        <h3>
+        <div>
+          <h3>
           {{userInfo.nickName}}'s Map
         </h3>
-        {{memoryList}}
+        </div>
+        <div>
+          <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
+            <thead>
+            <tr>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(memoryList,i) in memoryList" :key="i">
+              <td>{{memoryList.date}}<br> {{memoryList.title}}</td>
+              <td>{{memoryList.image}}</td></tr>
+            {{lat}}
+            </tbody>
+          </table>
+        </div>
       </div>
       <div class="px-3 py-2 dataFalse" v-if="whatData">
         <p>
@@ -13,6 +28,9 @@
         </p>
       </div>
       <router-link to="maPage">My Page</router-link>
+      <b-button v-b-toggle.sidebar-2 id="sidebar_openBtn" class = "sideOpenBtn">moresidebar open</b-button>
+      <AddMemorySideBar :lat="lat" :long="long"></AddMemorySideBar>
+
     </b-sidebar>
   </div>
 </template>
@@ -20,15 +38,21 @@
 <script>
 
 import {firebase} from "@/firebase/firebaseConfig";
+import AddMemorySideBar from '@/components/AddMemorySideBar.vue';
+// import VueDaumMap from 'vue-daum-map';
 
 export default {
   name: 'mainSideBar',
+  components: {AddMemorySideBar},
   data() {
     return {
       fbCollection: 'users',
       userInfo : [],
       memoryList: [],
       whatData : false,
+      modalWindow : false,
+      lat1: this.lat,
+      long1: this.long
     }
   },
   mounted() {
@@ -76,10 +100,17 @@ export default {
     },
 
   },
+  props: {
+    lat: Number,
+    long: Number
+  }
 
 }
 </script>
 
 <style>
-
+#sidebar-1{
+  left: 0px;
+}
 </style>
+

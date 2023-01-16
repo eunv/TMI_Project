@@ -21,7 +21,7 @@
         <label for="defaultFormRegisterEmailEx" class="grey-text">아이디</label>
         <div class="input-line">
           <input v-bind:disabled="closeInput==true" v-model="id" type="text" id="defaultFormRegisterEmailEx"
-                 class="form-control" @change="validateId(id)"/>
+                 class="form-control" @change="validateId(id)" placeholder="영문자+숫자 조합" />
           <button class="btn btn-unique ImButton" type="submit" @click="overlapCheckId(id)">중복확인</button>
         </div>
       </div>
@@ -222,7 +222,7 @@ body {
   border-radius: 8px;
   padding: 50px;
   position: absolute;
-  top: 10%;
+  top: 17%;
   left: 24%;
   margin: -50px 0 0 -50px;
 }
