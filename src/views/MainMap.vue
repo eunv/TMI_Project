@@ -75,7 +75,7 @@ export default {
     sendFromAppLatLngMarker(lat, long) {
       const self = this;
 // 마커가 표시될 위치입니다
-      const markerPosition = new this.maps.LatLng(lat, long);
+      const markerPosition = new kakao.maps.LatLng(lat, long);
 
       console.log(markerPosition)
       // const markerImageUrl = '/images/marker2.png',
@@ -87,7 +87,7 @@ export default {
       // const markerImage = new this.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
 
 // 마커를 생성합니다
-      const marker = new this.maps.Marker({
+      const marker = new kakao.maps.Marker({
         map: self.map,
         // image: markerImage,
         position: markerPosition
