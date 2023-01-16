@@ -1,7 +1,7 @@
 <template>
   <div>
     <MainMap></MainMap>
-    <MainSideBar></MainSideBar>
+<!--    <MainSideBar></MainSideBar>-->
   </div>
 </template>
 
@@ -9,12 +9,10 @@
 
 
 import MainMap from "@/views/MainMap.vue";
-import MainSideBar from "@/components/MainSideBar.vue";
 
 export default {
   name: 'home',
   components: {
-    MainSideBar,
     MainMap
   },
   data() {
@@ -22,9 +20,11 @@ export default {
 
     }
   },
+
   methods: {
 
-  }
+
+  },
 }
 </script>
 

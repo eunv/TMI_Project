@@ -1,6 +1,7 @@
 <template>
   <div>
     <MainSideBar></MainSideBar>
+    <b-button v-b-toggle.sidebar-1 id="sidebar_openBtn" class = "sideOpenBtn">sidebar open</b-button>
     <vue-daum-map
         :appKey="appkey"
         :center.sync="center"
@@ -11,9 +12,8 @@
         style="width:100%;height:100vh;"
     >
     </vue-daum-map>
-    <div id="map">
-      <!--    카카오맵은 id가 map인 영역을 찾아서 랜더링 함-->
-    </div>
+    <input class="searchBtn " v-model="geoCoder">
+    <button class="moveBtn btn-mdb-color" >이동</button>
 
   </div>
 </template>
@@ -30,7 +30,7 @@ export default {
   components: {MainSideBar, VueDaumMap},
   data() {
     return {
-      appkey: 'f486e714c436dbd1f7761ca8d96e43c8',
+      appkey: '149ca1b26e1a09a847fc3342c98b0a30',
       center: {lat: 37.5411, lng: 127.068},
       level: 3,
       mapTypeId: VueDaumMap.MapTypeId.NORMAL,
@@ -42,7 +42,10 @@ export default {
       rows: [],
       fbCollection: 'memory',
       userId: this.$store.state.user.uid,
-      markersInMap : [],
+      markersInMap: [],
+      geoCoder: '',
+      xPosition: 0,
+      yPosition: 0,
     }
   },
   async mounted() {
@@ -52,6 +55,25 @@ export default {
     onLoad(map, daum) {
       this.map = map;
       this.maps = daum.map
+
+      let marker = new kakao.maps.Marker({
+        position: map.getCenter()
+      });
+
+      marker.setMap(map);
+
+      kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
+
+        // 클릭한 위도, 경도 정보를 가져옵니다
+        let latlng = mouseEvent.latLng;
+
+        // 마커 위치를 클릭한 위치로 옮깁니다
+        marker.setPosition(latlng);
+
+        this.xPosition = latlng.La;
+        this.yPosition = latlng.Ma;
+        console.log(this.xPosition)
+      });
     },
     async getDataList() {
       const self = this;
@@ -68,7 +90,7 @@ export default {
               _data.id = doc.id //각 유저 필드에 따로 id값이 없지만 유저 고유 id를 불로올 수 있음
               console.log(_data.marker._lat)
               console.log(_data.marker._long)
-              this.sendFromAppLatLngMarker(_data.marker._lat,_data.marker._long)
+              this.sendFromAppLatLngMarker(_data.marker._lat, _data.marker._long)
             });
           })
     },
@@ -94,9 +116,8 @@ export default {
       });
       self.markersInMap.push(marker)
     },
-  }
+  },
 }
-
 </script>
 
 <style scoped>
@@ -104,9 +125,27 @@ export default {
   width: 100%;
   height: 100vh;
 }
-
-.side_bar {
-  width: 130px;
-  height: 100vh;
+.sideOpenBtn{
+  position: absolute;
+  z-index:2;
+  /*left: 42%;*/
+  /*top: 85%;*/
 }
+.searchBtn {
+  position: absolute;
+  z-index:2;
+  width: 500px;
+  height: 40px;
+  left: 40%;
+  top: 2%;
+}
+.moveBtn {
+  position: absolute;
+  z-index:2;
+  width: 45px;
+  height: 40px;
+  left: 60%;
+  top: 2%;
+}
+
 </style>
