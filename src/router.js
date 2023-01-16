@@ -26,6 +26,11 @@ const router = new Router({
       component: () => import('./components/MainSideBar'),
     },
     {
+      path: '/subSideBar',
+      name: 'subSideBar',
+      component: () => import('./components/SubSideBar'),
+    },
+    {
       path: '/mainMap',
       name: 'mainMap',
       component: () => import('./views/MainMap'),

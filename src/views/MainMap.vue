@@ -1,6 +1,10 @@
 <template>
   <div>
     <MainSideBar></MainSideBar>
+    <div>
+      <SubSideBar></SubSideBar>
+    </div>
+
     <b-button v-b-toggle.sidebar-1 id="sidebar_openBtn" class = "sideOpenBtn">sidebar open</b-button>
     <vue-daum-map
         :appKey="appkey"
@@ -12,8 +16,12 @@
         style="width:100%;height:100vh;"
     >
     </vue-daum-map>
-    <input class="searchBtn " v-model="geoCoder">
-    <button class="moveBtn btn-mdb-color" >이동</button>
+    <b-input-group size="sm" class="mb-2 moveBtn">
+      <b-input-group-prepend is-text>
+        <b-icon icon="search"></b-icon>
+      </b-input-group-prepend>
+      <b-form-input type="search" placeholder="Search terms" v-model="geoCoder"></b-form-input>
+    </b-input-group>
 
   </div>
 </template>
@@ -24,10 +32,11 @@
 import MainSideBar from "@/components/MainSideBar.vue";
 import {firebase} from '@/firebase/firebaseConfig';
 import VueDaumMap from "vue-daum-map";
+import SubSideBar from "@/components/SubSideBar.vue";
 
 export default {
   name: 'mainMap',
-  components: {MainSideBar, VueDaumMap},
+  components: {SubSideBar, MainSideBar, VueDaumMap},
   data() {
     return {
       appkey: '149ca1b26e1a09a847fc3342c98b0a30',
@@ -46,6 +55,7 @@ export default {
       geoCoder: '',
       xPosition: 0,
       yPosition: 0,
+
     }
   },
   async mounted() {
@@ -116,6 +126,8 @@ export default {
       });
       self.markersInMap.push(marker)
     },
+
+
   },
 }
 </script>
@@ -142,10 +154,10 @@ export default {
 .moveBtn {
   position: absolute;
   z-index:2;
-  width: 45px;
-  height: 40px;
-  left: 60%;
+  width: 500px;
+  left: 40%;
   top: 2%;
 }
+
 
 </style>

@@ -44,14 +44,24 @@ export default {
             .where("googleId",'==',user.email)
             .get()
             .then(() => {
-              alert('회원가입 필요')
-              console.log('회원가입 안됨')
+              // alert('회원가입 필요')
+              // console.log('회원가입 안됨')
+              firebase.auth().signInWithEmailAndPassword(self.id + '@timproject.co.kr', self.password)
+                  .then(() => {
+                    alert('로그인 완료')
+                    self.$router.push('/mainMap')
+                  })
+                  .catch((error) => {
+                    alert(error)
+                  })
               self.$router.push("/SignUp");
             })
         self.$router.push("/mainMAp");
 
       }).catch(function(error) {
         // Handle Errors here.
+        alert('회원가입 필요')
+        console.log('회원가입 안됨')
         const errorCode = error.code; //eslint-disable-line no-unused-vars
         const errorMessage = error.message; //eslint-disable-line no-unused-vars
         // The email of the user's account used.
