@@ -64,7 +64,7 @@ export default {
       connCode: false,
       otherCodes: [],
       userId: this.$store.state.user.uid,
-      cocdeAdd: '',
+      codeAdd: '',
     }
   },
   mounted() {
