@@ -8,8 +8,19 @@
         <h4>내용</h4>
         <input type="textarea" v-model="content"><br><br>
         <h4>위치 지정하기</h4>
-        {{lat}}{{long}}
-<b-button @click="addMemory">저장하기</b-button>
+        {{this.lat}}{{long}}
+        <vue-daum-map id="addMap"
+            :appKey="appkey"
+            :center.sync="center"
+            :level.sync="level"
+            :mapTypeId="mapTypeId"
+            :libraries="libraries"
+            style="width:100%; height:30vh;"
+            @load="onLoad"
+
+        >
+        </vue-daum-map>
+        <b-button @click="addMemory">저장하기</b-button>
       </div>
     </b-sidebar>
   </div>
@@ -21,11 +32,24 @@ import {firebase} from "@/firebase/firebaseConfig";
 // import * as geofire from 'geofire-common';
 // import geofire from 'geofire';
 import 'firebase/storage'
+import VueDaumMap from "vue-daum-map";
 
 export default {
   name: 'addMemorySideBar',
+  components: {VueDaumMap},
   data() {
     return {
+      appkey: 'f486e714c436dbd1f7761ca8d96e43c8',
+      center: {lat: 37.5411, lng: 127.068},
+      level: 10,
+      mapTypeId: VueDaumMap.MapTypeId.NORMAL,
+      libraries: [],
+      mapObject: null,
+      map: null,
+      maps: null,
+      markers: [],
+      markersInMap: [],
+
       fbCollection: 'memory',
       userInfo: {},
       title: '',
@@ -33,6 +57,9 @@ export default {
       hash: null,
       // marker: new firebase.firestore.GeoPoint(this.lat, this.long)
       marker: {},
+
+      lat: 0.0,
+      long:0.0,
     }
   },
   mounted() {
@@ -68,8 +95,6 @@ export default {
         // marker: self.marker,
         image:[],
         marker: marker,
-        lat: this.lat,
-        long: this.long,
         user: {
           name: this.userInfo.name,
         },
@@ -94,9 +119,9 @@ export default {
         position: map.getCenter()
       });
 
-      marker.setMap(map);
 
-      kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
+      daum.maps.event.addListener(map, 'click', function (mouseEvent) {
+        marker.setMap(map);
 
         // 클릭한 위도, 경도 정보를 가져옵니다
         let latlng = mouseEvent.latLng;
@@ -104,15 +129,21 @@ export default {
         // 마커 위치를 클릭한 위치로 옮깁니다
         marker.setPosition(latlng);
 
-        this.lat = latlng.La;
-        this.long = latlng.Ma;
+        // this.changeLatLng();
+        this.lat  = latlng.getLat();
+        this.long = latlng.getLng();
         console.log(this.lat)
       });
     },
+    // relayout(map){
+    //   this.map = map;
+    //
+    //   console.log(this.map)
+    //   this.map.relayout()
+    // }
   },
   props: {
-    lat: Number,
-    long: Number
+
   }
 
 }
@@ -121,6 +152,9 @@ export default {
 <style>
 #sidebar-2{
   left: 310px;
+}
+#addMap{
+
 }
 </style>
 
