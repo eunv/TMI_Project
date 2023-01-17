@@ -2,7 +2,7 @@
   <div>
     <MainSideBar></MainSideBar>
     <div>
-      <SubSideBar></SubSideBar>
+      <MyPage></MyPage>
     </div>
 
     <b-button v-b-toggle.sidebar-1 id="sidebar_openBtn" class = "sideOpenBtn">sidebar open</b-button>
@@ -30,13 +30,13 @@
 
 
 import MainSideBar from "@/components/MainSideBar.vue";
+import MyPage from "@/components/MyPage.vue";
 import {firebase} from '@/firebase/firebaseConfig';
 import VueDaumMap from "vue-daum-map";
-import SubSideBar from "@/components/SubSideBar.vue";
 
 export default {
   name: 'mainMap',
-  components: {SubSideBar, MainSideBar, VueDaumMap},
+  components: {MyPage, MainSideBar, VueDaumMap},
   data() {
     return {
       appkey: '149ca1b26e1a09a847fc3342c98b0a30',
@@ -83,6 +83,7 @@ export default {
         this.xPosition = latlng.La;
         this.yPosition = latlng.Ma;
         console.log(this.xPosition)
+        console.log(this.yPosition)
       });
     },
     async getDataList() {

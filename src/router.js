@@ -18,17 +18,12 @@ const router = new Router({
     {
       path: '/myPage',
       name: 'myPage',
-      component: () => import('./components/MyPage'),
+      component: () => import('./components/MyPage.vue'),
     },
     {
       path: '/mainSideBar',
       name: 'mainSideBar',
       component: () => import('./components/MainSideBar'),
-    },
-    {
-      path: '/subSideBar',
-      name: 'subSideBar',
-      component: () => import('./components/SubSideBar'),
     },
     {
       path: '/mainMap',

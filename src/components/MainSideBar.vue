@@ -5,7 +5,19 @@
         <h3>
           {{userInfo.nickName}}'s Map
         </h3>
-        {{memoryList}}
+        <div>
+          <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
+            <thead>
+            <tr>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(memoryList,i) in memoryList" :key="i">
+              <td>{{memoryList.date}}<br> {{memoryList.title}}</td>
+              <td>{{memoryList.image}}</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <div class="px-3 py-2 dataFalse" v-if="whatData">
         <p>
@@ -71,15 +83,29 @@ export default {
         querySnapshot.forEach((memory) => {
           const _data = memory.data();
           _data.id = memory.id
+          const date = new Date(_data.date.seconds * 1000);
+          _data.date = getDate(date);
           self.memoryList.push(_data);
           console.log(self.memoryList)
           });
       })
+      const getDate = (date, separated = '-', notFullYear = false) => {
+        if (date instanceof Date) {
+          let year = date.getFullYear()
+          let month = date.getMonth() + 1
+          let day = date.getDate()
+
+          if (notFullYear) year = year.toString().slice(2, 4)
+          if (month < 10) month = `0${month}`
+          if (day < 10) day = `0${day}`
+
+          return `${year}${separated}${month}${separated}${day}`
+        } else return '';
+      }
     },
     logout() {
       firebase.auth().signOut()
       this.$router.push('/')
-      console.log("로그아웃 왜안됨?????")
     },
   },
 
