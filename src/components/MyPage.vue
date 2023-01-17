@@ -5,7 +5,7 @@
 
         <h3><b style="margin: 10px">{{userInfo.nickName}}</b></h3>
         <b-button size="sm" @click="confirmEdit">
-          <b-icon variant="" icon="pencil-fill" aria-hidden="true"></b-icon> Settings
+          <b-icon icon="pencil-fill" aria-hidden="true"></b-icon> Settings
         </b-button>
 <!--        <b-icon icon="pencil-fill" font-scale="1" @click="editInfo"></b-icon>-->
         <hr>
@@ -123,12 +123,12 @@ export default {
       //   otherCode: self.codeAdd,
       // }
         db.collection("users")
-            .where("code",'==',self.codeAdd)
+            .where("code",'==',self.codeAdd)  //유저들의 입장코드와 입력된 입장코드를 비교
             .get()
             .then((querySnapshot) => {
-              if (querySnapshot.size === 0) {
+              if (querySnapshot.size === 0) {     //없다면 알림창으로 알려주고 입장코드가 등록되지 않음
                 alert("존재하지않는 입장코드입니다.")
-              }else {
+              }else { //있다면 입장코드를 배열로 저장
                 db.collection("users")
                     .doc(self.userId)
                     .update({otherCode: firebase.firestore.FieldValue.arrayUnion(self.codeAdd)})
@@ -168,7 +168,7 @@ export default {
 
 <style>
 #sidebar-2 {
-  left: 13.8%;
+  left: 320px;
   z-index:10;
   background: white;
   width: 400px;

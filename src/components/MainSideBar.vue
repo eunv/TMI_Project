@@ -12,7 +12,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(memoryList,i) in memoryList" :key="i">
+            <tr @click="$emit('changeLat', memoryList.marker._lat), $emit('changeLng', memoryList.marker._long)" v-for="(memoryList,i) in memoryList" :key="i">
               <td>{{memoryList.date}}<br> {{memoryList.title}}</td>
               <td>{{memoryList.image}}</td></tr>
             </tbody>
@@ -26,9 +26,12 @@
       </div>
 <!--      <b-button v-b-toggle.sidebar-2 id="sidebar_openBtn">subPage</b-button>-->
       <b-icon v-b-toggle.sidebar-2 id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="goMypage"></b-icon>
+      <b-icon v-b-toggle.sidebar-3 id="sidebar_openBtn" icon="plus-lg" font-scale="1.5" class="goAddMemory"></b-icon>
       <button @click="logout" class="logOutBtn btn-outline-light-blue" >
         <b-icon icon="power" aria-hidden="true"></b-icon> Logout
       </button>
+      <MyPage></MyPage>
+      <AddMemorySideBar></AddMemorySideBar>
     </b-sidebar>
   </div>
 </template>
@@ -36,16 +39,23 @@
 <script>
 
 import {firebase} from "@/firebase/firebaseConfig";
+import AddMemorySideBar from "@/components/AddMemorySideBar.vue";
+import MyPage from "@/components/MyPage.vue";
+
 
 export default {
   name: 'mainSideBar',
-  components: {},
+  components: {AddMemorySideBar, MyPage,},
   data() {
     return {
+      fields: ['날짜', 'last_name', 'age'],
       fbCollection: 'users',
       userInfo : [],
       memoryList: [],
       whatData : false,
+      modalWindow : false,
+      lat1: this.lat,
+      long1: this.long
     }
   },
   mounted() {
@@ -56,6 +66,9 @@ export default {
     init() {
       const self = this;
       self.getData();
+    },
+    changeCenter(){
+      this.$emit("changeCenter", this.memoryList.marker._lat)
     },
     getData() {
       const self = this;
@@ -108,6 +121,10 @@ export default {
       this.$router.push('/')
     },
   },
+  props: {
+    centerLat: Number,
+    centerLng: Number
+  },
 
 }
 </script>
@@ -126,6 +143,11 @@ export default {
   position: absolute;
   left:10px;
   top:90%;
+}
+.goAddMemory {
+  position: absolute;
+  left:120px;
+  top: 90%;
 }
 
 </style>

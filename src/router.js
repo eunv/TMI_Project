@@ -26,6 +26,11 @@ const router = new Router({
       component: () => import('./components/MainSideBar'),
     },
     {
+      path: '/addMemorySideBar',
+      name: 'addMemorySideBar',
+      component: () => import('./components/AddMemorySideBar'),
+    },
+    {
       path: '/mainMap',
       name: 'mainMap',
       component: () => import('./views/MainMap'),
