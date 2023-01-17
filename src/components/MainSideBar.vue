@@ -4,6 +4,8 @@
       <div class="px-3 py-2">
         <div>
           <h3>
+            {{lat}}
+
           {{userInfo.nickName}}'s Map
         </h3>
         </div>
@@ -11,13 +13,12 @@
           <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
             <thead>
             <tr>
-            </tr>
+            </tr>,
             </thead>
             <tbody>
-            <tr v-for="(memoryList,i) in memoryList" :key="i">
+            <tr @click="$emit('changeLat', memoryList.marker._lat), $emit('changeLng', memoryList.marker._long)" v-for="(memoryList,i) in memoryList" :key="i">
               <td>{{memoryList.date}}<br> {{memoryList.title}}</td>
               <td>{{memoryList.image}}</td></tr>
-            {{lat}}
             </tbody>
           </table>
         </div>
@@ -29,7 +30,7 @@
       </div>
       <router-link to="maPage">My Page</router-link>
       <b-button v-b-toggle.sidebar-2 id="sidebar_openBtn" class = "sideOpenBtn">moresidebar open</b-button>
-      <AddMemorySideBar :lat="lat" :long="long"></AddMemorySideBar>
+      <AddMemorySideBar :lat="moveLat1" :long="moveLong1"></AddMemorySideBar>
 
     </b-sidebar>
   </div>
@@ -51,8 +52,8 @@ export default {
       memoryList: [],
       whatData : false,
       modalWindow : false,
-      lat1: this.lat,
-      long1: this.long
+      lat1: this.moveLat,
+      long1: this.moveLong
     }
   },
   mounted() {
@@ -63,6 +64,9 @@ export default {
     init() {
       const self = this;
       self.getData();
+    },
+    changeCenter(){
+      this.$emit("changeCenter", this.memoryList.marker._lat)
     },
     getData() {
       const self = this;
@@ -90,10 +94,26 @@ export default {
         querySnapshot.forEach((memory) => {
           const _data = memory.data();
           _data.id = memory.id
+          const date = new Date(_data.seconds * 1000);
+          _data.date = getDate(date);
           self.memoryList.push(_data);
-          console.log(self.memoryList)
+          // console.log(self.memoryList)
+          // console.log(self.memore)
           });
       })
+      const getDate = (date, separated = '-', notFullYear = false) => {
+        if (date instanceof Date) {
+          let year = date.getFullYear()
+          let month = date.getMonth() + 1
+          let day = date.getDate()
+
+          if (notFullYear) year = year.toString().slice(2, 4)
+          if (month < 10) month = `0${month}`
+          if (day < 10) day = `0${day}`
+
+          return `${year}${separated}${month}${separated}${day}`
+        } else return '';
+      }
     },
     goMyPage() {
       self.$router.push('/myPage')
@@ -103,6 +123,14 @@ export default {
   props: {
     lat: Number,
     long: Number
+  },
+  computed:{
+    moveLat1: function (){
+      return this.lat1
+    },
+    moveLong1: function (){
+      return this.long1
+    }
   }
 
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <MainSideBar :lat="lat" :long="long"></MainSideBar>
+    <MainSideBar @changeLat="center.lat=$event" @changeLng="center.lng=$event" :centerLat="centerLat" :centerLng="centerLng"></MainSideBar>
 
     <b-button v-b-toggle.sidebar-1 id="sidebar_openBtn" class = "sideOpenBtn">sidebar open</b-button>
     <vue-daum-map
@@ -47,35 +47,36 @@ export default {
       geoCoder: '',
       lat: 0,
       long: 0,
+      centerLat: 37,
+      centerLng: 127,
       makerOn: false,
     }
   },
-  async mounted() {
-    await this.getDataList()
+  mounted() {
+    this.getDataList()
   },
   methods: {
     onLoad(map, daum) {
       this.map = map;
       this.maps = daum.map
 
-      let marker = new kakao.maps.Marker({
-        position: map.getCenter()
-      });
-
-      marker.setMap(map);
-
-      kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
-
-        // 클릭한 위도, 경도 정보를 가져옵니다
-        let latlng = mouseEvent.latLng;
-
-        // 마커 위치를 클릭한 위치로 옮깁니다
-        marker.setPosition(latlng);
-
-        this.lat = latlng.La;
-        this.long = latlng.Ma;
-        console.log(this.lat)
-      });
+      // let marker = new kakao.maps.Marker({
+      //   position: map.getCenter()
+      // });
+      //
+      //
+      // kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
+      //
+      //   // 클릭한 위도, 경도 정보를 가져옵니다
+      //   let latlng = mouseEvent.latLng;
+      //
+      //   // 마커 위치를 클릭한 위치로 옮깁니다
+      //   marker.setPosition(latlng);
+      //
+      //   this.lat = latlng.La;
+      //   this.long = latlng.Ma;
+      //   console.log(this.lat)
+      // });
     },
     async getDataList() {
       const self = this;
@@ -119,6 +120,9 @@ export default {
       self.markersInMap.push(marker)
     },
   },
+  watch:{
+
+  }
 }
 </script>
 
