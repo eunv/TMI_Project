@@ -4,6 +4,8 @@
       <div class="px-3 py-2">
         <div>
           <h3>
+            {{lat}}
+
           {{userInfo.nickName}}'s Map
         </h3>
         </div>
@@ -28,7 +30,7 @@
       </div>
       <router-link to="maPage">My Page</router-link>
       <b-button v-b-toggle.sidebar-2 id="sidebar_openBtn" class = "sideOpenBtn">moresidebar open</b-button>
-      <AddMemorySideBar></AddMemorySideBar>
+      <AddMemorySideBar :lat="moveLat1" :long="moveLong1"></AddMemorySideBar>
 
     </b-sidebar>
   </div>
@@ -50,8 +52,8 @@ export default {
       memoryList: [],
       whatData : false,
       modalWindow : false,
-      lat1: this.lat,
-      long1: this.long
+      lat1: this.moveLat,
+      long1: this.moveLong
     }
   },
   mounted() {
@@ -119,11 +121,16 @@ export default {
 
   },
   props: {
-    centerLat: Number,
-    centerLng: Number
+    lat: Number,
+    long: Number
   },
-  watch:{
-
+  computed:{
+    moveLat1: function (){
+      return this.lat1
+    },
+    moveLong1: function (){
+      return this.long1
+    }
   }
 
 }

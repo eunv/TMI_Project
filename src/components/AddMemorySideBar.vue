@@ -4,11 +4,9 @@
       <div class="px-3 py-2">
         <h4>제목</h4>
         <input v-model="title"><br><br>
-        {{title}}
         <h4>내용</h4>
         <input type="textarea" v-model="content"><br><br>
         <h4>위치 지정하기</h4>
-        {{this.lat}}{{long}}
         <vue-daum-map id="addMap"
             :appKey="appkey"
             :center.sync="center"
@@ -120,7 +118,7 @@ export default {
       });
 
 
-      daum.maps.event.addListener(map, 'click', function (mouseEvent) {
+      daum.maps.event.addListener(map, 'click', (mouseEvent) => {
         marker.setMap(map);
 
         // 클릭한 위도, 경도 정보를 가져옵니다
@@ -135,12 +133,6 @@ export default {
         console.log(this.lat)
       });
     },
-    // relayout(map){
-    //   this.map = map;
-    //
-    //   console.log(this.map)
-    //   this.map.relayout()
-    // }
   },
   props: {
 
