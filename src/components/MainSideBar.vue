@@ -12,7 +12,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(memoryList,i) in memoryList" :key="i">
+            <tr @click="$emit('changeLat', memoryList.marker._lat), $emit('changeLng', memoryList.marker._long)" v-for="(memoryList,i) in memoryList" :key="i">
               <td>{{memoryList.date}}<br> {{memoryList.title}}</td>
               <td>{{memoryList.image}}</td></tr>
             </tbody>
@@ -26,9 +26,12 @@
       </div>
 <!--      <b-button v-b-toggle.sidebar-2 id="sidebar_openBtn">subPage</b-button>-->
       <b-icon v-b-toggle.sidebar-2 id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="goMypage"></b-icon>
+      <b-icon v-b-toggle.sidebar-3 id="sidebar_openBtn" icon="plus-lg" font-scale="1.5" class="goAddMemory"></b-icon>
       <button @click="logout" class="logOutBtn btn-outline-light-blue" >
         <b-icon icon="power" aria-hidden="true"></b-icon> Logout
       </button>
+      <MyPage></MyPage>
+      <AddMemorySideBar></AddMemorySideBar>
     </b-sidebar>
   </div>
 </template>
@@ -36,16 +39,21 @@
 <script>
 
 import {firebase} from "@/firebase/firebaseConfig";
+import AddMemorySideBar from '@/components/AddMemorySideBar.vue';
+// import VueDaumMap from 'vue-daum-map';
 
 export default {
   name: 'mainSideBar',
-  components: {},
+  components: {AddMemorySideBar},
   data() {
     return {
       fbCollection: 'users',
       userInfo : [],
       memoryList: [],
       whatData : false,
+      modalWindow : false,
+      lat1: this.moveLat,
+      long1: this.moveLong
     }
   },
   mounted() {
@@ -56,6 +64,9 @@ export default {
     init() {
       const self = this;
       self.getData();
+    },
+    changeCenter(){
+      this.$emit("changeCenter", this.memoryList.marker._lat)
     },
     getData() {
       const self = this;
@@ -86,7 +97,8 @@ export default {
           const date = new Date(_data.date.seconds * 1000);
           _data.date = getDate(date);
           self.memoryList.push(_data);
-          console.log(self.memoryList)
+          // console.log(self.memoryList)
+          // console.log(self.memore)
           });
       })
       const getDate = (date, separated = '-', notFullYear = false) => {
@@ -108,6 +120,18 @@ export default {
       this.$router.push('/')
     },
   },
+  props: {
+    lat: Number,
+    long: Number
+  },
+  computed:{
+    moveLat1: function (){
+      return this.lat1
+    },
+    moveLong1: function (){
+      return this.long1
+    }
+  }
 
 }
 </script>
@@ -129,3 +153,4 @@ export default {
 }
 
 </style>
+
