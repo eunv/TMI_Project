@@ -1,5 +1,18 @@
 <template>
   <div>
+<!--    <div class = "modalShow">-->
+<!--      <div class="black-bg" v-if="modal==true">-->
+<!--        <div class="white-bg">-->
+<!--          <h4></h4>-->
+<!--          <p>내용</p>-->
+<!--          <button @click="modal=false">X</button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+    <div style="z-index: 100; position: absolute">
+      <Detail v-if="modal" @closeModal ="modal = false" :items="items" :modal="modal"/>
+      <!--      <button @click="modal= true">모달 오픈</button>-->
+    </div>
     <MainSideBar @changeLat="center.lat=$event" @changeLng="center.lng=$event" :centerLat="centerLat" :centerLng="centerLng"></MainSideBar>
 
     <b-button v-b-toggle.sidebar-1 id="sidebar_openBtn" class = "sideOpenBtn">sidebar open</b-button>
@@ -15,11 +28,16 @@
     </vue-daum-map>
         <b-icon icon="search"></b-icon>
     <div>
-      <b-button size="sm" class="moveBtn btn-mdb-color">
+      <input class="searchInput" type="text" v-model="geo">
+      <b-button size="sm" class="moveBtn btn-mdb-color" @click="searchGeo(geo)">
         <b-icon icon="search" aria-hidden="true"></b-icon> 검색
       </b-button>
-      <input class="searchInput" type="text" v-model="geoCoder">
+
     </div>
+
+<!--    <transition name="fade">-->
+
+<!--    </transition>-->
 
 
   </div>
@@ -31,18 +49,19 @@
 import MainSideBar from "@/components/MainSideBar.vue";
 import {firebase} from '@/firebase/firebaseConfig';
 import VueDaumMap from "vue-daum-map";
+import Detail from "@/components/Detail.vue";
 
 
 export default {
   name: 'mainMap',
-  components: { MainSideBar, VueDaumMap},
+  components: { Detail,MainSideBar, VueDaumMap},
   data() {
     return {
       appkey: '149ca1b26e1a09a847fc3342c98b0a30',
       center: {lat: 37.5411, lng: 127.068},
       level: 3,
       mapTypeId: VueDaumMap.MapTypeId.NORMAL,
-      libraries: [],
+      libraries: ['services'],
       mapObject: null,
       map: null,
       maps: null,
@@ -51,7 +70,7 @@ export default {
       fbCollection: 'memory',
       userId: this.$store.state.user.uid,
       markersInMap: [],
-      geoCoder: '',
+      geo: '',
       xPosition: 0,
       yPosition: 0,
       lat: 0,
@@ -59,7 +78,8 @@ export default {
       centerLat: 37,
       centerLng: 127,
       makerOn: false,
-      items: {},
+      items: [],
+      modal : false,
 
     }
   },
@@ -67,29 +87,56 @@ export default {
     await this.getDataList()
   },
   methods: {
+    openModal() {
+      this.modal = true
+    },
+    closeModal() {
+      this.modal = false
+    },
     onLoad(map, daum) {
       this.map = map;
       this.maps = daum.map
 
-      // let marker = new kakao.maps.Marker({
-      //   position: map.getCenter()
-      // });
+      let marker = new kakao.maps.Marker({
+        position: map.getCenter()
+      });
       //
       // marker.setMap(map);
       //
-      // kakao.maps.event.addListener(map, 'click', (mouseEvent) => {
-      //
-      //   // 클릭한 위도, 경도 정보를 가져옵니다
-      //   let latlng = mouseEvent.latLng;
-      //
-      //   // 마커 위치를 클릭한 위치로 옮깁니다
-      //   marker.setPosition(latlng);
-      //
-      //   this.xPosition = latlng.La;
-      //   this.yPosition = latlng.Ma;
-      //   console.log(this.xPosition)
-      //   console.log(this.yPosition)
-      // });
+      kakao.maps.event.addListener(map, 'click', (mouseEvent) => {
+
+        // 클릭한 위도, 경도 정보를 가져옵니다
+        let latlng = mouseEvent.latLng;
+
+        // 마커 위치를 클릭한 위치로 옮깁니다
+        marker.setPosition(latlng);
+
+        this.xPosition = latlng.La;
+        this.yPosition = latlng.Ma;
+        console.log(this.xPosition)
+        console.log(this.yPosition)
+      });
+    },
+    searchGeo(geo){
+      const ps = new kakao.maps.services.Places();
+      ps.keywordSearch(geo, placesSearchCB);
+      const map=this.map
+
+      function placesSearchCB (data,status) {
+
+        if (status === kakao.maps.services.Status.OK) {
+
+          // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+          // LatLngBounds 객체에 좌표를 추가합니다
+          const bounds = new kakao.maps.LatLngBounds();
+
+          for (var i=0; i<data.length; i++) {
+            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+          }
+          // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+          map.setBounds(bounds);
+        }
+      }
     },
     async getDataList() {
       const self = this;
@@ -110,11 +157,12 @@ export default {
             });
           })
     },
-    sendFromAppLatLngMarker(lat, long, data) {
+    sendFromAppLatLngMarker(lat, long,data) {
       const self = this;
 // 마커가 표시될 위치입니다
       const markerPosition = new kakao.maps.LatLng(lat, long);
-      const selectedMarker = null;
+      // const selectedMarker = null;
+      const mappingData ={};
       console.log(markerPosition)
       // const markerImageUrl = '/images/marker2.png',
       //     markerImageSize = new this.maps.Size(20, 20), // 마커 이미지의 크기
@@ -130,33 +178,63 @@ export default {
         // image: markerImage,
         position: markerPosition
       });
+      mappingData[data.id] = {marker,data}
+      const obj = mappingData[data.id];
+      self.items.push(mappingData[data.id])
       self.markersInMap.push(marker)
       // 마커에 click 이벤트를 등록합니다
       kakao.maps.event.addListener(marker, 'click', function() {
 
-        // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
-        // 마커의 이미지를 클릭 이미지로 변경합니다
-        if (!selectedMarker || selectedMarker !== marker) {
-
-          // 클릭된 마커 객체가 null이 아니면
-          // 클릭된 마커의 이미지를 기본 이미지로 변경하고
-          !!selectedMarker && selectedMarker.setImage(selectedMarker.normalImage);
-
-          // 현재 클릭된 마커의 이미지는 클릭 이미지로 변경합니다
-          // marker.setImage(clickImage);
           console.log("선택~")
-        }
+
+          console.log(obj)
+          console.log("itmes")
+          console.log(self.items)
+          self.modal = true
+        self.openModal()
+        // }
         // 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
-        this.selectedMarker = marker;
+        // this.selectedMarker = marker;
       });
     },
-
-
   },
 }
 </script>
 
 <style scoped>
+#mainMap {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+body {
+  margin : 0;
+}
+div {
+  box-sizing: border-box;
+}
+.black-bg {
+  width: 50%; height: 50%;
+  background: rgba(0,0,0,0.5);
+  position: fixed; padding: 20px;
+  left:30%;
+  top:23%;
+}
+.white-bg {
+  width: 50%; background: white;
+  border-radius: 8px;
+  padding: 20px;
+}
+.modalShow{
+  position: absolute;
+  z-index:3;
+  width: 88px;
+  height: 35px;
+  left: 62%;
+  top: 5%;
+}
 #map {
   width: 100%;
   height: 100vh;
@@ -183,6 +261,13 @@ export default {
   left: 62%;
   top: 2%;
 }
-
+.detailView{
+  position: absolute;
+  z-index:100;
+  width: 100%;
+  height: 100vh;
+  left: 62%;
+  top: 5%;
+}
 
 </style>

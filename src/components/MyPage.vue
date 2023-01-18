@@ -24,7 +24,7 @@
           <h5 style="margin:10px"><b>연결된 사람</b></h5>
           <div class="px-3 py-2 dataFalse" v-if="connCode">
             <div v-for = "otherCode in otherCodes" :key = "otherCode"  style="margin:10px">
-              {{otherCode}} <button class="btn-outline-light-blue">입장</button>
+              {{otherCode}} <button class="btn-outline-light-blue" @click="enterEvent">입장</button>
             </div>
           </div>
           <div v-else>
@@ -160,8 +160,13 @@ export default {
     //         });
     //       })
     // },
+    enterEvent() {
+      localStorage.otherCode = 'yxtubz00ly'
+      delete localStorage.otherCode
+    },
 
   },
+
 
 }
 </script>
