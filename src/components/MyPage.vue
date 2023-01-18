@@ -1,6 +1,7 @@
 <template>
   <div style="position: relative">
-    <b-sidebar no-slide class="myPage" id="sidebar-2" shadow>
+
+    <b-sidebar no-slide id="sidebar-2" shadow>
       <div class="px-3 py-2">
 
         <h3><b style="margin: 10px">{{userInfo.nickName}}</b></h3>
@@ -8,6 +9,7 @@
           <b-icon icon="pencil-fill" aria-hidden="true"></b-icon> Settings
         </b-button>
         <!--        <b-icon icon="pencil-fill" font-scale="1" @click="editInfo"></b-icon>-->
+
         <hr>
 
         <div>
@@ -25,6 +27,7 @@
           <div class="px-3 py-2 dataFalse" v-if="connCode">
             <div v-for = "otherCode in otherCodes" :key = "otherCode"  style="margin:10px">
               {{otherCode}} <button @click="goOtherMap(otherCode)" class="btn-outline-light-blue">입장</button>
+
             </div>
           </div>
           <div v-else>
@@ -58,6 +61,7 @@ import {firebase} from "@/firebase/firebaseConfig";
 
 export default {
   name: 'myPage',
+
   data() {
     return {
       fbCollection: 'users',
@@ -144,6 +148,7 @@ export default {
       localStorage.otherCode = otherCode
       this.$router.push('/otherMap')
     },
+
     // getDatalist() {
     //   const self = this;
     //   const db = firebase.firestore();
@@ -173,6 +178,7 @@ export default {
 <style>
 #sidebar-2 {
   left: 320px;
+
   z-index:10;
   background: white;
   width: 400px;

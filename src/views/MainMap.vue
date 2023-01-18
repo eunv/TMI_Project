@@ -16,6 +16,7 @@
     <input class="searchBtn " v-model="geo">
     <button @click="searchGeo(geo)" class="moveBtn btn-mdb-color" >이동</button>
 
+
   </div>
 </template>
 
@@ -23,12 +24,13 @@
 
 
 import MainSideBar from "@/components/MainSideBar.vue";
+import MyPage from "@/components/MyPage.vue";
 import {firebase} from '@/firebase/firebaseConfig';
 import VueDaumMap from "vue-daum-map";
 
 export default {
   name: 'mainMap',
-  components: {MainSideBar, VueDaumMap},
+  components: {MyPage, MainSideBar, VueDaumMap},
   data() {
     return {
       appkey: 'f486e714c436dbd1f7761ca8d96e43c8',
@@ -141,6 +143,8 @@ export default {
       });
       self.markersInMap.push(marker)
     },
+
+
   },
   watch:{
 
@@ -170,10 +174,10 @@ export default {
 .moveBtn {
   position: absolute;
   z-index:2;
-  width: 45px;
-  height: 40px;
-  left: 60%;
+  width: 500px;
+  left: 40%;
   top: 2%;
 }
+
 
 </style>

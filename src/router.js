@@ -18,7 +18,7 @@ const router = new Router({
     {
       path: '/myPage',
       name: 'myPage',
-      component: () => import('./components/MyPage'),
+      component: () => import('./components/MyPage.vue'),
     },
     {
       path: '/mainSideBar',

@@ -1,12 +1,13 @@
 <template>
-  <div class>
-    <b-sidebar class="mainSide" id="sidebar-1" shadow>
+  <div>
+    <b-sidebar id="sidebar-1" shadow>
       <div class="px-3 py-2">
         <div>
           <h3>
             {{userInfo.nickName}}'s Map
           </h3>
         </div>
+
         <div>
           <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
             <thead>
@@ -158,6 +159,5 @@ export default {
   left:120px;
   top: 90%;
 }
-
 </style>
 
