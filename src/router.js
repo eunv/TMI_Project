@@ -45,6 +45,11 @@ const router = new Router({
       name: 'SignUp',
       component: () => import('./views/SignUp'),
     },
+    {
+      path: '/otherMap',
+      name: 'OtherMap',
+      component: () => import('./views/OtherMap'),
+    },
   ]
 })
 const makeTitle = (title) =>
