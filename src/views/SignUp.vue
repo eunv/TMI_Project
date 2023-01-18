@@ -85,7 +85,7 @@ export default {
                       otherCode: [self.randomStr]
                     })
                 alert('회원가입 완료!');
-                user.updateProfile({displayName: self.name, photoURL: self.level})
+                user.updateProfile({displayName: self.name, photoURL: self.randomStr})
                 // firebase.auth().signOut()
                 this.$router.push('/');
               }).catch(err => {

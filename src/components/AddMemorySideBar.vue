@@ -9,19 +9,26 @@
         <input v-model="content" type="textarea" id="content" class="form-control" >
         <hr>
 
-        <h4>이미지 업로드</h4>
-<!--        <v-btn @click="click1">choose photo</v-btn>-->
-<!--        <input type="file" ref="input1"-->
-<!--               style="display: none"-->
-<!--               @change="previewImage" accept="image/*" >-->
+        <label for="content" class="grey-text" style="margin:10px">이미지 저장</label>
+        <input>
         <hr>
-        <h4>위치 지정하기</h4>
+
+        <label for="content" class="grey-text" style="margin:10px">위치 지정하기</label>
+        <input v-model="geo" type="textarea" id="content" class="form-control" >
+        <b-button  @click="searchGeo(geo)" class="moveBtn btn-mdb-color" >이동</b-button>
+        <vue-daum-map id="addMap"
+                      :appKey="appkey"
+                      :center.sync="center"
+                      :level.sync="level"
+                      :mapTypeId="mapTypeId"
+                      :libraries="libraries"
+                      style="width:100%; height:30vh;"
+                      @load="onLoad"
+        >
+        </vue-daum-map>
         <b-button @click="addMemory">저장하기</b-button>
 
-        <div v-if="imageData!=null">
-          <img class="preview" height="268" width="356" :src="img1">
-          <br>
-        </div>
+
       </div>
     </b-sidebar>
   </div>
@@ -33,6 +40,7 @@ import {firebase} from "@/firebase/firebaseConfig";
 // import * as geofire from 'geofire-common';
 // import geofire from 'geofire';
 import 'firebase/storage'
+import VueDaumMap from "vue-daum-map";
 
 export default {
   name: 'addMemorySideBar',
@@ -40,6 +48,7 @@ export default {
     xPosition: Number,
     yPosition: Number,
   },
+  components: {VueDaumMap},
   watch: {
     data () {
       console.log("[watch] : data : " + this.xPosition)
@@ -47,6 +56,18 @@ export default {
   },
   data() {
     return {
+      appkey: '149ca1b26e1a09a847fc3342c98b0a30',
+      center: {lat: 37.5411, lng: 127.068},
+      level: 10,
+      mapTypeId: VueDaumMap.MapTypeId.NORMAL,
+      libraries: ['services'],
+      mapObject: null,
+      map: null,
+      maps: null,
+      markers: [],
+      markersInMap: [],
+      geo: '',
+
       fbCollection: 'memory',
       userInfo: {},
       title: '',
@@ -54,9 +75,9 @@ export default {
       hash: null,
       // marker: new firebase.firestore.GeoPoint(this.lat, this.long)
       marker: {},
-      caption : '',
-      img1: '',
-      imageData: null
+      lat: 0.0,
+      long: 0.0,
+
     }
   },
   mounted() {
@@ -67,7 +88,6 @@ export default {
     init() {
       const self = this;
       self.getData();
-      console.log(this.xPosition, this.yPosition)
     },
     getData() {
       const self = this;
@@ -79,11 +99,13 @@ export default {
             self.userInfo = snapshot.data();
           })
     },
-    addMemory(){
+    addMemory() {
       const self = this;         // self를 쓰는 이유는 바깥의 this들과 햇갈리지 않기 위해서
+      // self.onUpload()
       const db = firebase.firestore();
       const now = new Date();
       const marker = new firebase.firestore.GeoPoint(this.lat, this.long);
+
       // const firestore.GeoPoint = require('geopoint')
       const _data = {            // data()에 있는 데이터가 바로 들어갈 수 없다.
         title: self.title,
@@ -91,12 +113,11 @@ export default {
         date: now,
         userId: self.$store.state.user.uid,
         // marker: self.marker,
-        image:[],
+        image: [],
         marker: marker,
-        lat: this.lat,
-        long: this.long,
         user: {
           name: this.userInfo.name,
+          code: this.userInfo.code
         },
       }
       db.collection(self.fbCollection) //<- collection('컬랙션명') 바로 쓸수있다.
@@ -118,10 +139,7 @@ export default {
       let marker = new kakao.maps.Marker({
         position: map.getCenter()
       });
-
-
-
-      daum.maps.event.addListener(map, 'click', function (mouseEvent) {
+      daum.maps.event.addListener(map, 'click', (mouseEvent) => {
         marker.setMap(map);
         // 클릭한 위도, 경도 정보를 가져옵니다
         let latlng = mouseEvent.latLng;
@@ -134,42 +152,35 @@ export default {
         console.log(this.lat)
       });
     },
-    create () {
-      const post = {
-        photo: this.img1,
-        // caption: this.caption
+    searchGeo(geo) {
+
+      const ps = new kakao.maps.services.Places();
+      console.log('11', kakao.maps.services)
+      ps.keywordSearch(geo, placesSearchCB);
+      console.log('22', ps.keywordSearch)
+      const map = this.map
+
+      function placesSearchCB(data, status) {
+        // console.log('33', map)
+        // console.log('44', kakao.maps.services)
+        // console.log('55', map.setBounds)
+
+        if (status === kakao.maps.services.Status.OK) {
+
+          // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+          // LatLngBounds 객체에 좌표를 추가합니다
+          const bounds = new kakao.maps.LatLngBounds();
+
+          for (var i = 0; i < data.length; i++) {
+            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+          }
+          // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+          map.setBounds(bounds);
+        }
       }
-      firebase.database().ref('PhotoGallery').push(post)
-          .then((response) => {
-            console.log(response)
-          })
-          .catch(err => {
-            console.log(err)
-          })
     },
-    // click1() {
-    //   this.$refs.input1.click()
-    // },
-    // previewImage(event) {
-    //   this.uploadValue=0;
-    //   this.img1=null;
-    //   this.imageData = event.target.files[0];
-    //   this.onUpload()
-    // },
-    // onUpload(){
-    //   this.img1=null;
-    //   const storageRef=firebase.storage().ref(`${this.imageData.name}`).put(this.imageData);
-    //   storageRef.on(`state_changed`,snapshot=>{
-    //         this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
-    //       }, error=>{console.log(error.message)},
-    //       ()=>{this.uploadValue=100;
-    //         storageRef.snapshot.ref.getDownloadURL().then((url)=>{
-    //           this.img1 =url;
-    //           console.log(this.img1)
-    //         });
-    //       }
-    //   );
-    // },
+
+
 
   },
 
@@ -180,7 +191,15 @@ export default {
 <style>
 #sidebar-3{
   left: 320px;
-  width: 450px;
+  width: 400px;
+}
+.imgInput {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 108px;
+  height: 30px;
+  opacity: 0;
 }
 </style>
 
