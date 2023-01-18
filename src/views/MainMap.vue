@@ -13,8 +13,8 @@
         style="width:100%;height:100vh;"
     >
     </vue-daum-map>
-    <input class="searchBtn " v-model="geoCoder">
-    <button class="moveBtn btn-mdb-color" >이동</button>
+    <input class="searchBtn " v-model="geo">
+    <button @click="searchGeo(geo)" class="moveBtn btn-mdb-color" >이동</button>
 
   </div>
 </template>
@@ -35,7 +35,7 @@ export default {
       center: {lat: 37.5411, lng: 127.068},
       level: 3,
       mapTypeId: VueDaumMap.MapTypeId.NORMAL,
-      libraries: [],
+      libraries: ['services'],
       mapObject: null,
       map: null,
       maps: null,
@@ -44,7 +44,7 @@ export default {
       fbCollection: 'memory',
       userId: this.$store.state.user.uid,
       markersInMap: [],
-      geoCoder: '',
+      geo: '',
       lat: 0,
       long: 0,
       centerLat: 37,
@@ -77,6 +77,28 @@ export default {
       //   this.long = latlng.Ma;
       //   console.log(this.lat)
       // });
+    },
+    searchGeo(geo){
+
+      const ps = new kakao.maps.services.Places();
+      ps.keywordSearch(geo, placesSearchCB);
+      const map=this.map
+
+      function placesSearchCB (data,status) {
+
+        if (status === kakao.maps.services.Status.OK) {
+
+          // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+          // LatLngBounds 객체에 좌표를 추가합니다
+          const bounds = new kakao.maps.LatLngBounds();
+
+          for (var i=0; i<data.length; i++) {
+            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+          }
+          // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+          map.setBounds(bounds);
+        }
+      }
     },
     async getDataList() {
       const self = this;
