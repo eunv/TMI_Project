@@ -106,6 +106,7 @@ h2{
   line-height: 59px;
 }
 hr {
+  display: none;
   position: absolute;
   left: 37%;
   top: 74%;

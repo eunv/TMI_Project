@@ -3,9 +3,9 @@
     <b-sidebar no-slide id="sidebar-2" shadow>
       <div class="px-3 py-2">
 
-        <h3><b style="margin: 10px">{{userInfo.nickName}}</b></h3>
+        <h4><b style="margin: 10px">{{userInfo.nickName}}</b></h4>
         <b-button size="sm" @click="confirmEdit">
-          <b-icon variant="" icon="pencil-fill" aria-hidden="true"></b-icon> Settings
+          <b-icon icon="pencil-fill" aria-hidden="true"></b-icon> Settings
         </b-button>
 <!--        <b-icon icon="pencil-fill" font-scale="1" @click="editInfo"></b-icon>-->
         <hr>
@@ -18,20 +18,21 @@
           <label for="name" class="grey-text" style="margin:10px">g-mail</label>
           <input v-model="userInfo.googleId" type="text" id="name" class="form-control">
         </div>
-        <hr>
+        <hr/>
 
         <div>
           <h5 style="margin:10px"><b>연결된 사람</b></h5>
           <div class="px-3 py-2 dataFalse" v-if="connCode">
             <div v-for = "otherCode in otherCodes" :key = "otherCode"  style="margin:10px">
-              {{otherCode}} <button class="btn-outline-light-blue">입장</button>
+              {{otherCode}} <button @click="goOtherMap(otherCode)" class="btn-outline-light-blue">입장</button>
+
             </div>
           </div>
           <div v-else>
             <p>아무도 연결되지 않았어요.</p>
             <p>친구를 초대해 보세요.</p>
           </div>
-          <hr>
+          <hr/>
           <div>
             <h5 style="margin:10px"><b>입장코드 입력</b></h5>
             <div class = "input-line">
@@ -40,7 +41,7 @@
             </div>
 
           </div>
-          <hr>
+          <hr/>
           <div>
             <h5 style="margin:10px"><b>내 입장코드</b></h5>
             <label for="name" class="grey-text" style="margin:10px">{{ userInfo.code }}</label>
@@ -57,7 +58,8 @@
 import {firebase} from "@/firebase/firebaseConfig";
 
 export default {
-  name: 'subSideBar',
+  name: 'myPage',
+
   data() {
     return {
       fbCollection: 'users',
@@ -122,24 +124,29 @@ export default {
       // const _data = {
       //   otherCode: self.codeAdd,
       // }
-        db.collection("users")
-            .where("code",'==',self.codeAdd)
-            .get()
-            .then((querySnapshot) => {
-              if (querySnapshot.size === 0) {
-                alert("존재하지않는 입장코드입니다.")
-              }else {
-                db.collection("users")
-                    .doc(self.userId)
-                    .update({otherCode: firebase.firestore.FieldValue.arrayUnion(self.codeAdd)})
-                    .then(() => {
-                      alert("등록 완료!")
-                      this.$router.go();
-                    })
-              }
-            })
+      db.collection("users")
+          .where("code",'==',self.codeAdd)  //유저들의 입장코드와 입력된 입장코드를 비교
+          .get()
+          .then((querySnapshot) => {
+            if (querySnapshot.size === 0) {     //없다면 알림창으로 알려주고 입장코드가 등록되지 않음
+              alert("존재하지않는 입장코드입니다.")
+            }else { //있다면 입장코드를 배열로 저장
+              db.collection("users")
+                  .doc(self.userId)
+                  .update({otherCode: firebase.firestore.FieldValue.arrayUnion(self.codeAdd)})
+                  .then(() => {
+                    alert("등록 완료!")
+                    this.$router.go();
+                  })
+            }
+          })
 
     },
+    goOtherMap(otherCode){
+      localStorage.otherCode = otherCode
+      this.$router.push('/otherMap')
+    },
+
     // getDatalist() {
     //   const self = this;
     //   const db = firebase.firestore();
@@ -168,7 +175,7 @@ export default {
 
 <style>
 #sidebar-2 {
-  left: 13.8%;
+  left: 320px;
   z-index:10;
   background: white;
   width: 400px;

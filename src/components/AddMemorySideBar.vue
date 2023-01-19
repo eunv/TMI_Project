@@ -1,12 +1,19 @@
 <template>
   <div class>
-    <b-sidebar  no-slide class="addMemory" id="sidebar-2">
+    <b-sidebar  no-slide class="addMemory" id="sidebar-3">
       <div class="px-3 py-2">
-        <h4>제목</h4>
-        <input v-model="title"><br><br>
-        <h4>내용</h4>
-        <input type="textarea" v-model="content"><br><br>
-        <h4>위치 지정하기</h4>
+        <label for="title" class="grey-text" style="margin:10px">제목</label>
+        <input v-model="title" type="text" id="title" class="form-control" >
+
+        <label for="content" class="grey-text" style="margin:10px">내용</label>
+        <input v-model="content" type="textarea" id="content" class="form-control" >
+        <hr>
+        <label for="content" class="grey-text" style="margin:10px">이미지 저장</label> <br>
+        <hr>
+        <label for="content" class="grey-text" style="margin:10px">위치 지정하기</label>
+        <input v-model="geo" class="form-control" type="text" placeholder="Search" aria-label="Search" />
+        <b-button  @click="searchGeo(geo)" class="moveBtn btn-mdb-color" >이동</b-button>
+
         <vue-daum-map id="addMap"
             :appKey="appkey"
             :center.sync="center"
@@ -15,7 +22,6 @@
             :libraries="libraries"
             style="width:100%; height:30vh;"
             @load="onLoad"
-
         >
         </vue-daum-map>
         <b-button @click="addMemory">저장하기</b-button>
@@ -41,12 +47,13 @@ export default {
       center: {lat: 37.5411, lng: 127.068},
       level: 10,
       mapTypeId: VueDaumMap.MapTypeId.NORMAL,
-      libraries: [],
+      libraries: ['services'],
       mapObject: null,
       map: null,
       maps: null,
       markers: [],
       markersInMap: [],
+      geo: '',
 
       fbCollection: 'memory',
       userInfo: {},
@@ -57,7 +64,11 @@ export default {
       marker: {},
 
       lat: 0.0,
-      long:0.0,
+      long: 0.0,
+
+      caption : '',
+      img1: '',
+      imageData: null
     }
   },
   mounted() {
@@ -95,6 +106,7 @@ export default {
         marker: marker,
         user: {
           name: this.userInfo.name,
+          code: this.userInfo.code
         },
       }
       db.collection(self.fbCollection) //<- collection('컬랙션명') 바로 쓸수있다.
@@ -133,6 +145,33 @@ export default {
         console.log(this.lat)
       });
     },
+    searchGeo(geo){
+
+      const ps = new kakao.maps.services.Places();
+      console.log('11',kakao.maps.services)
+      ps.keywordSearch(geo, placesSearchCB);
+      console.log('22',ps.keywordSearch)
+      const map=this.map
+
+      function placesSearchCB (data,status) {
+        console.log('33',map)
+        console.log('44',kakao.maps.services)
+        console.log('55',map.setBounds)
+
+        if (status === kakao.maps.services.Status.OK) {
+
+          // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+          // LatLngBounds 객체에 좌표를 추가합니다
+          const bounds = new kakao.maps.LatLngBounds();
+
+          for (var i=0; i<data.length; i++) {
+            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+          }
+          // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+          map.setBounds(bounds);
+        }
+      }
+    },
   },
   props: {
 
@@ -142,8 +181,9 @@ export default {
 </script>
 
 <style>
-#sidebar-2{
-  left: 310px;
+#sidebar-3{
+  left: 320px;
+  width: 400px;
 }
 #addMap{
 

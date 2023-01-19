@@ -21,9 +21,19 @@ const router = new Router({
       component: () => import('./components/MyPage.vue'),
     },
     {
+      path: '/detail',
+      name: 'detail',
+      component: () => import('./components/Detail.vue'),
+    },
+    {
       path: '/mainSideBar',
       name: 'mainSideBar',
       component: () => import('./components/MainSideBar'),
+    },
+    {
+      path: '/addMemorySideBar',
+      name: 'addMemorySideBar',
+      component: () => import('./components/AddMemorySideBar'),
     },
     {
       path: '/mainMap',
@@ -44,6 +54,11 @@ const router = new Router({
       path: '/signUp',
       name: 'SignUp',
       component: () => import('./views/SignUp'),
+    },
+    {
+      path: '/otherMap',
+      name: 'OtherMap',
+      component: () => import('./views/OtherMap.vue'),
     },
   ]
 })
