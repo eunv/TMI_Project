@@ -10,12 +10,37 @@
 <!--      </div>-->
 <!--    </div>-->
     <div style="z-index: 100; position: absolute">
+
       <Detail v-if="modal" @closeModal ="modal = false" :items="items" :modal="modal"/>
       <!--      <button @click="modal= true">모달 오픈</button>-->
     </div>
     <MainSideBar @changeLat="center.lat=$event" @changeLng="center.lng=$event" :centerLat="centerLat" :centerLng="centerLng"></MainSideBar>
 
-    <b-button v-b-toggle.sidebar-1 id="sidebar_openBtn" class = "sideOpenBtn">sidebar open</b-button>
+    <div>
+      <b-navbar toggleable="lg" type="dark" style="background-color: #a3bed6; height:55px;">
+<!--        <b-button v-b-toggle.sidebar-1 id="sidebar_openBtn" class = "sideOpenBtn" variant="outline-white">sidebar open</b-button>-->
+        <b-navbar-brand  style="margin-left: 48%; margin-top: 2px; font-weight: bold; font-size: 35px; font-family: 'Secular One', sans-serif;" href="#">T . M . I</b-navbar-brand>
+        <b-icon v-b-toggle.sidebar-1 id="sidebar_openBtn" icon="list" font-scale="1.5" class="sideOpenBtn" style="margin-left:30px; color:white"></b-icon>
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+<!--        <b-nav-text>Map</b-nav-text>-->
+        <b-collapse id="nav-collapse" is-nav>
+          <!-- Right aligned nav items -->
+
+          <b-navbar-nav class="ml-auto">
+            <b-nav-form v-on:keypress.enter.prevent=searchGeo(geo)>
+              <b-form-input v-model="geo" size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
+              <b-button @click="searchGeo(geo)" size="sm" class="my-2 my-sm-0" variant="outline-white">Search</b-button>
+            </b-nav-form>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+    </div>
+
+    <div>
+
+    </div>
+
+
     <vue-daum-map
         :appKey="appkey"
         :center.sync="center"
@@ -23,22 +48,10 @@
         :mapTypeId="mapTypeId"
         :libraries="libraries"
         @load="onLoad"
-        style="width:100%;height:100vh;"
+        style="width:100%;height:100vh; position: fixed;"
     >
     </vue-daum-map>
         <b-icon icon="search"></b-icon>
-    <div>
-      <input class="searchInput" type="text" v-model="geo">
-      <b-button size="sm" class="moveBtn btn-mdb-color" @click="searchGeo(geo)">
-        <b-icon icon="search" aria-hidden="true"></b-icon> 검색
-      </b-button>
-
-    </div>
-
-<!--    <transition name="fade">-->
-
-<!--    </transition>-->
-
 
   </div>
 </template>
@@ -216,7 +229,7 @@ div {
   box-sizing: border-box;
 }
 .black-bg {
-  width: 50%; height: 50%;
+  width: 45%; height: 50%;
   background: rgba(0,0,0,0.5);
   position: fixed; padding: 20px;
   left:30%;
