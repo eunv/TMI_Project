@@ -1,7 +1,8 @@
 <template>
   <div v-if="modal == true" class="black-bg">
     <div class="white-bg">
-      <button @click="$emit('closeModal')">닫기</button>
+      <button class="closeBtn" @click="$emit('closeModal')">닫기</button>
+<!--      {{items}}-->
     </div>
   </div>
 </template>
@@ -41,8 +42,14 @@ body {
   position: absolute; padding: 20px;
 }
 .white-bg {
-  width: 50%; background: white;
+  width: 100%; background: white;
+  height: 100%;
   border-radius: 8px;
   padding: 20px;
+}
+.closeBtn {
+  position: absolute;
+  left: 49%;
+  top: 85%;
 }
 </style>
