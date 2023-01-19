@@ -1,6 +1,5 @@
 <template>
   <div style="position: relative">
-
     <b-sidebar no-slide id="sidebar-2" shadow>
       <div class="px-3 py-2">
 
@@ -8,9 +7,8 @@
         <b-button size="sm" @click="confirmEdit">
           <b-icon icon="pencil-fill" aria-hidden="true"></b-icon> Settings
         </b-button>
-        <!--        <b-icon icon="pencil-fill" font-scale="1" @click="editInfo"></b-icon>-->
-
-        <hr/>
+<!--        <b-icon icon="pencil-fill" font-scale="1" @click="editInfo"></b-icon>-->
+        <hr>
 
         <div>
           <label for="name" class="grey-text" style="margin:10px">Name</label>
@@ -178,7 +176,6 @@ export default {
 <style>
 #sidebar-2 {
   left: 320px;
-
   z-index:10;
   background: white;
   width: 400px;

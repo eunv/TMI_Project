@@ -27,6 +27,7 @@
           추억을 남겨보세요
         </p>
       </div>
+<!--      <b-button v-b-toggle.sidebar-2 id="sidebar_openBtn">subPage</b-button>-->
       <b-icon v-b-toggle.sidebar-2 id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="goMypage"></b-icon>
       <b-icon v-b-toggle.sidebar-3 id="sidebar_openBtn" icon="plus-lg" font-scale="1.5" class="goAddMemory"></b-icon>
       <button @click="logout" class="logOutBtn btn-outline-light-blue" >
@@ -41,9 +42,9 @@
 <script>
 
 import {firebase} from "@/firebase/firebaseConfig";
-import AddMemorySideBar from '@/components/AddMemorySideBar.vue';
-import MyPage from '@/components/MyPage.vue';
-// import VueDaumMap from 'vue-daum-map';
+import AddMemorySideBar from "@/components/AddMemorySideBar.vue";
+import MyPage from "@/components/MyPage.vue";
+
 
 export default {
   name: 'mainSideBar',
@@ -127,14 +128,6 @@ export default {
     lat: Number,
     long: Number
   },
-  computed:{
-    moveLat1: function (){
-      return this.lat1
-    },
-    moveLong1: function (){
-      return this.long1
-    }
-  }
 
 }
 </script>
@@ -159,5 +152,6 @@ export default {
   left:120px;
   top: 90%;
 }
+
 </style>
 

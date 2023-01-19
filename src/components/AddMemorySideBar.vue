@@ -11,6 +11,13 @@
         <label for="content" class="grey-text" style="margin:10px">위치 지정하기</label>
         <input v-model="geo" class="form-control" type="text" placeholder="Search" aria-label="Search" />
         <b-button  @click="searchGeo(geo)" class="moveBtn btn-mdb-color" >이동</b-button>
+
+        <label for="content" class="grey-text" style="margin:10px">이미지 저장</label> <br>
+        <hr>
+
+        <label for="content" class="grey-text" style="margin:10px">위치 지정하기</label>
+        <input v-model="geo" type="textarea" id="content" class="form-control" >
+        <b-button  @click="searchGeo(geo)" class="moveBtn btn-mdb-color" >이동</b-button>
         <vue-daum-map id="addMap"
             :appKey="appkey"
             :center.sync="center"
@@ -61,7 +68,11 @@ export default {
       marker: {},
 
       lat: 0.0,
-      long:0.0,
+      long: 0.0,
+
+      caption : '',
+      img1: '',
+      imageData: null
     }
   },
   mounted() {
@@ -175,7 +186,8 @@ export default {
 
 <style>
 #sidebar-3{
-  left: 310px;
+  left: 320px;
+  width: 400px;
 }
 #addMap{
 
