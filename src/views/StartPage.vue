@@ -43,13 +43,18 @@ export default {
         db.collection(self.fbCollection)
             .where("googleId",'==',user.email)
             .get()
-            .then(() => {
-              alert('회원가입 필요')
-              console.log('회원가입 안됨')
-              self.$router.push("/SignUp");
-            })
-        self.$router.push("/mainMAp");
+            .then((querySnapshot) => {
+              if (querySnapshot.size === 0) {
+                alert('회원가입 필요')
+                console.log('회원가입 안됨')
+                self.$router.push("/SignUp");
+              }
+              if (querySnapshot.size !== 0) {
+                alert('구글 로그인 성공! 일반 로그인으로 로그인 하세요')
 
+              }
+              // self.$router.push("/mainMAp");
+            })
       }).catch(function(error) {
         // Handle Errors here.
         const errorCode = error.code; //eslint-disable-line no-unused-vars
