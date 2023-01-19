@@ -1,13 +1,12 @@
 <template>
-  <div>
-    <b-sidebar id="sidebar-1" shadow>
+  <div class>
+    <b-sidebar class="mainSide" id="sidebar-1" shadow>
       <div class="px-3 py-2">
         <div>
-          <h4>
+          <h3>
             {{userInfo.nickName}}'s Map
-          </h4>
+          </h3>
         </div>
-
         <div>
           <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
             <thead>
@@ -27,9 +26,7 @@
           추억을 남겨보세요
         </p>
       </div>
-<!--      <b-button v-b-toggle.sidebar-2 id="sidebar_openBtn">subPage</b-button>-->
-      <b-icon v-b-toggle.sidebar-2 id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="goMypage"></b-icon>
-      <b-icon v-b-toggle.sidebar-3 id="sidebar_openBtn" icon="plus-lg" font-scale="1.5" class="goAddMemory"></b-icon>
+      <b-icon @click="goMyMap" id="sidebar_openBtn" icon="house" font-scale="1.5" class="goMypage"></b-icon>
       <button @click="logout" class="logOutBtn btn-outline-light-blue" >
         <b-icon icon="power" aria-hidden="true"></b-icon> Logout
       </button>
@@ -42,9 +39,9 @@
 <script>
 
 import {firebase} from "@/firebase/firebaseConfig";
-import AddMemorySideBar from "@/components/AddMemorySideBar.vue";
-import MyPage from "@/components/MyPage.vue";
-
+import AddMemorySideBar from '@/components/AddMemorySideBar.vue';
+import MyPage from '@/components/MyPage.vue';
+// import VueDaumMap from 'vue-daum-map';
 
 export default {
   name: 'mainSideBar',
@@ -68,19 +65,31 @@ export default {
     init() {
       const self = this;
       self.getData();
-      self.getDatalist();
     },
     changeCenter(){
       this.$emit("changeCenter", this.memoryList.marker._lat)
+    },
+    goMyMap(){
+      this.$router.push('/mainMap')
+      delete localStorage.otherCode
     },
     getData() {
       const self = this;
       const db = firebase.firestore();
       db.collection(self.fbCollection)
-          .doc(self.$store.state.user.uid)
+          .where('code', '==', localStorage.otherCode)
           .get()
-          .then((snapshot) => {
-            self.userInfo = snapshot.data();
+          .then((querySnapshot) => {
+            if (querySnapshot.size === 0) {
+              return
+            }
+            querySnapshot.forEach((doc) => {
+              self.userInfo = doc.data();
+              console.log('111111', self.userInfo)
+              setTimeout(() => {
+                this.getDatalist()
+              }, 1);
+            });
           })
     },
     getDatalist() {
@@ -88,23 +97,23 @@ export default {
       const db = firebase.firestore();
       console.log(self.whatData)
       db.collection("memory")
-      .where("userId",'==',self.$store.state.user.uid)
-      .get()
-      .then((querySnapshot) => {
-        if (querySnapshot.size === 0) {
-          self.whatData = true
-          console.log(self.whatData)
-        }
-        querySnapshot.forEach((memory) => {
-          const _data = memory.data();
-          _data.id = memory.id
-          const date = new Date(_data.date.seconds * 1000);
-          _data.date = getDate(date);
-          self.memoryList.push(_data);
-          // console.log(self.memoryList)
-          // console.log(self.memore)
-          });
-      })
+          .where("user.code",'==', localStorage.otherCode)
+          .get()
+          .then((querySnapshot) => {
+            if (querySnapshot.size === 0) {
+              self.whatData = true
+              console.log(self.whatData)
+            }
+            querySnapshot.forEach((memory) => {
+              const _data = memory.data();
+              _data.id = memory.id
+              const date = new Date(_data.date.seconds * 1000);
+              _data.date = getDate(date);
+              self.memoryList.push(_data);
+              // console.log(self.memoryList)
+              // console.log(self.memore)
+            });
+          })
       const getDate = (date, separated = '-', notFullYear = false) => {
         if (date instanceof Date) {
           let year = date.getFullYear()
@@ -128,6 +137,14 @@ export default {
     lat: Number,
     long: Number
   },
+  computed:{
+    moveLat1: function (){
+      return this.lat1
+    },
+    moveLong1: function (){
+      return this.long1
+    }
+  }
 
 }
 </script>

@@ -3,18 +3,17 @@
     <div style="z-index: 100; position: absolute">
       <Detail v-if="modal" @closeModal ="modal = false" :items="items" :modal="modal"/>
     </div>
-    <MainSideBar @changeLat="center.lat=$event" @changeLng="center.lng=$event" :centerLat="centerLat" :centerLng="centerLng"></MainSideBar>
-
     <div>
-      <b-navbar toggleable="lg" type="dark" style="background-color: #a3bed6; height:55px;">
-<!--        <b-button v-b-toggle.sidebar-1 id="sidebar_openBtn" class = "sideOpenBtn" variant="outline-white">sidebar open</b-button>-->
-        <b-navbar-brand  style="margin-left: 48%; margin-top: 2px; font-weight: bold; font-size: 35px; font-family: 'Secular One', sans-serif;" href="#">T . M . I</b-navbar-brand>
-        <b-icon v-b-toggle.sidebar-1 id="sidebar_openBtn" icon="list" font-scale="1.5" class="sideOpenBtn" style="margin-left:30px; color:white"></b-icon>
-        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-<!--        <b-nav-text>Map</b-nav-text>-->
-        <b-collapse id="nav-collapse" is-nav>
-          <!-- Right aligned nav items -->
+      <b-navbar toggleable="lg" type="dark" style="background-color: #a3b2d6; height: 55px">
+        <b-icon v-b-toggle.sidebar-1 id="sidebar_openBtn" icon="list" font-scale="1.5" style="margin-left: 30px; color: white;" class="my-2 my-sm-0"></b-icon>
 
+        <b-navbar-brand  style="margin-left: 43%; font-weight: bold; font-size: 45px; font-family: 'Nanum Pen Script', cursive;" href="#">T . M . I</b-navbar-brand>
+
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+        <b-collapse id="nav-collapse" is-nav>
+
+          <!-- Right aligned nav items -->
           <b-navbar-nav class="ml-auto">
             <b-nav-form v-on:keypress.enter.prevent=searchGeo(geo)>
               <b-form-input v-model="geo" size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
@@ -24,12 +23,7 @@
         </b-collapse>
       </b-navbar>
     </div>
-
-    <div>
-
-    </div>
-
-
+    <MainSideBar @changeLat="center.lat=$event" @changeLng="center.lng=$event" :centerLat="centerLat" :centerLng="centerLng"></MainSideBar>
     <vue-daum-map
         :appKey="appkey"
         :center.sync="center"
@@ -37,11 +31,9 @@
         :mapTypeId="mapTypeId"
         :libraries="libraries"
         @load="onLoad"
-        style="width:100%;height:100vh; position: fixed;"
+        style="width:100%;height:100vh;  position: fixed"
     >
     </vue-daum-map>
-        <b-icon icon="search"></b-icon>
-
   </div>
 </template>
 
@@ -56,10 +48,10 @@ import Detail from "@/components/Detail.vue";
 
 export default {
   name: 'mainMap',
-  components: { Detail,MainSideBar, VueDaumMap},
+  components: { Detail ,MainSideBar, VueDaumMap},
   data() {
     return {
-      appkey: '149ca1b26e1a09a847fc3342c98b0a30',
+      appkey: 'f486e714c436dbd1f7761ca8d96e43c8',
       center: {lat: 37.5411, lng: 127.068},
       level: 3,
       mapTypeId: VueDaumMap.MapTypeId.NORMAL,
@@ -73,8 +65,6 @@ export default {
       userId: this.$store.state.user.uid,
       markersInMap: [],
       geo: '',
-      xPosition: 0,
-      yPosition: 0,
       lat: 0,
       long: 0,
       centerLat: 37,
@@ -99,27 +89,26 @@ export default {
       this.map = map;
       this.maps = daum.map
 
-      let marker = new kakao.maps.Marker({
-        position: map.getCenter()
-      });
+      // let marker = new kakao.maps.Marker({
+      //   position: map.getCenter()
+      // });
       //
-      // marker.setMap(map);
       //
-      kakao.maps.event.addListener(map, 'click', (mouseEvent) => {
-
-        // 클릭한 위도, 경도 정보를 가져옵니다
-        let latlng = mouseEvent.latLng;
-
-        // 마커 위치를 클릭한 위치로 옮깁니다
-        marker.setPosition(latlng);
-
-        this.xPosition = latlng.La;
-        this.yPosition = latlng.Ma;
-        console.log(this.xPosition)
-        console.log(this.yPosition)
-      });
+      // kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
+      //
+      //   // 클릭한 위도, 경도 정보를 가져옵니다
+      //   let latlng = mouseEvent.latLng;
+      //
+      //   // 마커 위치를 클릭한 위치로 옮깁니다
+      //   marker.setPosition(latlng);
+      //
+      //   this.lat = latlng.La;
+      //   this.long = latlng.Ma;
+      //   console.log(this.lat)
+      // });
     },
     searchGeo(geo){
+
       const ps = new kakao.maps.services.Places();
       ps.keywordSearch(geo, placesSearchCB);
       const map=this.map
@@ -153,13 +142,13 @@ export default {
             querySnapshot.forEach((doc) => {
               const _data = doc.data();
               _data.id = doc.id //각 유저 필드에 따로 id값이 없지만 유저 고유 id를 불로올 수 있음
-              console.log(_data.marker._lat)
-              console.log(_data.marker._long)
+              // console.log(_data.marker._lat)
+              // console.log(_data.marker._long)
               this.sendFromAppLatLngMarker(_data.marker._lat, _data.marker._long, _data)
             });
           })
     },
-    sendFromAppLatLngMarker(lat, long,data) {
+    sendFromAppLatLngMarker(lat, long, data) {
       const self = this;
 // 마커가 표시될 위치입니다
       const markerPosition = new kakao.maps.LatLng(lat, long);
@@ -200,6 +189,9 @@ export default {
       });
     },
   },
+  watch:{
+
+  }
 }
 </script>
 
