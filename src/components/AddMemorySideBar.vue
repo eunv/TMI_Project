@@ -9,7 +9,7 @@
         <input v-model="content" type="textarea" id="content" class="form-control" >
         <hr>
         <label for="content" class="grey-text" style="margin:10px">위치 지정하기</label>
-        <input v-model="geo" type="textarea" id="content" class="form-control" >
+        <input v-model="geo" class="form-control" type="text" placeholder="Search" aria-label="Search" />
         <b-button  @click="searchGeo(geo)" class="moveBtn btn-mdb-color" >이동</b-button>
         <vue-daum-map id="addMap"
             :appKey="appkey"
