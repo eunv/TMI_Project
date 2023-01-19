@@ -9,22 +9,7 @@
         <input v-model="content" type="textarea" id="content" class="form-control" >
         <hr>
 
-        <h4>이미지 업로드</h4>
-        <input type="file" @change="previewImage" accept="image/*" >
-
-        <!--        <div v-if="imageData!=null">-->
-        <!--          <img class="preview" height="200" width="290" :src="picture">-->
-        <!--          <br>-->
-        <!--        </div>-->
-        <button type="primary" width="200px" @click="click1">
-          이미지 업로드
-          <input
-              class="imgInput"
-              type="file"
-              accept="image/jpeg, image/jpg"
-              @change="previewImage"
-          />
-        </button>
+        <label for="content" class="grey-text" style="margin:10px">이미지 저장</label> <br>
         <hr>
 
         <label for="content" class="grey-text" style="margin:10px">위치 지정하기</label>
@@ -41,10 +26,9 @@
         >
         </vue-daum-map>
         <b-button @click="addMemory">저장하기</b-button>
-
-
       </div>
     </b-sidebar>
+
   </div>
 </template>
 
@@ -225,42 +209,6 @@ export default {
             console.log(err)
           })
     },
-    click1() {
-      this.$refs.input1.click()
-    },
-    previewImage(event) {
-      this.uploadValue = 0;
-      this.img1 = null;
-      this.imageData = event.target.files[0];
-      console.log(this.imageData)
-      // this.onUpload()
-    },
-    onUpload(){
-      this.picture=null;
-      const storageRef=firebase.storage()
-          .ref(`${this.imageData.name}`)
-          .put(this.imageData);
-      storageRef.on(`state_changed`,snapshot=>{
-            this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
-          }, error=>{console.log(error.message)},
-          ()=>{this.uploadValue=100;
-            storageRef.snapshot.ref.getDownloadURL().then((url)=>{
-              this.picture =url;
-              console.log(this.picture)
-            });
-          }
-      );
-      // //   const self = this;
-      // //   const db = firebase.firestore();
-      // //
-      // //   db.collection("memory")
-      // //       .doc(self.userId)
-      // //       .update({image: firebase.firestore.FieldValue.arrayUnion(self.img1)})
-      // //       .then(() => {
-      // //         alert("등록 완료!")
-      // //         this.$router.go();
-      // //       })
-    },
 
   },
 
@@ -281,4 +229,5 @@ export default {
   height: 30px;
   opacity: 0;
 }
+
 </style>

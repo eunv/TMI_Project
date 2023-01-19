@@ -2,9 +2,9 @@
   <div>
     <b-sidebar id="sidebar-1" shadow>
       <div class="px-3 py-2">
-        <h3>
+        <h4>
           {{userInfo.nickName}}'s Map
-        </h3>
+        </h4>
         <div>
           <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
             <thead>
@@ -66,6 +66,7 @@ export default {
     init() {
       const self = this;
       self.getData();
+      // self.getDatalist();
     },
     changeCenter(){
       this.$emit("changeCenter", this.memoryList.marker._lat)
