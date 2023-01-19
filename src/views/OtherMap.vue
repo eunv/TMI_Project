@@ -38,15 +38,12 @@
 </template>
 
 <script>
-
-
 import OtherSideBar from "@/components/OtherSideBar.vue";
 import {firebase} from '@/firebase/firebaseConfig';
 import VueDaumMap from "vue-daum-map";
-
 export default {
   name: 'mainMap',
-  components: {OtherSideBar, VueDaumMap},
+  components: {VueDaumMap, OtherSideBar},
   data() {
     return {
       appkey: 'f486e714c436dbd1f7761ca8d96e43c8',
@@ -184,13 +181,4 @@ export default {
   left: 60%;
   top: 2%;
 }
-
 </style>
-
-
-
-
-
-
-
-
