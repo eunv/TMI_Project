@@ -1,8 +1,28 @@
 <template>
   <div>
+    <div>
+    <b-navbar toggleable="lg" type="dark" style="background-color: #a3b2d6; height: 55px">
+      <b-icon v-b-toggle.sidebar-1 id="sidebar_openBtn" icon="list" font-scale="1.5" style="margin-left: 30px; color: white;" class="my-2 my-sm-0"></b-icon>
+
+      <b-navbar-brand  style="margin-left: 43%; font-weight: bold; font-size: 45px; font-family: 'Nanum Pen Script', cursive;" href="#">T . M . I</b-navbar-brand>
+
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+      <b-collapse id="nav-collapse" is-nav>
+
+        <!-- Right aligned nav items -->
+        <b-navbar-nav class="ml-auto">
+          <b-nav-form v-on:keypress.enter.prevent=searchGeo(geo)>
+            <b-form-input v-model="geo" size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
+            <b-button @click="searchGeo(geo)" size="sm" class="my-2 my-sm-0" variant="outline-white">Search</b-button>
+          </b-nav-form>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+  </div>
     <OtherSideBar @changeLat="center.lat=$event" @changeLng="center.lng=$event" :centerLat="centerLat" :centerLng="centerLng"></OtherSideBar>
 
-    <b-button v-b-toggle.sidebar-1 id="sidebar_openBtn" class = "sideOpenBtn">sidebar open</b-button>
+<!--    <b-button v-b-toggle.sidebar-1 id="sidebar_openBtn" class = "sideOpenBtn">sidebar open</b-button>-->
     <vue-daum-map
         :appKey="appkey"
         :center.sync="center"
@@ -13,8 +33,6 @@
         style="width:100%;height:100vh;"
     >
     </vue-daum-map>
-    <input class="searchBtn " v-model="geo">
-    <button @click="searchGeo(geo)" class="moveBtn btn-mdb-color" >이동</button>
 
   </div>
 </template>
