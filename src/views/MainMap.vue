@@ -1,18 +1,7 @@
 <template>
   <div>
-<!--    <div class = "modalShow">-->
-<!--      <div class="black-bg" v-if="modal==true">-->
-<!--        <div class="white-bg">-->
-<!--          <h4></h4>-->
-<!--          <p>내용</p>-->
-<!--          <button @click="modal=false">X</button>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
     <div style="z-index: 100; position: absolute">
-
       <Detail v-if="modal" @closeModal ="modal = false" :items="items" :modal="modal"/>
-      <!--      <button @click="modal= true">모달 오픈</button>-->
     </div>
     <MainSideBar @changeLat="center.lat=$event" @changeLng="center.lng=$event" :centerLat="centerLat" :centerLng="centerLng"></MainSideBar>
 
