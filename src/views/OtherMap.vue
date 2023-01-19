@@ -20,15 +20,12 @@
 </template>
 
 <script>
-
-
 import OtherSideBar from "@/components/OtherSideBar.vue";
 import {firebase} from '@/firebase/firebaseConfig';
 import VueDaumMap from "vue-daum-map";
-
 export default {
   name: 'mainMap',
-  components: {OtherSideBar, VueDaumMap},
+  components: {VueDaumMap, OtherSideBar},
   data() {
     return {
       appkey: 'f486e714c436dbd1f7761ca8d96e43c8',
@@ -40,7 +37,6 @@ export default {
       map: null,
       maps: null,
       markers: [],
-      userInfo: {},
       rows: [],
       fbCollection: 'memory',
       userId: this.$store.state.user.uid,
@@ -55,13 +51,11 @@ export default {
   },
   mounted() {
     this.getDataList()
-    this.getData()
   },
   methods: {
     onLoad(map, daum) {
       this.map = map;
       this.maps = daum.map
-
       // let marker = new kakao.maps.Marker({
       //   position: map.getCenter()
       // });
@@ -81,19 +75,14 @@ export default {
       // });
     },
     searchGeo(geo){
-
       const ps = new kakao.maps.services.Places();
       ps.keywordSearch(geo, placesSearchCB);
       const map=this.map
-
       function placesSearchCB (data,status) {
-
         if (status === kakao.maps.services.Status.OK) {
-
           // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
           // LatLngBounds 객체에 좌표를 추가합니다
           const bounds = new kakao.maps.LatLngBounds();
-
           for (var i=0; i<data.length; i++) {
             bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
           }
@@ -102,21 +91,11 @@ export default {
         }
       }
     },
-    getData() {
-      const self = this;
-      const db = firebase.firestore();
-      db.collection('users')
-          .doc(self.$store.state.user.uid)
-          .get()
-          .then((snapshot) => {
-            self.userInfo = snapshot.data();
-          })
-    },
     async getDataList() {
       const self = this;
       const db = firebase.firestore();
       await db.collection(self.fbCollection)
-          .where("user.code", "==", )
+          .where("user.code", "==", localStorage.otherCode)
           .get()
           .then((querySnapshot) => {
             if (querySnapshot.size === 0) {
@@ -135,7 +114,6 @@ export default {
       const self = this;
 // 마커가 표시될 위치입니다
       const markerPosition = new kakao.maps.LatLng(lat, long);
-
       console.log(markerPosition)
       // const markerImageUrl = '/images/marker2.png',
       //     markerImageSize = new this.maps.Size(20, 20), // 마커 이미지의 크기
@@ -144,7 +122,6 @@ export default {
       //     };
       //
       // const markerImage = new this.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
-
 // 마커를 생성합니다
       const marker = new kakao.maps.Marker({
         map: self.map,
@@ -155,7 +132,6 @@ export default {
     },
   },
   watch:{
-
   }
 }
 </script>
@@ -187,13 +163,4 @@ export default {
   left: 60%;
   top: 2%;
 }
-
 </style>
-
-
-
-
-
-
-
-
