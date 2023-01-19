@@ -3,7 +3,7 @@
     <b-sidebar no-slide id="sidebar-2" shadow>
       <div class="px-3 py-2">
 
-        <h3><b style="margin: 10px">{{userInfo.nickName}}</b></h3>
+        <h4><b style="margin: 10px">{{userInfo.nickName}}</b></h4>
         <b-button size="sm" @click="confirmEdit">
           <b-icon icon="pencil-fill" aria-hidden="true"></b-icon> Settings
         </b-button>
