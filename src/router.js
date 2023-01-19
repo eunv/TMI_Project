@@ -58,7 +58,7 @@ const router = new Router({
     {
       path: '/otherMap',
       name: 'OtherMap',
-      component: () => import('./views/OtherMap'),
+      component: () => import('./views/OtherMap.vue'),
     },
   ]
 })

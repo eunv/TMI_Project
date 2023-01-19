@@ -28,7 +28,7 @@ import VueDaumMap from "vue-daum-map";
 
 export default {
   name: 'mainMap',
-  components: {VueDaumMap, OtherSideBar},
+  components: {OtherSideBar, VueDaumMap},
   data() {
     return {
       appkey: 'f486e714c436dbd1f7761ca8d96e43c8',
@@ -40,6 +40,7 @@ export default {
       map: null,
       maps: null,
       markers: [],
+      userInfo: {},
       rows: [],
       fbCollection: 'memory',
       userId: this.$store.state.user.uid,
@@ -54,6 +55,7 @@ export default {
   },
   mounted() {
     this.getDataList()
+    this.getData()
   },
   methods: {
     onLoad(map, daum) {
@@ -100,12 +102,21 @@ export default {
         }
       }
     },
-
+    getData() {
+      const self = this;
+      const db = firebase.firestore();
+      db.collection('users')
+          .doc(self.$store.state.user.uid)
+          .get()
+          .then((snapshot) => {
+            self.userInfo = snapshot.data();
+          })
+    },
     async getDataList() {
       const self = this;
       const db = firebase.firestore();
       await db.collection(self.fbCollection)
-          .where("user.code", "==", localStorage.otherCode)
+          .where("user.code", "==", )
           .get()
           .then((querySnapshot) => {
             if (querySnapshot.size === 0) {
@@ -178,3 +189,11 @@ export default {
 }
 
 </style>
+
+
+
+
+
+
+
+

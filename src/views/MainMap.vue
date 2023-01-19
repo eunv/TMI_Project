@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div style="z-index: 100; position: absolute">
+      <Detail v-if="modal" @closeModal ="modal = false" :items="items" :modal="modal"/>
+    </div>
     <div>
       <b-navbar toggleable="lg" type="dark" style="background-color: #a3b2d6; height: 55px">
         <b-icon v-b-toggle.sidebar-1 id="sidebar_openBtn" icon="list" font-scale="1.5" style="margin-left: 30px; color: white;" class="my-2 my-sm-0"></b-icon>
@@ -45,8 +48,7 @@ import Detail from "@/components/Detail.vue";
 
 export default {
   name: 'mainMap',
-  components: {MainSideBar, VueDaumMap},
-  components: { Detail,MainSideBar, VueDaumMap},
+  components: { Detail ,MainSideBar, VueDaumMap},
   data() {
     return {
       appkey: 'f486e714c436dbd1f7761ca8d96e43c8',
@@ -142,11 +144,11 @@ export default {
               _data.id = doc.id //각 유저 필드에 따로 id값이 없지만 유저 고유 id를 불로올 수 있음
               // console.log(_data.marker._lat)
               // console.log(_data.marker._long)
-              this.sendFromAppLatLngMarker(_data.marker._lat, _data.marker._long)
+              this.sendFromAppLatLngMarker(_data.marker._lat, _data.marker._long, _data)
             });
           })
     },
-    sendFromAppLatLngMarker(lat, long) {
+    sendFromAppLatLngMarker(lat, long, data) {
       const self = this;
 // 마커가 표시될 위치입니다
       const markerPosition = new kakao.maps.LatLng(lat, long);
