@@ -1,5 +1,6 @@
 # TMI_Project
 [TMI]TripMemoryInformation
+-지도에 사진과 간단한 설명을 추가하여 한눈에 파악하자
 
 ## 개발환경
 - 개발언어 : Vue.js
