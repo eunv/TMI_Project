@@ -4,13 +4,13 @@
     <b-sidebar no-slide id="sidebar-2" shadow>
       <div class="px-3 py-2">
 
-        <h3><b style="margin: 10px">{{userInfo.nickName}}</b></h3>
+        <h4><b style="margin: 10px">{{userInfo.nickName}}</b></h4>
         <b-button size="sm" @click="confirmEdit">
           <b-icon icon="pencil-fill" aria-hidden="true"></b-icon> Settings
         </b-button>
         <!--        <b-icon icon="pencil-fill" font-scale="1" @click="editInfo"></b-icon>-->
 
-        <hr>
+        <hr/>
 
         <div>
           <label for="name" class="grey-text" style="margin:10px">Name</label>
@@ -20,7 +20,7 @@
           <label for="name" class="grey-text" style="margin:10px">g-mail</label>
           <input v-model="userInfo.googleId" type="text" id="name" class="form-control">
         </div>
-        <hr>
+        <hr/>
 
         <div>
           <h5 style="margin:10px"><b>연결된 사람</b></h5>
@@ -34,7 +34,7 @@
             <p>아무도 연결되지 않았어요.</p>
             <p>친구를 초대해 보세요.</p>
           </div>
-          <hr>
+          <hr/>
           <div>
             <h5 style="margin:10px"><b>입장코드 입력</b></h5>
             <div class = "input-line">
@@ -43,7 +43,7 @@
             </div>
 
           </div>
-          <hr>
+          <hr/>
           <div>
             <h5 style="margin:10px"><b>내 입장코드</b></h5>
             <label for="name" class="grey-text" style="margin:10px">{{ userInfo.code }}</label>

@@ -3,9 +3,9 @@
     <b-sidebar id="sidebar-1" shadow>
       <div class="px-3 py-2">
         <div>
-          <h3>
+          <h4>
             {{userInfo.nickName}}'s Map
-          </h3>
+          </h4>
         </div>
 
         <div>
@@ -67,6 +67,7 @@ export default {
     init() {
       const self = this;
       self.getData();
+      self.getDatalist();
     },
     changeCenter(){
       this.$emit("changeCenter", this.memoryList.marker._lat)
@@ -79,7 +80,6 @@ export default {
           .get()
           .then((snapshot) => {
             self.userInfo = snapshot.data();
-            setTimeout(() => {this.getDatalist()},1);
           })
     },
     getDatalist() {
