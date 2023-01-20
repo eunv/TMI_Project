@@ -30,7 +30,7 @@
             @load="onLoad"
         >
         </vue-daum-map>
-        <b-button @click="addMemory; onUpload">저장하기</b-button>
+        <b-button @click="addMemory">저장하기</b-button>
       </div>
     </b-sidebar>
   </div>
@@ -41,7 +41,7 @@
 import {firebase} from "@/firebase/firebaseConfig";
 // import * as geofire from 'geofire-common';
 // import geofire from 'geofire';
-// import {firestore} from 'firebase/storage'
+import 'firebase/storage'
 import VueDaumMap from "vue-daum-map";
 
 export default {
@@ -96,7 +96,7 @@ export default {
             self.userInfo = snapshot.data();
           })
     },
-    addMemory(){
+    addMemory() {
       const self = this;         // self를 쓰는 이유는 바깥의 this들과 햇갈리지 않기 위해서
       const db = firebase.firestore();
       const now = new Date();
@@ -108,7 +108,7 @@ export default {
         date: now,
         userId: self.$store.state.user.uid,
         // marker: self.marker,
-        image:[],
+        image: self.img1,
         marker: marker,
         user: {
           name: this.userInfo.name,
@@ -171,23 +171,23 @@ export default {
         marker.setPosition(latlng);
 
         // this.changeLatLng();
-        this.lat  = latlng.getLat();
+        this.lat = latlng.getLat();
         this.long = latlng.getLng();
         console.log(this.lat)
       });
     },
-    searchGeo(geo){
+    searchGeo(geo) {
 
       const ps = new kakao.maps.services.Places();
-      console.log('11',kakao.maps.services)
+      console.log('11', kakao.maps.services)
       ps.keywordSearch(geo, placesSearchCB);
-      console.log('22',ps.keywordSearch)
-      const map=this.map
+      console.log('22', ps.keywordSearch)
+      const map = this.map
 
-      function placesSearchCB (data,status) {
-        console.log('33',map)
-        console.log('44',kakao.maps.services)
-        console.log('55',map.setBounds)
+      function placesSearchCB(data, status) {
+        console.log('33', map)
+        console.log('44', kakao.maps.services)
+        console.log('55', map.setBounds)
 
         if (status === kakao.maps.services.Status.OK) {
 
