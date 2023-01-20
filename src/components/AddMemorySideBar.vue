@@ -9,6 +9,12 @@
         <input v-model="content" type="textarea" id="content" class="form-control" >
         <hr>
         <label for="content" class="grey-text" style="margin:10px">이미지 저장</label> <br>
+        <input type="file" class="form-control" accept="image/jpeg, image/jpg" id="inputGroupFile02" @change="previewImage">
+        <div v-if="imageData != null">
+          <div class="display-3" align="center" justify="center">
+            <img class="preview" height="268" width="80%" :src="img1">
+          </div>
+        </div>
         <hr>
         <label for="content" class="grey-text" style="margin:10px">위치 지정하기</label>
         <input v-model="geo" class="form-control" type="text" placeholder="Search" aria-label="Search" />
@@ -24,7 +30,7 @@
             @load="onLoad"
         >
         </vue-daum-map>
-        <b-button @click="addMemory">저장하기</b-button>
+        <b-button @click="addMemory; onUpload">저장하기</b-button>
       </div>
     </b-sidebar>
   </div>
@@ -35,7 +41,7 @@
 import {firebase} from "@/firebase/firebaseConfig";
 // import * as geofire from 'geofire-common';
 // import geofire from 'geofire';
-import 'firebase/storage'
+// import {firestore} from 'firebase/storage'
 import VueDaumMap from "vue-daum-map";
 
 export default {
@@ -115,11 +121,36 @@ export default {
             alert("저장되었습니다")
             location.reload();
           })  // 성공하면 무엇을 할건지 정하면 된다/ 이 코드에선 alert가 실행된다
-
           .catch((e) => {          // 실패하면 catch가 실행된다. e는 errer의 약자
             console.log(e)
             alert("저장에 실패했습니다.")
           })
+    },
+    previewImage(event) {
+      this.uploadValue = 0;
+      this.img1 = null;
+      this.imageData = event.target.files[0];
+      // this.onUpload()
+    },
+    onUpload() {
+      this.img1 = null;
+      const storageRef = firebase
+          .storage()
+          .ref(`${this.currentUser}`)
+          .child(`${this.imageData.name}`)
+          .put(this.imageData);
+      storageRef.on(`state_changed`, snapshot => {
+            this.uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          }, error => {
+            console.log(error.message);
+          }, () => {
+            this.uploadValue = 100;
+            storageRef.snapshot.ref.getDownloadURL().then((url) => {
+              this.img1 = url;
+              console.log(this.img1);
+            });
+          }
+      );
     },
     onLoad(map, daum) {
       this.map = map;
