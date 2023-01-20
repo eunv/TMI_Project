@@ -9,6 +9,12 @@
         <input v-model="content" type="textarea" id="content" class="form-control" >
         <hr>
         <label for="content" class="grey-text" style="margin:10px">이미지 저장</label> <br>
+        <input type="file" ref="input1" @change="previewImage" accept="image/*" multiple>
+        <div v-if="imageData != null">
+          <div class="display-3" align="center" justify="center">
+            <img class="preview" height="268" width="80%" :src="img1">
+          </div>
+        </div>
         <hr>
         <label for="content" class="grey-text" style="margin:10px">위치 지정하기</label>
         <input v-model="geo" class="form-control" type="text" placeholder="Search" aria-label="Search" />
@@ -90,7 +96,7 @@ export default {
             self.userInfo = snapshot.data();
           })
     },
-    addMemory(){
+    addMemory() {
       const self = this;         // self를 쓰는 이유는 바깥의 this들과 햇갈리지 않기 위해서
       const db = firebase.firestore();
       const now = new Date();
@@ -102,7 +108,7 @@ export default {
         date: now,
         userId: self.$store.state.user.uid,
         // marker: self.marker,
-        image:[],
+        image: self.img1,
         marker: marker,
         user: {
           name: this.userInfo.name,
@@ -140,23 +146,23 @@ export default {
         marker.setPosition(latlng);
 
         // this.changeLatLng();
-        this.lat  = latlng.getLat();
+        this.lat = latlng.getLat();
         this.long = latlng.getLng();
         console.log(this.lat)
       });
     },
-    searchGeo(geo){
+    searchGeo(geo) {
 
       const ps = new kakao.maps.services.Places();
-      console.log('11',kakao.maps.services)
+      console.log('11', kakao.maps.services)
       ps.keywordSearch(geo, placesSearchCB);
-      console.log('22',ps.keywordSearch)
-      const map=this.map
+      console.log('22', ps.keywordSearch)
+      const map = this.map
 
-      function placesSearchCB (data,status) {
-        console.log('33',map)
-        console.log('44',kakao.maps.services)
-        console.log('55',map.setBounds)
+      function placesSearchCB(data, status) {
+        console.log('33', map)
+        console.log('44', kakao.maps.services)
+        console.log('55', map.setBounds)
 
         if (status === kakao.maps.services.Status.OK) {
 
@@ -164,7 +170,7 @@ export default {
           // LatLngBounds 객체에 좌표를 추가합니다
           const bounds = new kakao.maps.LatLngBounds();
 
-          for (var i=0; i<data.length; i++) {
+          for (var i = 0; i < data.length; i++) {
             bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
           }
           // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
@@ -172,11 +178,36 @@ export default {
         }
       }
     },
-  },
-  props: {
-
+    click1() {
+      this.$refs.input1.click()
+    },
+    previewImage(event) {
+      this.uploadValue = 0;
+      this.img1 = null;
+      this.imageData = event.target.files[0];
+      this.onUpload()
+    },
+    onUpload() {
+      this.img1 = null;
+      const storageRef = firebase
+          .storage()
+          .ref(`${this.currentUser}`)
+          .child(`${this.imageData.name}`)
+          .put(this.imageData);
+      storageRef.on(`state_changed`, snapshot => {
+            this.uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          }, error => {
+            console.log(error.message);
+          }, () => {
+            this.uploadValue = 100;
+            storageRef.snapshot.ref.getDownloadURL().then((url) => {
+              this.img1 = url;
+              console.log(this.img1);
+            });
+          }
+      );
+    },
   }
-
 }
 </script>
 
