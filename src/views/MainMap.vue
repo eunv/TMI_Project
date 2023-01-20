@@ -23,7 +23,7 @@
         </b-collapse>
       </b-navbar>
     </div>
-    <MainSideBar @changeLat="center.lat=$event" @changeLng="center.lng=$event" :centerLat="centerLat" :centerLng="centerLng"></MainSideBar>
+    <MainSideBar @changeLat="center.lat=$event" @changeLng="center.lng=$event"></MainSideBar>
     <vue-daum-map
         :appKey="appkey"
         :center.sync="center"
@@ -75,8 +75,8 @@ export default {
 
     }
   },
-  async mounted() {
-    await this.getDataList()
+  mounted() {
+    this.getDataList()
   },
   methods: {
     openModal() {
@@ -129,10 +129,10 @@ export default {
         }
       }
     },
-    async getDataList() {
+    getDataList() {
       const self = this;
       const db = firebase.firestore();
-      await db.collection(self.fbCollection)
+      db.collection(self.fbCollection)
           .where("userId", "==", this.userId)
           .get()
           .then((querySnapshot) => {
