@@ -3,6 +3,10 @@
     <div class="white-bg">
       <button class="closeBtn" @click="$emit('closeModal')">닫기</button>
 <!--      {{items}}-->
+      <h5>{{memory.date}}</h5>
+      <h5>{{memory.title}}</h5>
+      <h5>{{memory.content}}</h5>
+      <img :src="memory.image" />
     </div>
   </div>
 </template>
@@ -12,18 +16,28 @@ export default {
   name: 'detail',
   data() {
     return {
+      memory: {},
     }
   },
-
   watch : {
 
   },
   props : {
     items: Array,
+    obj: Object,
     modal : Boolean,
+  },
+  created() {
+    this.memory= this.obj
+  },
+  // mounted() {
+  //   // console.log("memory:"+this.memory.title)
+  //   // console.log("obj:"+this.obj)
+  //   // console.log("items:"+this.items)
+  // },
 
-  }
 }
+
 </script>
 
 <style>
@@ -51,5 +65,10 @@ body {
   position: absolute;
   left: 49%;
   top: 85%;
+}
+img {
+  width: 400px;
+  height: 400px;
+  object-fit: cover;
 }
 </style>
