@@ -2,9 +2,11 @@
   <div v-if="modal == true" class="black-bg">
     <div class="white-bg">
       <button class="closeBtn" @click="$emit('closeModal')">닫기</button>
-<!--      {{items}}-->
-      <b-icon id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="editButton"></b-icon>
+      <!--      {{items}}-->
+<!--      <b-icon id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="editButton"></b-icon>-->
       <h5>{{memory.date}}</h5>
+      <label for="title" class="grey-text" style="margin:10px">Name</label>
+      <input v-model="userInfo.name" type="text" id="title" class="form-control" >
       <h5 class="title1" >제목: {{memory.title}}</h5>
       <h5 class="content1 ">{{memory.content}}</h5>
       <img :src="memory.image" />
@@ -18,6 +20,7 @@ export default {
   data() {
     return {
       memory: {},
+
     }
   },
   watch : {

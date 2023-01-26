@@ -23,7 +23,7 @@
                 </div>
               </td>
               <td>{{memoryList.date}}<br> {{memoryList.title}}</td>
-              <td><img :src="memoryList.image" /></td>
+              <td><img class="img1" :src="memoryList.image" /></td>
             </tr>
             </tbody>
           </table>
@@ -36,7 +36,7 @@
         </p>
       </div>
 <!--      <b-button v-b-toggle.sidebar-2 id="sidebar_openBtn">subPage</b-button>-->
-      <b-icon v-b-toggle.sidebar-2 id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="goMypage"></b-icon>
+      <b-icon v-b-toggle.sidebar-2 id="sidebar_openBtn" icon="person-fill" font-scale="1.5" class="goMypage"></b-icon>
       <b-icon v-b-toggle.sidebar-3 id="sidebar_openBtn" icon="plus-lg" font-scale="1.5" class="goAddMemory"></b-icon>
       <button @click="logout" class="logOutBtn btn-outline-light-blue" >
         <b-icon icon="power" aria-hidden="true"></b-icon> Logout
@@ -44,7 +44,6 @@
       <MyPage></MyPage>
       <AddMemorySideBar></AddMemorySideBar>
     </b-sidebar>
-
   </div>
 </template>
 
@@ -161,10 +160,13 @@ export default {
   left:120px;
   top: 90%;
 }
-img {
-  width: auto; height: auto;
+.img1 {
+  /*width: auto; height: auto;*/
   max-width: 100px;
   max-height: 100px;
+  /*width: 600px;*/
+  /*height: 600px;*/
+  object-fit: cover;
 }
 </style>
 
