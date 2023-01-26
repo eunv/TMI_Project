@@ -23,7 +23,7 @@
       </b-collapse>
     </b-navbar>
   </div>
-    <OtherSideBar @changeLat="center.lat=$event" @changeLng="center.lng=$event" :centerLat="centerLat" :centerLng="centerLng"></OtherSideBar>
+    <OtherSideBar @changeLat="center.lat=$event" @changeLng="center.lng=$event" :centerLat="centerLat" :centerLng="centerLng" @closeModal="modal = false" :modal="modal"></OtherSideBar>
 
 <!--    <b-button v-b-toggle.sidebar-1 id="sidebar_openBtn" class = "sideOpenBtn">sidebar open</b-button>-->
     <vue-daum-map
@@ -122,10 +122,10 @@ export default {
         }
       }
     },
-    async getDataList() {
+    getDataList() {
       const self = this;
       const db = firebase.firestore();
-      await db.collection(self.fbCollection)
+      db.collection(self.fbCollection)
           .where("user.code", "==", localStorage.otherCode)
           .get()
           .then((querySnapshot) => {
@@ -137,25 +137,26 @@ export default {
               _data.id = doc.id //각 유저 필드에 따로 id값이 없지만 유저 고유 id를 불로올 수 있음
               const date = new Date(_data.date.seconds * 1000);
               console.log("date",date)
-              // _data.date = getDate(date);
               // console.log(_data.marker._lat)
               // console.log(_data.marker._long)
               this.sendFromAppLatLngMarker(_data.marker._lat, _data.marker._long, _data)
+              _data.date = getDate(date);
+
             });
           })
-      // const getDate = (date, separated = '-', notFullYear = false) => {
-      //   if (date instanceof Date) {
-      //     let year = date.getFullYear()
-      //     let month = date.getMonth() + 1
-      //     let day = date.getDate()
-      //
-      //     if (notFullYear) year = year.toString().slice(2, 4)
-      //     if (month < 10) month = `0${month}`
-      //     if (day < 10) day = `0${day}`
-      //
-      //     return `${year}${separated}${month}${separated}${day}`
-      //   } else return '';
-      // }
+      const getDate = (date, separated = '-', notFullYear = false) => {
+        if (date instanceof Date) {
+          let year = date.getFullYear()
+          let month = date.getMonth() + 1
+          let day = date.getDate()
+
+          if (notFullYear) year = year.toString().slice(2, 4)
+          if (month < 10) month = `0${month}`
+          if (day < 10) day = `0${day}`
+
+          return `${year}${separated}${month}${separated}${day}`
+        } else return '';
+      }
     },
     sendFromAppLatLngMarker(lat, long, data) {
       console.log("여긴가?")
