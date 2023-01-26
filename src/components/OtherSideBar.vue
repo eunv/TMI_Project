@@ -1,5 +1,5 @@
 <template>
-  <div class>
+  <div>
     <b-sidebar class="mainSide" id="sidebar-1" shadow>
       <div class="px-3 py-2">
         <div>
