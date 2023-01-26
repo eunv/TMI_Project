@@ -4,26 +4,28 @@
       <div class="px-3 py-2">
         <div>
           <h4>
-            {{userInfo.nickName}}'s Map
+            {{ userInfo.nickName }}'s Map
           </h4>
         </div>
 
-        <div class="listTable" style="margin-bottom: 50px">
+        <div class="listTable" style="width:100%; height:630px; overflow:auto">
           <table class="table" border="1" style="margin-left: auto; margin-right: auto; margin-bottom: 50px">
             <thead>
             <tr>
             </tr>
             </thead>
             <tbody>
-            <tr @click="$emit('changeLat', memoryList.marker._lat), $emit('changeLng', memoryList.marker._long)" v-for="(memoryList,i) in memoryList" :key="i">
+            <tr @click="$emit('changeLat', memoryList.marker._lat), $emit('changeLng', memoryList.marker._long), $emit('closeModal')"
+                v-for="(memoryList,i) in memoryList" :key="i">
               <td>
                 <div v-if="deleteCheck == true" class="custom-control custom-checkbox">
-                  <input v-model="arr" type="checkbox" class="custom-control-input" :id="i" name="list[]" :value="memoryList.id" >
+                  <input v-model="arr" type="checkbox" class="custom-control-input" :id="i" name="list[]"
+                         :value="memoryList.id">
                   <label class="custom-control-label" :for="i"></label>
                 </div>
               </td>
-              <td>{{memoryList.date}}<br> {{memoryList.title}}</td>
-              <td><img class="img1" :src="memoryList.image" /></td>
+              <td>{{ memoryList.date }}<br> {{ memoryList.title }}</td>
+              <td><img class="img1" :src="memoryList.image"/></td>
             </tr>
             </tbody>
           </table>
@@ -35,14 +37,15 @@
           추억을 남겨보세요
         </p>
       </div>
-<!--      <b-button v-b-toggle.sidebar-2 id="sidebar_openBtn">subPage</b-button>-->
+      <!--      <b-button v-b-toggle.sidebar-2 id="sidebar_openBtn">subPage</b-button>-->
       <b-icon v-b-toggle.sidebar-2 id="sidebar_openBtn" icon="person-fill" font-scale="1.5" class="goMypage"></b-icon>
       <b-icon v-b-toggle.sidebar-3 id="sidebar_openBtn" icon="plus-lg" font-scale="1.5" class="goAddMemory"></b-icon>
       <b-icon @click="onCheck" id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="deleteCheck"></b-icon>
-      <b-button v-if="deleteCheck == true" @click="deleteList" variant="danger" class="deleteBtn"> 삭제하기 </b-button>
-      <b-button v-if="deleteCheck == true" @click="offCheck" variant="primary" class="cancelBtn"> 취소하기 </b-button>
-      <button @click="logout" class="logOutBtn btn-outline-light-blue" >
-        <b-icon icon="power" aria-hidden="true"></b-icon> Logout
+      <b-button v-if="deleteCheck == true" @click="deleteList" variant="danger" class="deleteBtn"> 삭제하기</b-button>
+      <b-button v-if="deleteCheck == true" @click="offCheck" variant="primary" class="cancelBtn"> 취소하기</b-button>
+      <button @click="logout" class="logOutBtn btn-outline-light-blue">
+        <b-icon icon="power" aria-hidden="true"></b-icon>
+        Logout
       </button>
       <MyPage></MyPage>
       <AddMemorySideBar></AddMemorySideBar>
@@ -63,10 +66,10 @@ export default {
   data() {
     return {
       fbCollection: 'users',
-      userInfo : [],
+      userInfo: [],
       memoryList: [],
-      whatData : false,
-      modalWindow : false,
+      whatData: false,
+      modalWindow: false,
       lat1: this.moveLat,
       long1: this.moveLong,
       deleteCheck: false,
@@ -83,14 +86,15 @@ export default {
       self.getData();
       self.getDatalist();
     },
-    changeCenter(){
+    changeCenter() {
       this.$emit("changeCenter", this.memoryList.marker._lat)
     },
-    onCheck(){
+    onCheck() {
       this.deleteCheck = true;
     },
-    offCheck(){
+    offCheck() {
       this.deleteCheck = false;
+      this.arr.splice(0);
     },
     getData() {
       const self = this;
@@ -107,23 +111,23 @@ export default {
       const db = firebase.firestore();
       console.log(self.whatData)
       db.collection("memory")
-      .where("userId",'==',self.$store.state.user.uid)
-      .get()
-      .then((querySnapshot) => {
-        if (querySnapshot.size === 0) {
-          self.whatData = true
-          console.log(self.whatData)
-        }
-        querySnapshot.forEach((memory) => {
-          const _data = memory.data();
-          _data.id = memory.id
-          const date = new Date(_data.date.seconds * 1000);
-          _data.date = getDate(date);
-          self.memoryList.push(_data);
-          // console.log(self.memoryList)
-          // console.log(self.memore)
-          });
-      })
+          .where("userId", '==', self.$store.state.user.uid)
+          .get()
+          .then((querySnapshot) => {
+            if (querySnapshot.size === 0) {
+              self.whatData = true
+              console.log(self.whatData)
+            }
+            querySnapshot.forEach((memory) => {
+              const _data = memory.data();
+              _data.id = memory.id
+              const date = new Date(_data.date.seconds * 1000);
+              _data.date = getDate(date);
+              self.memoryList.push(_data);
+              // console.log(self.memoryList)
+              // console.log(self.memore)
+            });
+          })
       const getDate = (date, separated = '-', notFullYear = false) => {
         if (date instanceof Date) {
           let year = date.getFullYear()
@@ -138,18 +142,25 @@ export default {
         } else return '';
       }
     },
-    deleteList(){
+    deleteList() {
       const self = this;
-      for(let i=0; i<this.arr.length; i++) {
-        const db = firebase.firestore();
-        db.collection("memory")
-            .doc(this.arr[i])
-            .delete()
-            .then(() => {
-              alert("삭제 완료")
-              self.$router.go();
-            })
+      const db = firebase.firestore();
+      const batch = db.batch()
+      // const ref2 = db.collection("a").doc()
+      // batch.set(ref2,{},{merge:true})
+      //
+      // const ref3 = db.collection("v").doc()
+      // batch.set(ref3,{},{merge:true})
+
+      for (let i = 0; i < this.arr.length; i++) {
+        const ref = db.collection("memory").doc(this.arr[i])
+        batch.delete(ref)
       }
+      batch.commit()
+          .then(() => {
+            alert("삭제 완료")
+            self.$router.go();
+          })
     },
     logout() {
       firebase.auth().signOut()
@@ -158,7 +169,8 @@ export default {
   },
   props: {
     lat: Number,
-    long: Number
+    long: Number,
+    modal : Boolean,
   },
 
 }
@@ -167,46 +179,52 @@ export default {
 <style>
 .logOutBtn {
   position: absolute;
-  z-index:2;
+  z-index: 2;
   font-size: 15px;
   width: 100px;
   height: 40px;
   left: 60%;
   top: 5%;
 }
-.deleteBtn{
+
+.deleteBtn {
   position: absolute;
-  z-index:2;
+  z-index: 2;
   font-size: 15px;
   width: 130px;
   height: 40px;
   left: 1%;
   top: 93%;
 }
-.cancelBtn{
+
+.cancelBtn {
   position: absolute;
-  z-index:2;
+  z-index: 2;
   font-size: 15px;
   width: 130px;
   height: 40px;
   left: 50%;
   top: 93%;
 }
+
 .goMypage {
   position: absolute;
-  left:10px;
-  top:90%;
+  left: 10px;
+  top: 90%;
 }
+
 .goAddMemory {
   position: absolute;
-  left:120px;
+  left: 120px;
   top: 90%;
 }
-.deleteCheck{
+
+.deleteCheck {
   position: absolute;
-  left:230px;
+  left: 230px;
   top: 90%;
 }
+
 .img1 {
   /*width: auto; height: auto;*/
   max-width: 100px;
@@ -215,8 +233,9 @@ export default {
   /*height: 600px;*/
   object-fit: cover;
 }
-.listTable {
-  height: 100px;
+
+table {
+  height: 20px;
 }
 </style>
 
