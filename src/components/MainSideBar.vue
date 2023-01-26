@@ -8,8 +8,8 @@
           </h4>
         </div>
 
-        <div>
-          <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
+        <div class="listTable" style="margin-bottom: 50px">
+          <table class="table" border="1" style="margin-left: auto; margin-right: auto; margin-bottom: 50px">
             <thead>
             <tr>
             </tr>
@@ -28,6 +28,7 @@
             </tbody>
           </table>
         </div>
+
       </div>
       <div class="px-3 py-2 dataFalse" v-if="whatData">
         <p>
@@ -40,7 +41,7 @@
       <b-icon @click="onCheck" id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="deleteCheck"></b-icon>
       <b-button v-if="deleteCheck == true" @click="deleteList" variant="danger" class="deleteBtn"> 삭제하기 </b-button>
       <b-button v-if="deleteCheck == true" @click="offCheck" variant="primary" class="cancelBtn"> 취소하기 </b-button>
-      <button @click="logout" class="logOutBtn btn-outline-mdb-color" >
+      <button @click="logout" class="logOutBtn btn-outline-light-blue" >
         <b-icon icon="power" aria-hidden="true"></b-icon> Logout
       </button>
       <MyPage></MyPage>
@@ -120,7 +121,7 @@ export default {
           _data.date = getDate(date);
           self.memoryList.push(_data);
           // console.log(self.memoryList)
-          // console.log(self.memory)
+          // console.log(self.memore)
           });
       })
       const getDate = (date, separated = '-', notFullYear = false) => {
@@ -169,9 +170,9 @@ export default {
   z-index:2;
   font-size: 15px;
   width: 100px;
-  height: 35px;
-  left: 3%;
-  top: 1%;
+  height: 40px;
+  left: 60%;
+  top: 5%;
 }
 .deleteBtn{
   position: absolute;
@@ -213,6 +214,9 @@ export default {
   /*width: 600px;*/
   /*height: 600px;*/
   object-fit: cover;
+}
+.listTable {
+  height: 100px;
 }
 </style>
 

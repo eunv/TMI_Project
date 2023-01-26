@@ -7,14 +7,15 @@
             {{userInfo.nickName}}'s Map
           </h3>
         </div>
-        <div>
-          <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
+        <div class="listTable" style="width:100%; height:630px; overflow:auto">
+        <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
             <thead>
             <tr>
             </tr>
             </thead>
             <tbody>
-            <tr @click="$emit('changeLat', memoryList.marker._lat), $emit('changeLng', memoryList.marker._long)" v-for="(memoryList,i) in memoryList" :key="i">
+            <tr @click="$emit('changeLat', memoryList.marker._lat), $emit('changeLng', memoryList.marker._long), $emit('closeModal')"
+                v-for="(memoryList,i) in memoryList" :key="i">
               <td>{{memoryList.date}}<br> {{memoryList.title}}</td>
               <td><img class="img1" :src="memoryList.image" /></td>
             </tr>
@@ -136,7 +137,8 @@ export default {
   },
   props: {
     lat: Number,
-    long: Number
+    long: Number,
+    modal: Boolean
   },
   computed:{
     moveLat1: function (){
@@ -155,10 +157,10 @@ export default {
   position: absolute;
   z-index:2;
   font-size: 15px;
-  width: 130px;
+  width: 100px;
   height: 40px;
-  left: 50%;
-  top: 95%;
+  left: 60%;
+  top: 5%;
 }
 .goMypage {
   position: absolute;
