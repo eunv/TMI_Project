@@ -9,19 +9,26 @@
         </div>
 
         <div>
-          <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
+          <table class="table" border="1" style="margin-left: auto; margin-right: auto;">
             <thead>
             <tr>
             </tr>
             </thead>
             <tbody>
             <tr @click="$emit('changeLat', memoryList.marker._lat), $emit('changeLng', memoryList.marker._long)" v-for="(memoryList,i) in memoryList" :key="i">
+              <td>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="defaultUnchecked" name="list[]">
+                  <label class="custom-control-label" for="defaultUnchecked"></label>
+                </div>
+              </td>
               <td>{{memoryList.date}}<br> {{memoryList.title}}</td>
-                <td><img :src="memoryList.image" /></td></tr>
-
+              <td><img :src="memoryList.image" /></td>
+            </tr>
             </tbody>
           </table>
         </div>
+
       </div>
       <div class="px-3 py-2 dataFalse" v-if="whatData">
         <p>
@@ -37,6 +44,7 @@
       <MyPage></MyPage>
       <AddMemorySideBar></AddMemorySideBar>
     </b-sidebar>
+
   </div>
 </template>
 
