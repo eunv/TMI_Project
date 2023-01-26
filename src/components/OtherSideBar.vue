@@ -16,8 +16,8 @@
             <tbody>
             <tr @click="$emit('changeLat', memoryList.marker._lat), $emit('changeLng', memoryList.marker._long)" v-for="(memoryList,i) in memoryList" :key="i">
               <td>{{memoryList.date}}<br> {{memoryList.title}}</td>
-              <td><img class="img1" :src="memoryList.image" /></td></tr>
-
+              <td><img class="img1" :src="memoryList.image" /></td>
+            </tr>
             </tbody>
           </table>
         </div>
