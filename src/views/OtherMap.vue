@@ -215,7 +215,7 @@ export default {
   height: 100vh;
 }
 .black-bg {
-  width: 35%; height: 40%;
+  width: 55%; height: 50%;
   background: rgba(0,0,0,0.5);
   position: fixed; padding: 20px;
   left:30%;
