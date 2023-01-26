@@ -3,9 +3,10 @@
     <div class="white-bg">
       <button class="closeBtn" @click="$emit('closeModal')">닫기</button>
 <!--      {{items}}-->
+      <b-icon id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="editButton"></b-icon>
       <h5>{{memory.date}}</h5>
-      <h5>{{memory.title}}</h5>
-      <h5>{{memory.content}}</h5>
+      <h5 class="title1" >제목: {{memory.title}}</h5>
+      <h5 class="content1 ">{{memory.content}}</h5>
       <img :src="memory.image" />
     </div>
   </div>
@@ -67,8 +68,32 @@ body {
   top: 85%;
 }
 img {
-  width: 400px;
-  height: 400px;
+  width: 300px;
+  height: 300px;
   object-fit: cover;
+  /*margin: 20px;*/
+}
+.title1 {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 20px;
+}
+.content1 {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 20px;
+}
+.editButton {
+  position: absolute;
+  top:10%;
+  left: 90%;
 }
 </style>
