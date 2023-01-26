@@ -232,7 +232,7 @@ div {
   box-sizing: border-box;
 }
 .black-bg {
-  width: 45%; height: 50%;
+  width: 35%; height: 40%;
   background: rgba(0,0,0,0.5);
   position: fixed; padding: 20px;
   left:30%;
