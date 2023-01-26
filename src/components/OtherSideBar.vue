@@ -1,5 +1,5 @@
 <template>
-  <div class>
+  <div>
     <b-sidebar class="mainSide" id="sidebar-1" shadow>
       <div class="px-3 py-2">
         <div>
@@ -7,23 +7,25 @@
             {{userInfo.nickName}}'s Map
           </h3>
         </div>
-        <div>
-          <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
+        <div class="listTable" style="width:100%; height:630px; overflow:auto">
+        <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
             <thead>
             <tr>
             </tr>
             </thead>
             <tbody>
-            <tr @click="$emit('changeLat', memoryList.marker._lat), $emit('changeLng', memoryList.marker._long)" v-for="(memoryList,i) in memoryList" :key="i">
+            <tr @click="$emit('changeLat', memoryList.marker._lat), $emit('changeLng', memoryList.marker._long), $emit('closeModal')"
+                v-for="(memoryList,i) in memoryList" :key="i">
               <td>{{memoryList.date}}<br> {{memoryList.title}}</td>
-              <td>{{memoryList.image}}</td></tr>
+              <td><img class="img1" :src="memoryList.image" /></td>
+            </tr>
             </tbody>
           </table>
         </div>
       </div>
       <div class="px-3 py-2 dataFalse" v-if="whatData">
         <p>
-          추억을 남겨보세요
+          아직 등록하지 않았어요!
         </p>
       </div>
       <b-icon @click="goMyMap" id="sidebar_openBtn" icon="house" font-scale="1.5" class="goMypage"></b-icon>
@@ -135,7 +137,8 @@ export default {
   },
   props: {
     lat: Number,
-    long: Number
+    long: Number,
+    modal: Boolean
   },
   computed:{
     moveLat1: function (){
@@ -154,10 +157,10 @@ export default {
   position: absolute;
   z-index:2;
   font-size: 15px;
-  width: 130px;
+  width: 100px;
   height: 40px;
-  left: 50%;
-  top: 95%;
+  left: 60%;
+  top: 5%;
 }
 .goMypage {
   position: absolute;
@@ -168,6 +171,14 @@ export default {
   position: absolute;
   left:120px;
   top: 90%;
+}
+.img1 {
+  /*width: auto; height: auto;*/
+  max-width: 100px;
+  max-height: 100px;
+  /*width: 600px;*/
+  /*height: 600px;*/
+  object-fit: cover;
 }
 
 </style>

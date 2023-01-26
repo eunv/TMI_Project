@@ -33,7 +33,7 @@
       <div>
         <label for="defaultFormRegisterPasswordEx" class="grey-text">비밀번호 확인</label>
         <input v-model="comparePassword" type="password" id="defaultFormRegisterPasswordEx" class="form-control"
-               @change="passwordConfirm"/>
+               @change="passwordConfirm" v-on:keypress.enter.prevent=signup>
         <h10>{{ compare }}</h10>
       </div>
       <div class="text-center mt-4">

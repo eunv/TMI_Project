@@ -9,6 +9,18 @@
         <input v-model="content" type="textarea" id="content" class="form-control" >
         <hr>
         <label for="content" class="grey-text" style="margin:10px">이미지 저장</label> <br>
+        <input type="file" class="form-control" accept="image/jpeg, image/jpg" id="inputGroupFile02" @change="previewImage">
+        <div v-if="imageData != null">
+          <div class="display-3" align="center" justify="center">
+            <img class="preview" height="268" width="80%" :src="img1">
+          </div>
+        </div>
+        <hr>
+        <div>
+          <label for="example-datepicker" class="grey-text" style="margin:10px" >날짜 선택</label>
+          <b-datepicker id="example-datepicker" v-model="date" class="mb-2 dateSelect"></b-datepicker>
+          {{date}}
+        </div>
         <hr>
         <label for="content" class="grey-text" style="margin:10px">위치 지정하기</label>
         <input v-model="geo" class="form-control" type="text" placeholder="Search" aria-label="Search" />
@@ -24,7 +36,7 @@
             @load="onLoad"
         >
         </vue-daum-map>
-        <b-button @click="addMemory">저장하기</b-button>
+        <b-button @click="onUpload()">저장하기</b-button>
       </div>
     </b-sidebar>
   </div>
@@ -54,6 +66,7 @@ export default {
       markers: [],
       markersInMap: [],
       geo: '',
+      date: '',
 
       fbCollection: 'memory',
       userInfo: {},
@@ -90,19 +103,19 @@ export default {
             self.userInfo = snapshot.data();
           })
     },
-    addMemory(){
+    addMemory() {
       const self = this;         // self를 쓰는 이유는 바깥의 this들과 햇갈리지 않기 위해서
       const db = firebase.firestore();
-      const now = new Date();
+      const timestamp = new Date(self.date + " 00:00:00");
       const marker = new firebase.firestore.GeoPoint(this.lat, this.long);
       // const firestore.GeoPoint = require('geopoint')
       const _data = {            // data()에 있는 데이터가 바로 들어갈 수 없다.
         title: self.title,
         content: self.content,
-        date: now,
+        date: timestamp,
         userId: self.$store.state.user.uid,
         // marker: self.marker,
-        image:[],
+        image: self.img1,
         marker: marker,
         user: {
           name: this.userInfo.name,
@@ -115,11 +128,38 @@ export default {
             alert("저장되었습니다")
             location.reload();
           })  // 성공하면 무엇을 할건지 정하면 된다/ 이 코드에선 alert가 실행된다
-
           .catch((e) => {          // 실패하면 catch가 실행된다. e는 errer의 약자
             console.log(e)
             alert("저장에 실패했습니다.")
           })
+    },
+    previewImage(event) {
+      this.uploadValue = 0;
+      this.img1 = null;
+      this.imageData = event.target.files[0];
+      console.log(this.imageData)
+      // this.onUpload()
+    },
+    onUpload() {
+      this.img1 = null;
+      const storageRef = firebase
+          .storage()
+          .ref(`${this.currentUser}`)
+          .child(`${this.imageData.name}`)
+          .put(this.imageData);
+      storageRef.on(`state_changed`, snapshot => {
+            this.uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          }, error => {
+            console.log(error.message);
+          }, () => {
+            this.uploadValue = 100;
+            storageRef.snapshot.ref.getDownloadURL().then((url) => {
+              this.img1 = url;
+              console.log(this.img1);
+              this.addMemory();
+            });
+          }
+      );
     },
     onLoad(map, daum) {
       this.map = map;
@@ -140,23 +180,23 @@ export default {
         marker.setPosition(latlng);
 
         // this.changeLatLng();
-        this.lat  = latlng.getLat();
+        this.lat = latlng.getLat();
         this.long = latlng.getLng();
         console.log(this.lat)
       });
     },
-    searchGeo(geo){
+    searchGeo(geo) {
 
       const ps = new kakao.maps.services.Places();
-      console.log('11',kakao.maps.services)
+      console.log('11', kakao.maps.services)
       ps.keywordSearch(geo, placesSearchCB);
-      console.log('22',ps.keywordSearch)
-      const map=this.map
+      console.log('22', ps.keywordSearch)
+      const map = this.map
 
-      function placesSearchCB (data,status) {
-        console.log('33',map)
-        console.log('44',kakao.maps.services)
-        console.log('55',map.setBounds)
+      function placesSearchCB(data, status) {
+        console.log('33', map)
+        console.log('44', kakao.maps.services)
+        console.log('55', map.setBounds)
 
         if (status === kakao.maps.services.Status.OK) {
 
@@ -187,6 +227,9 @@ export default {
 }
 #addMap{
 
+}
+.dateSelect{
+  height: 20px;
 }
 </style>
 

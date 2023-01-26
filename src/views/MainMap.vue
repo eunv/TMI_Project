@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="z-index: 100; position: absolute">
-      <Detail v-if="modal" @closeModal ="modal = false" :items="items" :modal="modal"/>
+      <Detail v-if="modal" @closeModal ="modal = false" :items="items" :obj="obj" :modal="modal"/>
     </div>
     <div>
       <b-navbar toggleable="lg" type="dark" style="background-color: #a3b2d6; height: 55px">
@@ -23,7 +23,7 @@
         </b-collapse>
       </b-navbar>
     </div>
-    <MainSideBar @changeLat="center.lat=$event" @changeLng="center.lng=$event" :centerLat="centerLat" :centerLng="centerLng"></MainSideBar>
+    <MainSideBar @closeModal="modal = false" @changeLat="center.lat=$event" @changeLng="center.lng=$event" :modal="modal"></MainSideBar>
     <vue-daum-map
         :appKey="appkey"
         :center.sync="center"
@@ -31,7 +31,7 @@
         :mapTypeId="mapTypeId"
         :libraries="libraries"
         @load="onLoad"
-        style="width:100%;height:100vh;  position: fixed"
+        style="width:100%;height:100vh;position: fixed;"
     >
     </vue-daum-map>
   </div>
@@ -72,11 +72,11 @@ export default {
       makerOn: false,
       items: [],
       modal : false,
-
+      obj: {},
     }
   },
-  async mounted() {
-    await this.getDataList()
+  mounted() {
+    this.getDataList()
   },
   methods: {
     openModal() {
@@ -129,10 +129,10 @@ export default {
         }
       }
     },
-    async getDataList() {
+    getDataList() {
       const self = this;
       const db = firebase.firestore();
-      await db.collection(self.fbCollection)
+      db.collection(self.fbCollection)
           .where("userId", "==", this.userId)
           .get()
           .then((querySnapshot) => {
@@ -142,11 +142,26 @@ export default {
             querySnapshot.forEach((doc) => {
               const _data = doc.data();
               _data.id = doc.id //각 유저 필드에 따로 id값이 없지만 유저 고유 id를 불로올 수 있음
+              const date = new Date(_data.date.seconds * 1000);
+              _data.date = getDate(date);
               // console.log(_data.marker._lat)
               // console.log(_data.marker._long)
               this.sendFromAppLatLngMarker(_data.marker._lat, _data.marker._long, _data)
             });
           })
+      const getDate = (date, separated = '-', notFullYear = false) => {
+        if (date instanceof Date) {
+          let year = date.getFullYear()
+          let month = date.getMonth() + 1
+          let day = date.getDate()
+
+          if (notFullYear) year = year.toString().slice(2, 4)
+          if (month < 10) month = `0${month}`
+          if (day < 10) day = `0${day}`
+
+          return `${year}${separated}${month}${separated}${day}`
+        } else return '';
+      }
     },
     sendFromAppLatLngMarker(lat, long, data) {
       const self = this;
@@ -170,17 +185,24 @@ export default {
         position: markerPosition
       });
       mappingData[data.id] = {marker,data}
-      const obj = mappingData[data.id];
+      const obj1 = mappingData[data.id];
       self.items.push(mappingData[data.id])
       self.markersInMap.push(marker)
       // 마커에 click 이벤트를 등록합니다
       kakao.maps.event.addListener(marker, 'click', function() {
+          console.log("선택~",obj1.data.content)
+          console.log("itmes",self.items)
 
-          console.log("선택~")
-
-          console.log(obj)
-          console.log("itmes")
-          console.log(self.items)
+        self.obj = {
+            content: obj1.data.content,
+          code: obj1.data.code,
+          id: obj1.data.id,
+          image: obj1.data.image,
+          title: obj1.data.title,
+          user: obj1.data.user,
+          userId: obj1.data.userId,
+          date: obj1.data.date
+        }
           self.modal = true
         self.openModal()
         // }
@@ -210,7 +232,7 @@ div {
   box-sizing: border-box;
 }
 .black-bg {
-  width: 45%; height: 50%;
+  width: 55%; height: 50%;
   background: rgba(0,0,0,0.5);
   position: fixed; padding: 20px;
   left:30%;

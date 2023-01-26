@@ -3,10 +3,10 @@
     <div class="white-bg">
     <p class="h4 text-center mb-4">Sign in</p>
     <label for="idIn" class="grey-text" >Your id</label>
-    <input type="text" id="idIn" class="form-control" v-model = "id"/>
+    <input type="text" id="idIn" class="form-control" v-model = "id">
     <br />
     <label for="pwIn" class="grey-text">Your password</label>
-    <input type="password" id="pwIn" class="form-control" v-model = "password"/>
+    <input type="password" id="pwIn" class="form-control" v-model = "password" v-on:keypress.enter.prevent=login>
     <div class="text-center mt-4">
       <button class="btn btn-indigo" type="submit" @click="login">Login</button>
       <button class="btn btn-indigo" type="submit" @click="goMain">뒤로가기</button>
