@@ -16,6 +16,12 @@
           </div>
         </div>
         <hr>
+        <div>
+          <label for="example-datepicker" class="grey-text" style="margin:10px" >날짜 선택</label>
+          <b-datepicker id="example-datepicker" v-model="date" class="mb-2 dateSelect"></b-datepicker>
+          {{date}}
+        </div>
+        <hr>
         <label for="content" class="grey-text" style="margin:10px">위치 지정하기</label>
         <input v-model="geo" class="form-control" type="text" placeholder="Search" aria-label="Search" />
         <b-button  @click="searchGeo(geo)" class="moveBtn btn-mdb-color" >이동</b-button>
@@ -60,6 +66,7 @@ export default {
       markers: [],
       markersInMap: [],
       geo: '',
+      date: '',
 
       fbCollection: 'memory',
       userInfo: {},
@@ -99,13 +106,13 @@ export default {
     addMemory() {
       const self = this;         // self를 쓰는 이유는 바깥의 this들과 햇갈리지 않기 위해서
       const db = firebase.firestore();
-      const now = new Date();
+      const timestamp = new Date(self.date + " 00:00:00");
       const marker = new firebase.firestore.GeoPoint(this.lat, this.long);
       // const firestore.GeoPoint = require('geopoint')
       const _data = {            // data()에 있는 데이터가 바로 들어갈 수 없다.
         title: self.title,
         content: self.content,
-        date: now,
+        date: timestamp,
         userId: self.$store.state.user.uid,
         // marker: self.marker,
         image: self.img1,
@@ -220,6 +227,9 @@ export default {
 }
 #addMap{
 
+}
+.dateSelect{
+  height: 20px;
 }
 </style>
 
