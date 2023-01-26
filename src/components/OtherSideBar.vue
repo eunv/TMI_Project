@@ -16,7 +16,8 @@
             <tbody>
             <tr @click="$emit('changeLat', memoryList.marker._lat), $emit('changeLng', memoryList.marker._long)" v-for="(memoryList,i) in memoryList" :key="i">
               <td>{{memoryList.date}}<br> {{memoryList.title}}</td>
-              <td>{{memoryList.image}}</td></tr>
+              <td><img class="img1" :src="memoryList.image" /></td></tr>
+
             </tbody>
           </table>
         </div>
@@ -168,6 +169,14 @@ export default {
   position: absolute;
   left:120px;
   top: 90%;
+}
+.img1 {
+  /*width: auto; height: auto;*/
+  max-width: 100px;
+  max-height: 100px;
+  /*width: 600px;*/
+  /*height: 600px;*/
+  object-fit: cover;
 }
 
 </style>
