@@ -23,7 +23,7 @@
         </b-collapse>
       </b-navbar>
     </div>
-    <MainSideBar @changeLat="center.lat=$event" @changeLng="center.lng=$event"></MainSideBar>
+    <MainSideBar @closeModal="modal = false" @changeLat="center.lat=$event" @changeLng="center.lng=$event" :modal="modal"></MainSideBar>
     <vue-daum-map
         :appKey="appkey"
         :center.sync="center"
