@@ -8,8 +8,8 @@
           </h4>
         </div>
 
-        <div>
-          <table class="table" border="1" style="margin-left: auto; margin-right: auto;">
+        <div class="listTable" style="margin-bottom: 50px">
+          <table class="table" border="1" style="margin-left: auto; margin-right: auto; margin-bottom: 50px">
             <thead>
             <tr>
             </tr>
@@ -17,9 +17,9 @@
             <tbody>
             <tr @click="$emit('changeLat', memoryList.marker._lat), $emit('changeLng', memoryList.marker._long)" v-for="(memoryList,i) in memoryList" :key="i">
               <td>
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="defaultUnchecked" name="list[]">
-                  <label class="custom-control-label" for="defaultUnchecked"></label>
+                <div v-if="deleteCheck == true" class="custom-control custom-checkbox">
+                  <input v-model="arr" type="checkbox" class="custom-control-input" :id="i" name="list[]" :value="memoryList.id" >
+                  <label class="custom-control-label" :for="i"></label>
                 </div>
               </td>
               <td>{{memoryList.date}}<br> {{memoryList.title}}</td>
@@ -38,6 +38,9 @@
 <!--      <b-button v-b-toggle.sidebar-2 id="sidebar_openBtn">subPage</b-button>-->
       <b-icon v-b-toggle.sidebar-2 id="sidebar_openBtn" icon="person-fill" font-scale="1.5" class="goMypage"></b-icon>
       <b-icon v-b-toggle.sidebar-3 id="sidebar_openBtn" icon="plus-lg" font-scale="1.5" class="goAddMemory"></b-icon>
+      <b-icon @click="onCheck" id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="deleteCheck"></b-icon>
+      <b-button v-if="deleteCheck == true" @click="deleteList" variant="danger" class="deleteBtn"> 삭제하기 </b-button>
+      <b-button v-if="deleteCheck == true" @click="offCheck" variant="primary" class="cancelBtn"> 취소하기 </b-button>
       <button @click="logout" class="logOutBtn btn-outline-light-blue" >
         <b-icon icon="power" aria-hidden="true"></b-icon> Logout
       </button>
@@ -65,7 +68,9 @@ export default {
       whatData : false,
       modalWindow : false,
       lat1: this.moveLat,
-      long1: this.moveLong
+      long1: this.moveLong,
+      deleteCheck: false,
+      arr: [],
     }
   },
   mounted() {
@@ -80,6 +85,12 @@ export default {
     },
     changeCenter(){
       this.$emit("changeCenter", this.memoryList.marker._lat)
+    },
+    onCheck(){
+      this.deleteCheck = true;
+    },
+    offCheck(){
+      this.deleteCheck = false;
     },
     getData() {
       const self = this;
@@ -127,6 +138,19 @@ export default {
         } else return '';
       }
     },
+    deleteList(){
+      const self = this;
+      for(let i=0; i<this.arr.length; i++) {
+        const db = firebase.firestore();
+        db.collection("memory")
+            .doc(this.arr[i])
+            .delete()
+            .then(() => {
+              alert("삭제 완료")
+              self.$router.go();
+            })
+      }
+    },
     logout() {
       firebase.auth().signOut()
       this.$router.push('/')
@@ -145,10 +169,28 @@ export default {
   position: absolute;
   z-index:2;
   font-size: 15px;
+  width: 100px;
+  height: 40px;
+  left: 60%;
+  top: 5%;
+}
+.deleteBtn{
+  position: absolute;
+  z-index:2;
+  font-size: 15px;
+  width: 130px;
+  height: 40px;
+  left: 1%;
+  top: 93%;
+}
+.cancelBtn{
+  position: absolute;
+  z-index:2;
+  font-size: 15px;
   width: 130px;
   height: 40px;
   left: 50%;
-  top: 95%;
+  top: 93%;
 }
 .goMypage {
   position: absolute;
@@ -160,6 +202,11 @@ export default {
   left:120px;
   top: 90%;
 }
+.deleteCheck{
+  position: absolute;
+  left:230px;
+  top: 90%;
+}
 .img1 {
   /*width: auto; height: auto;*/
   max-width: 100px;
@@ -167,6 +214,9 @@ export default {
   /*width: 600px;*/
   /*height: 600px;*/
   object-fit: cover;
+}
+.listTable {
+  height: 100px;
 }
 </style>
 
