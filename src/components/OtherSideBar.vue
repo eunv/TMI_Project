@@ -24,7 +24,7 @@
       </div>
       <div class="px-3 py-2 dataFalse" v-if="whatData">
         <p>
-          추억을 남겨보세요
+          아직 등록하지 않았어요!
         </p>
       </div>
       <b-icon @click="goMyMap" id="sidebar_openBtn" icon="house" font-scale="1.5" class="goMypage"></b-icon>

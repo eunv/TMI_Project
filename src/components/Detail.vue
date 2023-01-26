@@ -75,8 +75,8 @@ img {
 }
 .title1 {
   position: absolute;
-  top: 20%;
-  left: 50%;
+  top: 100px;
+  left: 400px;
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
@@ -84,16 +84,16 @@ img {
 }
 .content1 {
   position: absolute;
-  top: 30%;
-  left: 50%;
+  top: 150px;
+  left: 400px;
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
-  line-height: 20px;
+  line-height: 20px
 }
 .editButton {
   position: absolute;
-  top:10%;
-  left: 90%;
+  top:40px;
+  left: 730px;
 }
 </style>
