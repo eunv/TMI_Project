@@ -48,6 +48,7 @@ import Detail from "@/components/Detail.vue";
 export default {
   name: 'mainMap',
   components: {VueDaumMap, OtherSideBar, Detail },
+
   data() {
     return {
       appkey: 'f486e714c436dbd1f7761ca8d96e43c8',
