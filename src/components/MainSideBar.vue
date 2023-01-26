@@ -16,9 +16,15 @@
             </thead>
             <tbody>
             <tr @click="$emit('changeLat', memoryList.marker._lat), $emit('changeLng', memoryList.marker._long)" v-for="(memoryList,i) in memoryList" :key="i">
+              <td>
+                <div v-if="deleteCheck == true" class="custom-control custom-checkbox">
+                  <input v-model="arr" type="checkbox" class="custom-control-input" :id="i" name="list[]" :value="memoryList.id" >
+                  <label class="custom-control-label" :for="i"></label>
+                </div>
+              </td>
               <td>{{memoryList.date}}<br> {{memoryList.title}}</td>
-                <td><img class="img1" :src="memoryList.image" /></td></tr>
-
+              <td><img class="img1" :src="memoryList.image" /></td>
+            </tr>
             </tbody>
           </table>
         </div>
@@ -31,7 +37,10 @@
 <!--      <b-button v-b-toggle.sidebar-2 id="sidebar_openBtn">subPage</b-button>-->
       <b-icon v-b-toggle.sidebar-2 id="sidebar_openBtn" icon="person-fill" font-scale="1.5" class="goMypage"></b-icon>
       <b-icon v-b-toggle.sidebar-3 id="sidebar_openBtn" icon="plus-lg" font-scale="1.5" class="goAddMemory"></b-icon>
-      <button @click="logout" class="logOutBtn btn-outline-light-blue" >
+      <b-icon @click="onCheck" id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="deleteCheck"></b-icon>
+      <b-button v-if="deleteCheck == true" @click="deleteList" variant="danger" class="deleteBtn"> 삭제하기 </b-button>
+      <b-button v-if="deleteCheck == true" @click="offCheck" variant="primary" class="cancelBtn"> 취소하기 </b-button>
+      <button @click="logout" class="logOutBtn btn-outline-mdb-color" >
         <b-icon icon="power" aria-hidden="true"></b-icon> Logout
       </button>
       <MyPage></MyPage>
@@ -58,7 +67,9 @@ export default {
       whatData : false,
       modalWindow : false,
       lat1: this.moveLat,
-      long1: this.moveLong
+      long1: this.moveLong,
+      deleteCheck: false,
+      arr: [],
     }
   },
   mounted() {
@@ -73,6 +84,12 @@ export default {
     },
     changeCenter(){
       this.$emit("changeCenter", this.memoryList.marker._lat)
+    },
+    onCheck(){
+      this.deleteCheck = true;
+    },
+    offCheck(){
+      this.deleteCheck = false;
     },
     getData() {
       const self = this;
@@ -103,7 +120,7 @@ export default {
           _data.date = getDate(date);
           self.memoryList.push(_data);
           // console.log(self.memoryList)
-          // console.log(self.memore)
+          // console.log(self.memory)
           });
       })
       const getDate = (date, separated = '-', notFullYear = false) => {
@@ -118,6 +135,19 @@ export default {
 
           return `${year}${separated}${month}${separated}${day}`
         } else return '';
+      }
+    },
+    deleteList(){
+      const self = this;
+      for(let i=0; i<this.arr.length; i++) {
+        const db = firebase.firestore();
+        db.collection("memory")
+            .doc(this.arr[i])
+            .delete()
+            .then(() => {
+              alert("삭제 완료")
+              self.$router.go();
+            })
       }
     },
     logout() {
@@ -138,10 +168,28 @@ export default {
   position: absolute;
   z-index:2;
   font-size: 15px;
+  width: 100px;
+  height: 35px;
+  left: 3%;
+  top: 1%;
+}
+.deleteBtn{
+  position: absolute;
+  z-index:2;
+  font-size: 15px;
+  width: 130px;
+  height: 40px;
+  left: 1%;
+  top: 93%;
+}
+.cancelBtn{
+  position: absolute;
+  z-index:2;
+  font-size: 15px;
   width: 130px;
   height: 40px;
   left: 50%;
-  top: 95%;
+  top: 93%;
 }
 .goMypage {
   position: absolute;
@@ -151,6 +199,11 @@ export default {
 .goAddMemory {
   position: absolute;
   left:120px;
+  top: 90%;
+}
+.deleteCheck{
+  position: absolute;
+  left:230px;
   top: 90%;
 }
 .img1 {
