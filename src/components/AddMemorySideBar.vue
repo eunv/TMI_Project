@@ -30,7 +30,7 @@
             @load="onLoad"
         >
         </vue-daum-map>
-        <b-button @click="addMemory">저장하기</b-button>
+        <b-button @click="onUpload()">저장하기</b-button>
       </div>
     </b-sidebar>
   </div>
@@ -130,6 +130,7 @@ export default {
       this.uploadValue = 0;
       this.img1 = null;
       this.imageData = event.target.files[0];
+      console.log(this.imageData)
       // this.onUpload()
     },
     onUpload() {
@@ -148,6 +149,7 @@ export default {
             storageRef.snapshot.ref.getDownloadURL().then((url) => {
               this.img1 = url;
               console.log(this.img1);
+              this.addMemory();
             });
           }
       );
