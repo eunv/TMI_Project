@@ -72,6 +72,7 @@ export default {
       items: [],
       modal : false,
       obj: {},
+      otherMap: true,
     }
   },
   mounted() {

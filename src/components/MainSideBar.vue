@@ -4,12 +4,12 @@
       <div class="px-3 py-2">
         <div>
           <h4>
-            {{ userInfo.nickName }}'s Map
+            {{userInfo.nickName}}'s Map
           </h4>
         </div>
 
-        <div class="listTable" style="width:100%; height:630px; overflow:auto">
-          <table class="table" border="1" style="margin-left: auto; margin-right: auto; margin-bottom: 50px">
+        <div>
+          <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
             <thead>
             <tr>
             </tr>
@@ -30,22 +30,20 @@
             </tbody>
           </table>
         </div>
-
       </div>
       <div class="px-3 py-2 dataFalse" v-if="whatData">
         <p>
           추억을 남겨보세요
         </p>
       </div>
-      <!--      <b-button v-b-toggle.sidebar-2 id="sidebar_openBtn">subPage</b-button>-->
+<!--      <b-button v-b-toggle.sidebar-2 id="sidebar_openBtn">subPage</b-button>-->
       <b-icon v-b-toggle.sidebar-2 id="sidebar_openBtn" icon="person-fill" font-scale="1.5" class="goMypage"></b-icon>
       <b-icon v-b-toggle.sidebar-3 id="sidebar_openBtn" icon="plus-lg" font-scale="1.5" class="goAddMemory"></b-icon>
       <b-icon @click="onCheck" id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="deleteCheck"></b-icon>
-      <b-button v-if="deleteCheck == true" @click="deleteList" variant="danger" class="deleteBtn"> 삭제하기</b-button>
-      <b-button v-if="deleteCheck == true" @click="offCheck" variant="primary" class="cancelBtn"> 취소하기</b-button>
-      <button @click="logout" class="logOutBtn btn-outline-light-blue">
-        <b-icon icon="power" aria-hidden="true"></b-icon>
-        Logout
+      <b-button v-if="deleteCheck == true" @click="deleteList" variant="danger" class="deleteBtn"> 삭제하기 </b-button>
+      <b-button v-if="deleteCheck == true" @click="offCheck" variant="primary" class="cancelBtn"> 취소하기 </b-button>
+      <button @click="logout" class="logOutBtn btn-outline-light-blue" >
+        <b-icon icon="power" aria-hidden="true"></b-icon> Logout
       </button>
       <MyPage></MyPage>
       <AddMemorySideBar></AddMemorySideBar>
@@ -182,12 +180,11 @@ export default {
   z-index: 2;
   font-size: 15px;
   width: 100px;
-  height: 40px;
-  left: 60%;
-  top: 5%;
+  height: 35px;
+  left: 3%;
+  top: 1%;
 }
-
-.deleteBtn {
+.deleteBtn{
   position: absolute;
   z-index: 2;
   font-size: 15px;
@@ -196,8 +193,7 @@ export default {
   left: 1%;
   top: 93%;
 }
-
-.cancelBtn {
+.cancelBtn{
   position: absolute;
   z-index: 2;
   font-size: 15px;
@@ -206,25 +202,21 @@ export default {
   left: 50%;
   top: 93%;
 }
-
 .goMypage {
   position: absolute;
   left: 10px;
   top: 90%;
 }
-
 .goAddMemory {
   position: absolute;
   left: 120px;
   top: 90%;
 }
-
 .deleteCheck {
   position: absolute;
   left: 230px;
   top: 90%;
 }
-
 .img1 {
   /*width: auto; height: auto;*/
   max-width: 100px;
@@ -233,7 +225,6 @@ export default {
   /*height: 600px;*/
   object-fit: cover;
 }
-
 table {
   height: 20px;
 }
