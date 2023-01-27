@@ -10,11 +10,6 @@
         <hr>
         <label for="content" class="grey-text" style="margin:10px">이미지 저장</label> <br>
         <input type="file" class="form-control" ref="fileInput" accept="image/jpeg, image/jpg" id="inputGroupFile02"  multiple>
-        <div v-if="imageData != null">
-          <div class="display-3" align="center" justify="center">
-            <img class="preview" height="268" width="80%" :src="img1">
-          </div>
-        </div>
         <hr>
         <div>
           <label for="example-datepicker" class="grey-text" style="margin:10px" >날짜 선택</label>
