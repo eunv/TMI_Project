@@ -18,12 +18,7 @@
         <h5 class="date1">{{memory.date}}</h5>
         <img :src="memory.image" />
 <!--        <label for="content" class="grey-text" style="margin:10px">이미지 저장</label> <br>-->
-        <input type="file" class="form-control imgSelect" accept="image/jpeg, image/jpg" id="inputGroupFile02" @change="previewImage">
-        <div v-if="imageData != null">
-          <div class="display-3" align="center" justify="center">
-            <img class="preview preImg" height="268" width="80%" :src="img1">
-          </div>
-        </div>
+        <input type="file" class="form-control imgSelect" ref="fileInput" accept="image/jpeg, image/jpg" id="inputGroupFile02" multiple/>
         <label for="title" class="grey-text labelTag1" style="margin:10px">제목</label>
         <input  v-model="memory.title" type="text" id="title" class="form-control inputTag1" >
         <label for="content" class="grey-text labelTag2" style="margin:10px">내용</label>
@@ -48,7 +43,7 @@ export default {
       fbCollection: "memory",
       owner: true,
       caption : '',
-      img1: '',
+      img1: [],
       imageData: null
     }
   },
@@ -105,33 +100,44 @@ export default {
       }
 
     },
-    previewImage(event) {
-      this.uploadValue = 0;
-      this.img1 = null;
-      this.imageData = event.target.files[0];
-      console.log(this.imageData)
-      // this.onUpload()
-    },
+    // previewImage(event) {
+    //   this.uploadValue = 0;
+    //   this.img1 = null;
+    //   this.imageData = event.target.files[0];
+    //   console.log(this.imageData)
+    //   // this.onUpload()
+    // },
     onUpload() {
-      this.img1 = null;
-      const storageRef = firebase
-          .storage()
-          .ref(`${this.currentUser}`)
-          .child(`${this.imageData.name}`)
-          .put(this.imageData);
-      storageRef.on(`state_changed`, snapshot => {
-            this.uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          }, error => {
-            console.log(error.message);
-          }, () => {
-            this.uploadValue = 100;
-            storageRef.snapshot.ref.getDownloadURL().then((url) => {
-              this.img1 = url;
-              console.log(this.img1);
-              this.confirm();
-            });
-          }
-      );
+      const files = this.$refs.fileInput.files
+      if(files.length >= 1) {
+        for (let i = 0; i < files.length; i++) {
+          this.imageData = files[i]
+          const storageRef = firebase
+              .storage()
+              .ref(`${this.currentUser}`)
+              .child(`${this.imageData.name}`)
+              .put(this.imageData);
+          storageRef.on(`state_changed`, snapshot => {
+                this.uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              }, error => {
+                console.log(error.message);
+              }, () => {
+                this.uploadValue = 100;
+                storageRef.snapshot.ref.getDownloadURL().then((url) => {
+                  this.img1.push(url);
+                  if (i == files.length - 1) {
+                    this.confirm();
+                  }
+                  console.log(this.img1);
+                });
+              }
+          );
+        }
+      }
+      else{
+        this.img1 = this.memory.image
+        this.confirm()
+      }
     },
 
   }
