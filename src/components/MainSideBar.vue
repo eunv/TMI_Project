@@ -8,7 +8,7 @@
           </h4>
         </div>
 
-        <div class="listTable" style="width:100%; height:630px; overflow:auto">
+        <div class="listTable" style="width:100%; height:640px; overflow:auto">
           <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
             <thead>
             <tr>
@@ -174,7 +174,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .logOutBtn {
   position: absolute;
   z-index: 2;
@@ -228,5 +228,6 @@ export default {
 table {
   height: 20px;
 }
+
 </style>
 

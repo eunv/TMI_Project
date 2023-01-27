@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="backgroundImg">
+    <img class="backgroundImg" src="@/assets/images/bgPhoto.jpg">
     <div class = "title">
       <h2><span class = "text-red">T</span>rip</h2>
       <h2><span class = "text-red">M</span>emory</h2>
@@ -9,7 +10,7 @@
 
     <h3>추억을 한 눈에 보고 싶을 때</h3>
     <button class = "loginButton white" @click="googleLoginBtn">Sign in with Google</button>
-    <img class = "googleImg" src = "../assets/images/googleImage.png">
+    <img class = "googleImg" src = "@/assets/images/googleImage.png">
 
     <router-link to="login" class="loginLink">로그인</router-link>
     <router-link to="signUp" class="signUpLink">회원가입</router-link>
@@ -70,11 +71,12 @@ export default {
 }
 </script>
 
-<style>
-body {
-  background-image: url("../assets/images/bgPhoto.jpg");
+<style scoped>
+.backgroundImg {
+  /*background-image: url("../assets/images/bgPhoto.jpg");*/
   background-color:rgba(0, 0, 0, 0.5);
-  background-size: cover;
+  height: 100vh;
+  width: 100%;
 }
 a {
   text-decoration:none;
@@ -106,11 +108,11 @@ h2{
   line-height: 59px;
 }
 hr {
-  display: none;
   position: absolute;
   left: 37%;
   top: 74%;
   height: 3px;
+  color: white;
 }
 h3{
   position: absolute;
