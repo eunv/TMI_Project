@@ -1,7 +1,9 @@
 <template>
   <div>
     <div style="z-index: 100; position: absolute">
-      <Detail v-if="modal" @closeModal ="modal = false" :items="items" :obj="obj" :modal="modal"/>
+      <transition name="fade">
+        <Detail v-if="modal" @closeModal ="modal = false" :items="items" :obj="obj" :modal="modal"/>
+      </transition>
     </div>
     <div>
       <b-navbar toggleable="lg" type="dark" style="background-color: #a3b2d6; height: 55px">
