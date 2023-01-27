@@ -8,10 +8,10 @@
           <b-icon id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="editButton" @click="goEdit"></b-icon>
         </div>
 
-        <h5>{{memory.date}}</h5>
+        <h5 class="date1">{{memory.date}}</h5>
         <h5 class="title1" >제목: {{memory.title}}</h5>
         <h5 class="content1 ">{{memory.content}}</h5>
-        <img :src="memory.image" />
+        <img class="img2" :src="memory.image" />
       </div>
 <!--      수정버튼을 누르면 수정페이지 출력-->
       <div v-if="edit == true ">
@@ -107,16 +107,22 @@ body {
   margin : 0;
 }
 
-.black-bg {
-  width: 50%; height: 50%;
-  background: rgba(0,0,0,0.5);
-  position: absolute; padding: 20px;
-}
+/*.black-bg {*/
+/*  width: 100%; height: 100%;*/
+/*  background: rgba(0,0,0,0.5);*/
+/*  position: absolute; padding: 20px;*/
+/*}*/
 .white-bg {
-  width: 100%; background: white;
-  height: 100%;
+  width: 700px; background: white;
+  height: 500px;
   border-radius: 8px;
-  padding: 20px;
+  position: absolute;
+
+  top: 50%;
+
+  left: 60%;
+
+  transform: translate(-50%, -50%);
 }
 .closeBtn {
   position: absolute;
@@ -127,7 +133,16 @@ img {
   width: 300px;
   height: 300px;
   object-fit: cover;
-  /*margin: 20px;*/
+  margin: 20px;
+}
+.date1 {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+}
+.img2 {
+  position: absolute;
+  top: 20px;
 }
 .title1 {
   position: absolute;

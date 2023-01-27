@@ -173,7 +173,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #sidebar-2 {
   left: 320px;
   z-index:10;

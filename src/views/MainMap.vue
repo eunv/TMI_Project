@@ -1,7 +1,9 @@
 <template>
   <div>
     <div style="z-index: 100; position: absolute">
-      <Detail v-if="modal" @closeModal ="modal = false" :items="items" :obj="obj" :modal="modal"/>
+      <transition name="fade">
+        <Detail v-if="modal" @closeModal ="modal = false" :items="items" :obj="obj" :modal="modal"/>
+      </transition>
     </div>
     <div>
       <b-navbar toggleable="lg" type="dark" style="background-color: #a3b2d6; height: 55px">
@@ -217,7 +219,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 #mainMap {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -231,12 +233,14 @@ body {
 div {
   box-sizing: border-box;
 }
+.img1{
+  top: 10px
+}
 .black-bg {
-  width: 55%; height: 50%;
+  width: 100%; height: 100%;
   background: rgba(0,0,0,0.5);
   position: fixed; padding: 20px;
-  left:30%;
-  top:23%;
+
 }
 .white-bg {
   width: 50%; background: white;
