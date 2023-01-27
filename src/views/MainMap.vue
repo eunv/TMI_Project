@@ -232,17 +232,15 @@ div {
   box-sizing: border-box;
 }
 .black-bg {
-  width: 55%; height: 50%;
+  width: 100%; height: 100%;
   background: rgba(0,0,0,0.5);
   position: fixed; padding: 20px;
-  left:30%;
-  top:23%;
 }
-.white-bg {
-  width: 50%; background: white;
-  border-radius: 8px;
-  padding: 20px;
-}
+/*.white-bg {*/
+/*  width: 50%; background: white;*/
+/*  border-radius: 8px;*/
+/*  padding: 20px;*/
+/*}*/
 .modalShow{
   position: absolute;
   z-index:3;

@@ -152,7 +152,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .logOutBtn {
   position: absolute;
   z-index: 2;

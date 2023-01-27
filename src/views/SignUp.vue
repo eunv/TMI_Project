@@ -204,7 +204,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 body {
   background-image: url("../assets/images/bgPhoto.jpg");
   background-size: cover;

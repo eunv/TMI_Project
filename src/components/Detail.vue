@@ -8,14 +8,14 @@
           <b-icon id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="editButton" @click="goEdit"></b-icon>
         </div>
 
-        <h5>{{memory.date}}</h5>
+        <h5 class="date1">{{memory.date}}</h5>
         <h5 class="title1" >제목: {{memory.title}}</h5>
         <h5 class="content1 ">{{memory.content}}</h5>
         <img :src="memory.image" />
       </div>
 <!--      수정버튼을 누르면 수정페이지 출력-->
       <div v-if="edit == true ">
-        <h5>{{memory.date}}</h5>
+        <h5 class="date1">{{memory.date}}</h5>
         <img :src="memory.image" />
 <!--        <label for="content" class="grey-text" style="margin:10px">이미지 저장</label> <br>-->
         <input type="file" class="form-control imgSelect" accept="image/jpeg, image/jpg" id="inputGroupFile02" @change="previewImage">
@@ -140,26 +140,30 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 #detail{
-  position: absolute;
-  z-index : 100;
-  height: 50%;
+  /*position: absolute;*/
+  /*z-index : 100;*/
+  /*height: 50%;*/
 }
 body {
   margin : 0;
 }
 
-.black-bg {
-  width: 50%; height: 50%;
-  background: rgba(0,0,0,0.5);
-  position: absolute; padding: 20px;
-}
+/*.black-bg {*/
+/*  width: 100%; height: 100vh;*/
+/*  background: rgba(0,0,0,0.5);*/
+/*  position: absolute; padding: 20px;*/
+/*}*/
+
 .white-bg {
-  width: 100%; background: white;
-  height: 100%;
+  width: 700px; background: white;
+  height: 500px;
   border-radius: 8px;
-  padding: 20px;
+  position: absolute;
+  top: 50%;
+  left: 60%;
+  transform: translate(-50%, -50%);
 }
 .closeBtn {
   position: absolute;
@@ -169,8 +173,10 @@ body {
 img {
   width: 300px;
   height: 300px;
-  object-fit: cover;
-  /*margin: 20px;*/
+  /*object-fit: cover;*/
+  position: absolute;
+  top: 45px;
+  left: 20px;
 }
 .title1 {
   position: absolute;
@@ -192,51 +198,58 @@ img {
 }
 .editButton {
   position: absolute;
-  top:40px;
-  left: 730px;
+  top:25px;
+  left: 600px;
 }
 .labelTag1 {
   position: absolute;
   top:100px;
-  left: 400px;
+  left: 350px;
   width: 600px;
 }
 .inputTag1 {
   position: absolute;
   top:150px;
-  left: 400px;
-  width: 600px;
+  left: 350px;
+  width: 300px;
 }
 .labelTag2 {
   position: absolute;
   top:200px;
-  left: 400px;
-  width: 600px;
+  left: 350px;
+  width: 300px;
 }
 .inputTag2 {
   position: absolute;
   top:250px;
-  left: 400px;
-  width: 600px;
+  left: 350px;
+  width: 300px;
 }
 .no {
   position: absolute;
-  top:90%;
-  left:650px;
+  top:450px;
+  left:350px;
 }
 .ok {
   position: absolute;
-  top:90%;
-  left:600px;
+  top:450px;
+  left:300px;
 }
 .imgSelect {
-  /*position:absolute;*/
+  position:absolute;
   width: 300px;
+  top:350px;
+  left: 20px;
 }
 .preImg {
   position: absolute;
   z-index: 3;
   top:72px;
   left:40px;
+}
+.date1 {
+  position: absolute;
+  top: 10px;
+  left: 20px;
 }
 </style>

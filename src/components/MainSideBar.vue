@@ -174,7 +174,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .logOutBtn {
   position: absolute;
   z-index: 2;
@@ -228,5 +228,6 @@ export default {
 table {
   height: 20px;
 }
+
 </style>
 

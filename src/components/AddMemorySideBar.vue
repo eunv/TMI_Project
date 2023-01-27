@@ -9,7 +9,7 @@
         <input v-model="content" type="textarea" id="content" class="form-control" >
         <hr>
         <label for="content" class="grey-text" style="margin:10px">이미지 저장</label> <br>
-        <input type="file" class="form-control" accept="image/jpeg, image/jpg" id="inputGroupFile02" @change="previewImage">
+        <input type="file" class="form-control" ref="fileInput" accept="image/jpeg, image/jpg" id="inputGroupFile02"  multiple>
         <div v-if="imageData != null">
           <div class="display-3" align="center" justify="center">
             <img class="preview" height="268" width="80%" :src="img1">
@@ -27,13 +27,13 @@
         <b-button  @click="searchGeo(geo)" class="moveBtn btn-mdb-color" >이동</b-button>
 
         <vue-daum-map id="addMap"
-            :appKey="appkey"
-            :center.sync="center"
-            :level.sync="level"
-            :mapTypeId="mapTypeId"
-            :libraries="libraries"
-            style="width:100%; height:30vh;"
-            @load="onLoad"
+                      :appKey="appkey"
+                      :center.sync="center"
+                      :level.sync="level"
+                      :mapTypeId="mapTypeId"
+                      :libraries="libraries"
+                      style="width:100%; height:30vh;"
+                      @load="onLoad"
         >
         </vue-daum-map>
         <b-button @click="onUpload()">저장하기</b-button>
@@ -80,7 +80,7 @@ export default {
       long: 0.0,
 
       caption : '',
-      img1: '',
+      img1: [],
       imageData: null
     }
   },
@@ -133,33 +133,39 @@ export default {
             alert("저장에 실패했습니다.")
           })
     },
-    previewImage(event) {
-      this.uploadValue = 0;
-      this.img1 = null;
-      this.imageData = event.target.files[0];
-      console.log(this.imageData)
-      // this.onUpload()
-    },
+    // previewImage(event) {
+    //   this.uploadValue = 0;
+    //   this.img1 = null;
+    //   this.imageData = event.target.files[0];
+    //   console.log(this.imageData)
+    //   // this.onUpload()
+    // },
     onUpload() {
-      this.img1 = null;
-      const storageRef = firebase
-          .storage()
-          .ref(`${this.currentUser}`)
-          .child(`${this.imageData.name}`)
-          .put(this.imageData);
-      storageRef.on(`state_changed`, snapshot => {
-            this.uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          }, error => {
-            console.log(error.message);
-          }, () => {
-            this.uploadValue = 100;
-            storageRef.snapshot.ref.getDownloadURL().then((url) => {
-              this.img1 = url;
-              console.log(this.img1);
-              this.addMemory();
-            });
-          }
-      );
+      const files = this.$refs.fileInput.files
+      for (let i = 0; i < files.length; i++) {
+        this.imageData = files[i]
+        const storageRef = firebase
+            .storage()
+            .ref(`${this.currentUser}`)
+            .child(`${this.imageData.name}`)
+            .put(this.imageData);
+        storageRef.on(`state_changed`, snapshot => {
+              this.uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            }, error => {
+              console.log(error.message);
+            }, () => {
+              this.uploadValue = 100;
+              storageRef.snapshot.ref.getDownloadURL().then((url) => {
+                this.img1.push(url);
+                if(i == files.length-1){
+                  this.addMemory();
+                }
+                console.log(this.img1);
+              });
+            }
+        );
+      }
+
     },
     onLoad(map, daum) {
       this.map = map;
@@ -220,8 +226,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #sidebar-3{
+  position: absolute;
   left: 320px;
   width: 400px;
 }
@@ -232,4 +239,3 @@ export default {
   height: 20px;
 }
 </style>
-
