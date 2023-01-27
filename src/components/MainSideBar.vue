@@ -174,17 +174,7 @@ export default {
 }
 </script>
 
-<style>
-#sidebar-2 {
-  left: 320px;
-  z-index:10;
-  background: white;
-  width: 400px;
-}
-#sidebar-3{
-  left: 320px;
-  width: 400px;
-}
+<style scoped>
 .logOutBtn {
   position: absolute;
   z-index: 2;
@@ -238,5 +228,6 @@ export default {
 table {
   height: 20px;
 }
+
 </style>
 

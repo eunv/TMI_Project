@@ -219,7 +219,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #mainMap {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -233,20 +233,16 @@ body {
 div {
   box-sizing: border-box;
 }
-.img1{
-  top: 10px
-}
 .black-bg {
   width: 100%; height: 100%;
   background: rgba(0,0,0,0.5);
   position: fixed; padding: 20px;
-
 }
-.white-bg {
-  width: 50%; background: white;
-  border-radius: 8px;
-  padding: 20px;
-}
+/*.white-bg {*/
+/*  width: 50%; background: white;*/
+/*  border-radius: 8px;*/
+/*  padding: 20px;*/
+/*}*/
 .modalShow{
   position: absolute;
   z-index:3;

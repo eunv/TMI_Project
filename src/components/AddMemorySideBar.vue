@@ -27,13 +27,13 @@
         <b-button  @click="searchGeo(geo)" class="moveBtn btn-mdb-color" >이동</b-button>
 
         <vue-daum-map id="addMap"
-            :appKey="appkey"
-            :center.sync="center"
-            :level.sync="level"
-            :mapTypeId="mapTypeId"
-            :libraries="libraries"
-            style="width:100%; height:30vh;"
-            @load="onLoad"
+                      :appKey="appkey"
+                      :center.sync="center"
+                      :level.sync="level"
+                      :mapTypeId="mapTypeId"
+                      :libraries="libraries"
+                      style="width:100%; height:30vh;"
+                      @load="onLoad"
         >
         </vue-daum-map>
         <b-button @click="onUpload()">저장하기</b-button>
@@ -140,7 +140,7 @@ export default {
     //   console.log(this.imageData)
     //   // this.onUpload()
     // },
-     onUpload() {
+    onUpload() {
       const files = this.$refs.fileInput.files
       for (let i = 0; i < files.length; i++) {
         this.imageData = files[i]
@@ -228,6 +228,7 @@ export default {
 
 <style scoped>
 #sidebar-3{
+  position: absolute;
   left: 320px;
   width: 400px;
 }
