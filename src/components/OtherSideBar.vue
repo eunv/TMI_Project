@@ -155,12 +155,12 @@ export default {
 <style>
 .logOutBtn {
   position: absolute;
-  z-index:2;
+  z-index: 2;
   font-size: 15px;
   width: 100px;
-  height: 40px;
-  left: 60%;
-  top: 5%;
+  height: 35px;
+  left: 3%;
+  top: 1%;
 }
 .goMypage {
   position: absolute;
