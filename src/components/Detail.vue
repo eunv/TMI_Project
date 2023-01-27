@@ -17,12 +17,19 @@
       <div v-if="edit == true ">
         <h5>{{memory.date}}</h5>
         <img :src="memory.image" />
+<!--        <label for="content" class="grey-text" style="margin:10px">이미지 저장</label> <br>-->
+        <input type="file" class="form-control imgSelect" accept="image/jpeg, image/jpg" id="inputGroupFile02" @change="previewImage">
+        <div v-if="imageData != null">
+          <div class="display-3" align="center" justify="center">
+            <img class="preview preImg" height="268" width="80%" :src="img1">
+          </div>
+        </div>
         <label for="title" class="grey-text labelTag1" style="margin:10px">제목</label>
         <input  v-model="memory.title" type="text" id="title" class="form-control inputTag1" >
         <label for="content" class="grey-text labelTag2" style="margin:10px">내용</label>
         <input v-model="memory.content" type="text" id="content" class="form-control inputTag2" >
         <button class="no btn-outline-mdb-color" @click="endEdit">취소</button>
-        <button class="ok btn-outline-mdb-color" @click="confirm">수정</button>
+        <button class="ok btn-outline-mdb-color" @click="onUpload">수정</button>
 
       </div>
     </div>
@@ -40,6 +47,9 @@ export default {
       edit: false,
       fbCollection: "memory",
       owner: true,
+      caption : '',
+      img1: '',
+      imageData: null
     }
   },
   watch : {
@@ -69,13 +79,18 @@ export default {
       const _data = {
         title: self.memory.title,
         content: self.memory.content,
+        image: self.img1,
       }
       db.collection(self.fbCollection)
           .doc(self.memory.id)
           .set(_data, {merge: true} )
           .then(() => {
             alert("수정되었습니다.")
-            self.$router.go();
+            location.reload();
+          })
+          .catch((e) => {
+            console.log(e)
+            alert("수정에 실패했습니다.")
           })
     },
     ownerCheck() {
@@ -89,6 +104,34 @@ export default {
         console.log("주인아님")
       }
 
+    },
+    previewImage(event) {
+      this.uploadValue = 0;
+      this.img1 = null;
+      this.imageData = event.target.files[0];
+      console.log(this.imageData)
+      // this.onUpload()
+    },
+    onUpload() {
+      this.img1 = null;
+      const storageRef = firebase
+          .storage()
+          .ref(`${this.currentUser}`)
+          .child(`${this.imageData.name}`)
+          .put(this.imageData);
+      storageRef.on(`state_changed`, snapshot => {
+            this.uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          }, error => {
+            console.log(error.message);
+          }, () => {
+            this.uploadValue = 100;
+            storageRef.snapshot.ref.getDownloadURL().then((url) => {
+              this.img1 = url;
+              console.log(this.img1);
+              this.confirm();
+            });
+          }
+      );
     },
 
   }
@@ -185,5 +228,15 @@ img {
   position: absolute;
   top:90%;
   left:600px;
+}
+.imgSelect {
+  /*position:absolute;*/
+  width: 300px;
+}
+.preImg {
+  position: absolute;
+  z-index: 3;
+  top:72px;
+  left:40px;
 }
 </style>
