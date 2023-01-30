@@ -15,7 +15,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr @click="$emit('changeLat', memoryList.marker._lat), $emit('changeLng', memoryList.marker._long), $emit('closeModal')"
+            <tr @click="$emit('changeLat', memoryList.marker._lat), $emit('changeLng', memoryList.marker._long), $emit('closeModal'), $emit('moveLoc') "
                 v-for="(memoryList,i) in memoryList" :key="i">
               <td>
                 <div v-if="deleteCheck == true" class="custom-control custom-checkbox">
@@ -36,7 +36,7 @@
           추억을 남겨보세요
         </p>
       </div>
-<!--      <b-button v-b-toggle.sidebar-2 id="sidebar_openBtn">subPage</b-button>-->
+      <!--      <b-button v-b-toggle.sidebar-2 id="sidebar_openBtn">subPage</b-button>-->
       <b-icon v-b-toggle.sidebar-2 id="sidebar_openBtn" icon="person-fill" font-scale="1.5" class="goMypage"></b-icon>
       <b-icon v-b-toggle.sidebar-3 id="sidebar_openBtn" icon="plus-lg" font-scale="1.5" class="goAddMemory"></b-icon>
       <b-icon @click="onCheck" id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="deleteCheck"></b-icon>
@@ -204,17 +204,17 @@ export default {
 }
 .goMypage {
   position: absolute;
-  left: 10px;
+  left: 10%;
   top: 90%;
 }
 .goAddMemory {
   position: absolute;
-  left: 120px;
+  left: 48%;
   top: 90%;
 }
 .deleteCheck {
   position: absolute;
-  left: 230px;
+  left: 85%;
   top: 90%;
 }
 .img1 {
@@ -230,4 +230,3 @@ table {
 }
 
 </style>
-

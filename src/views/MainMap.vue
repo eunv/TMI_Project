@@ -1,7 +1,9 @@
 <template>
   <div>
     <div style="z-index: 100; position: absolute">
-      <Detail v-if="modal" @closeModal ="modal = false" :items="items" :obj="obj" :modal="modal"/>
+      <transition name="fade">
+        <Detail v-if="modal" @closeModal ="modal = false" :items="items" :obj="obj" :modal="modal"/>
+      </transition>
     </div>
     <div>
       <b-navbar toggleable="lg" type="dark" style="background-color: #a3b2d6; height: 55px">
@@ -23,7 +25,7 @@
         </b-collapse>
       </b-navbar>
     </div>
-    <MainSideBar @closeModal="modal = false" @changeLat="center.lat=$event" @changeLng="center.lng=$event" :modal="modal"></MainSideBar>
+    <MainSideBar @moveLoc="moveLoc" @closeModal="modal = false" @changeLat="center.lat=$event" @changeLng="center.lng=$event" :modal="modal"></MainSideBar>
     <vue-daum-map
         :appKey="appkey"
         :center.sync="center"
@@ -79,6 +81,11 @@ export default {
     this.getDataList()
   },
   methods: {
+    moveLoc() {
+      const moveLatLon = new kakao.maps.LatLng(this.center.lat, this.center.lng);
+
+      this.map.panTo(moveLatLon)
+    },
     openModal() {
       this.modal = true
     },
@@ -190,11 +197,11 @@ export default {
       self.markersInMap.push(marker)
       // 마커에 click 이벤트를 등록합니다
       kakao.maps.event.addListener(marker, 'click', function() {
-          console.log("선택~",obj1.data.content)
-          console.log("itmes",self.items)
+        console.log("선택~",obj1.data.content)
+        console.log("itmes",self.items)
 
         self.obj = {
-            content: obj1.data.content,
+          content: obj1.data.content,
           code: obj1.data.code,
           id: obj1.data.id,
           image: obj1.data.image,
@@ -203,7 +210,7 @@ export default {
           userId: obj1.data.userId,
           date: obj1.data.date
         }
-          self.modal = true
+        self.modal = true
         self.openModal()
         // }
         // 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
@@ -231,57 +238,4 @@ body {
 div {
   box-sizing: border-box;
 }
-.black-bg {
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
-  position: fixed; padding: 20px;
-}
-/*.white-bg {*/
-/*  width: 50%; background: white;*/
-/*  border-radius: 8px;*/
-/*  padding: 20px;*/
-/*}*/
-.modalShow{
-  position: absolute;
-  z-index:3;
-  width: 88px;
-  height: 35px;
-  left: 62%;
-  top: 5%;
-}
-#map {
-  width: 100%;
-  height: 100vh;
-}
-.sideOpenBtn{
-  position: absolute;
-  z-index:2;
-  /*left: 42%;*/
-  /*top: 85%;*/
-}
-.searchInput {
-  position: absolute;
-  z-index:2;
-  width: 500px;
-  height: 40px;
-  left: 40%;
-  top: 2%;
-}
-.moveBtn {
-  position: absolute;
-  z-index:3;
-  width: 88px;
-  height: 35px;
-  left: 62%;
-  top: 2%;
-}
-.detailView{
-  position: absolute;
-  z-index:100;
-  width: 100%;
-  height: 100vh;
-  left: 62%;
-  top: 5%;
-}
-
 </style>
