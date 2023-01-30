@@ -167,11 +167,6 @@ export default {
   left:10px;
   top:90%;
 }
-.goAddMemory {
-  position: absolute;
-  left:120px;
-  top: 90%;
-}
 .img1 {
   /*width: auto; height: auto;*/
   max-width: 100px;

@@ -25,10 +25,10 @@
         </b-collapse>
       </b-navbar>
     </div>
-    <MainSideBar @closeModal="modal = false" @changeLat="center.lat=$event" @changeLng="center.lng=$event" :modal="modal"></MainSideBar>
+    <MainSideBar @moveLoc="moveLoc" @closeModal="modal = false" @changeLat="center.lat=$event" @changeLng="center.lng=$event" :modal="modal"></MainSideBar>
     <vue-daum-map
         :appKey="appkey"
-        :center.sync="center"
+        :center="center"
         :level.sync="level"
         :mapTypeId="mapTypeId"
         :libraries="libraries"
@@ -81,6 +81,11 @@ export default {
     this.getDataList()
   },
   methods: {
+    moveLoc() {
+      const moveLatLon = new kakao.maps.LatLng(this.center.lat, this.center.lng);
+
+      this.map.panTo(moveLatLon)
+    },
     openModal() {
       this.modal = true
     },

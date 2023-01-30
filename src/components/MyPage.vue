@@ -1,6 +1,6 @@
 <template>
-  <div style="position: relative">
-    <b-sidebar no-slide id="sidebar-2" shadow>
+  <div class="sidebar2" style="position: relative">
+    <b-sidebar no-slide class=" sidebar2" id="sidebar-2" shadow>
       <div class="px-3 py-2">
 
         <h4><b style="margin: 10px">{{userInfo.nickName}}</b></h4>
@@ -174,9 +174,8 @@ export default {
 </script>
 
 <style scoped>
-#sidebar-2 {
+.sidebar2 {
   position: absolute;
-  left: 320px;
   z-index:10;
   background: white;
   width: 400px;

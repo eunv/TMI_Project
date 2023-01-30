@@ -15,7 +15,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr @click="$emit('changeLat', memoryList.marker._lat), $emit('changeLng', memoryList.marker._long), $emit('closeModal')"
+            <tr @click="$emit('changeLat', memoryList.marker._lat), $emit('changeLng', memoryList.marker._long), $emit('closeModal'), $emit('moveLoc') "
                 v-for="(memoryList,i) in memoryList" :key="i">
               <td>
                 <div v-if="deleteCheck == true" class="custom-control custom-checkbox">
