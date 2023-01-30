@@ -1,7 +1,7 @@
 <template>
   <div v-if="modal == true" class="black-bg">
     <div class="white-bg">
-<!--      수정버튼을 누르지 않았으면 상세페이지 출력-->
+      <!--      수정버튼을 누르지 않았으면 상세페이지 출력-->
       <div v-if="edit == false">
         <button class="closeBtn" @click="$emit('closeModal')">닫기</button>
         <div v-if="owner == true">
@@ -13,11 +13,11 @@
         <h5 class="content1 ">{{memory.content}}</h5>
         <img :src="memory.image" />
       </div>
-<!--      수정버튼을 누르면 수정페이지 출력-->
+      <!--      수정버튼을 누르면 수정페이지 출력-->
       <div v-if="edit == true ">
         <h5 class="date1">{{memory.date}}</h5>
         <img :src="memory.image" />
-<!--        <label for="content" class="grey-text" style="margin:10px">이미지 저장</label> <br>-->
+        <!--        <label for="content" class="grey-text" style="margin:10px">이미지 저장</label> <br>-->
         <input type="file" class="form-control imgSelect" ref="fileInput" accept="image/jpeg, image/jpg" id="inputGroupFile02" multiple/>
         <label for="title" class="grey-text labelTag1" style="margin:10px">제목</label>
         <input  v-model="memory.title" type="text" id="title" class="form-control inputTag1" >
@@ -246,12 +246,6 @@ img {
   width: 300px;
   top:350px;
   left: 20px;
-}
-.preImg {
-  position: absolute;
-  z-index: 3;
-  top:72px;
-  left:40px;
 }
 .date1 {
   position: absolute;
