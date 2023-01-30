@@ -88,14 +88,14 @@ export default {
             alert("수정에 실패했습니다.")
           })
     },
-    ownerCheck() {
+    ownerCheck() {    //자신의 맵인지 다른사람의 맵인지 체크하는 함수
       const self = this;
-      if(self.$store.state.user.uid === self.memory.userId){
-        self.owner = true
+      if(self.$store.state.user.uid === self.memory.userId){    //store의 user.uid와 현재 맵의 userId(uid)가 같다면
+        self.owner = true     //자신의 맵
         console.log("주인임")
       }
-      else {
-        self.owner = false
+      else {      //다르다면
+        self.owner = false    //다른사람의 맵
         console.log("주인아님")
       }
 
@@ -156,11 +156,11 @@ body {
   margin : 0;
 }
 
-/*.black-bg {*/
-/*  width: 100%; height: 100vh;*/
-/*  background: rgba(0,0,0,0.5);*/
-/*  position: absolute; padding: 20px;*/
-/*}*/
+.black-bg {
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  position: fixed; padding: 20px;
+}
 
 .white-bg {
   width: 700px; background: white;
