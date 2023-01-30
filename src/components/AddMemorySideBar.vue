@@ -13,8 +13,8 @@
         <hr>
         <div>
           <label for="example-datepicker" class="grey-text" style="margin:10px" >날짜 선택</label>
-          <date-picker v-model="date" valueType="format"></date-picker>
-<!--          {{date}}-->
+          <date-picker  v-model="date" valueType="format"></date-picker>
+<!--          <b-datepicker id="example-datepicker" v-model="date" class="mb-2 dateSelect"></b-datepicker>-->
         </div>
         <hr>
         <label for="content" class="grey-text" style="margin:10px">위치 지정하기</label>
@@ -44,12 +44,13 @@ import {firebase} from "@/firebase/firebaseConfig";
 // import geofire from 'geofire';
 import 'firebase/storage'
 import VueDaumMap from "vue-daum-map";
+
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 
 export default {
   name: 'addMemorySideBar',
-  components: {VueDaumMap,DatePicker},
+  components: {VueDaumMap, DatePicker},
   data() {
     return {
       appkey: 'f486e714c436dbd1f7761ca8d96e43c8',
@@ -232,11 +233,5 @@ export default {
   position: absolute;
   left: 320px;
   width: 400px;
-}
-#addMap{
-
-}
-.dateSelect{
-  height: 20px;
 }
 </style>
