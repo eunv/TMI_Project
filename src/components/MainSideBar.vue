@@ -125,6 +125,11 @@ export default {
               // console.log(self.memoryList)
               // console.log(self.memore)
             });
+            for(var i=0; i<self.memoryList.length; i++) {
+              self.memoryList.sort(function(a,b) {
+                return new Date(b.date)-new Date(a.date)
+              })
+            }
           })
       const getDate = (date, separated = '-', notFullYear = false) => {
         if (date instanceof Date) {
