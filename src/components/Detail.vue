@@ -65,7 +65,6 @@ export default {
   },
   mounted() {
     this.ownerCheck()
-    console.log('111', this.memory.image)
   },
   methods: {
     goEdit() {
@@ -229,8 +228,8 @@ img {
 }
 .editButton {
   position: absolute;
-  top:25px;
-  left: 600px;
+  top:20px;
+  left: 650px;
 }
 .labelTag1 {
   position: absolute;

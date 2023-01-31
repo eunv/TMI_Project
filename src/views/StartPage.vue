@@ -1,6 +1,6 @@
 <template>
   <div class="backgroundImg">
-    <!--    <img class="backgroundImg" src="@/assets/images/bgPhoto.jpg">-->
+    <img class="backgroundImg" src="@/assets/images/bgPhoto.jpg">
     <div class = "title">
       <h2><span class = "text-red">T</span>rip</h2>
       <h2><span class = "text-red">M</span>emory</h2>

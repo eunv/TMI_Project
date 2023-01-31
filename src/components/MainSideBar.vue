@@ -1,55 +1,53 @@
 <template>
   <div>
-    <div style="">
-      <b-sidebar id="sidebar-1" shadow>
-        <div class="px-3 py-2">
-          <div>
-            <h4>
-              {{userInfo.nickName}}'s Map
-            </h4>
-          </div>
+    <b-sidebar id="sidebar-1" shadow>
+      <div class="px-3 py-2">
+        <div>
+          <h4>
+            {{userInfo.nickName}}'s Map
+          </h4>
+        </div>
 
-          <div class="listTable" style="width:100%; height:78vh; overflow:auto">
-            <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
-              <thead>
-              <tr>
-              </tr>
-              </thead>
-              <tbody>
-              <tr @click="$emit('changeLat', memoryList.marker._lat), $emit('changeLng', memoryList.marker._long), $emit('closeModal'), $emit('moveLoc') "
-                  v-for="(memoryList,i) in memoryList" :key="i">
-                <td>
-                  <div v-if="deleteCheck == true" class="custom-control custom-checkbox">
-                    <input v-model="arr" type="checkbox" class="custom-control-input" :id="i" name="list[]"
-                           :value="memoryList.id">
-                    <label class="custom-control-label" :for="i"></label>
-                  </div>
-                </td>
-                <td>{{ memoryList.date }}<br> {{ memoryList.title }}</td>
-                <td><img class="img1" :src="memoryList.image"/></td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="listTable" style="width:100%; height:78vh; overflow:auto">
+          <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
+            <thead>
+            <tr>
+            </tr>
+            </thead>
+            <tbody>
+            <tr @click="$emit('changeLat', memoryList.marker._lat), $emit('changeLng', memoryList.marker._long), $emit('closeModal'), $emit('moveLoc') "
+                v-for="(memoryList,i) in memoryList" :key="i">
+              <td>
+                <div v-if="deleteCheck == true" class="custom-control custom-checkbox">
+                  <input v-model="arr" type="checkbox" class="custom-control-input" :id="i" name="list[]"
+                         :value="memoryList.id">
+                  <label class="custom-control-label" :for="i"></label>
+                </div>
+              </td>
+              <td>{{ memoryList.date }}<br> {{ memoryList.title }}</td>
+              <td><img class="img1" :src="memoryList.image"/></td>
+            </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="px-3 py-2 dataFalse" v-if="whatData">
-          <p>
-            추억을 남겨보세요
-          </p>
-        </div>
-  <!--      <b-button v-b-toggle.sidebar-2 id="sidebar_openBtn">subPage</b-button>-->
-        <b-icon v-b-toggle.sidebar-2 id="sidebar_openBtn" icon="person-fill" font-scale="1.5" class="goMypage"></b-icon>
-        <b-icon v-b-toggle.sidebar-3 id="sidebar_openBtn" icon="plus-lg" font-scale="1.5" class="goAddMemory"></b-icon>
-        <b-icon @click="onCheck" id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="deleteCheck"></b-icon>
-        <b-button v-if="deleteCheck == true" @click="deleteList" variant="danger" class="deleteBtn"> 삭제하기 </b-button>
-        <b-button v-if="deleteCheck == true" @click="offCheck" variant="primary" class="cancelBtn"> 취소하기 </b-button>
-        <button @click="logout" class="logOutBtn btn-outline-light-blue" >
-          <b-icon icon="power" aria-hidden="true"></b-icon> Logout
-        </button>
-        <MyPage></MyPage>
-        <AddMemorySideBar></AddMemorySideBar>
-      </b-sidebar>
-    </div>
+      </div>
+      <div class="px-3 py-2 dataFalse" v-if="whatData">
+        <p>
+          추억을 남겨보세요
+        </p>
+      </div>
+      <!--      <b-button v-b-toggle.sidebar-2 id="sidebar_openBtn">subPage</b-button>-->
+      <b-icon v-b-toggle.sidebar-2 id="sidebar_openBtn" icon="person-fill" font-scale="1.5" class="goMypage"></b-icon>
+      <b-icon v-b-toggle.sidebar-3 id="sidebar_openBtn" icon="plus-lg" font-scale="1.5" class="goAddMemory"></b-icon>
+      <b-icon @click="onCheck" id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="deleteCheck"></b-icon>
+      <b-button v-if="deleteCheck == true" @click="deleteList" variant="danger" class="deleteBtn"> 삭제하기 </b-button>
+      <b-button v-if="deleteCheck == true" @click="offCheck" variant="primary" class="cancelBtn"> 취소하기 </b-button>
+      <button @click="logout" class="logOutBtn btn-outline-light-blue" >
+        <b-icon icon="power" aria-hidden="true"></b-icon> Logout
+      </button>
+      <MyPage></MyPage>
+      <AddMemorySideBar></AddMemorySideBar>
+    </b-sidebar>
   </div>
 </template>
 
@@ -127,6 +125,11 @@ export default {
               // console.log(self.memoryList)
               // console.log(self.memore)
             });
+            for(var i=0; i<self.memoryList.length; i++) {
+              self.memoryList.sort(function(a,b) {
+                return new Date(b.date)-new Date(a.date)
+              })
+            }
           })
       const getDate = (date, separated = '-', notFullYear = false) => {
         if (date instanceof Date) {
@@ -206,17 +209,17 @@ export default {
 }
 .goMypage {
   position: absolute;
-  left: 10px;
+  left: 10%;
   top: 90%;
 }
 .goAddMemory {
   position: absolute;
-  left: 120px;
+  left: 48%;
   top: 90%;
 }
 .deleteCheck {
   position: absolute;
-  left: 230px;
+  left: 85%;
   top: 90%;
 }
 .img1 {
@@ -232,4 +235,3 @@ table {
 }
 
 </style>
-

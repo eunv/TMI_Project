@@ -93,7 +93,7 @@ export default {
             if(self.userInfo.otherCode.length> 1) {
               self.connCode = true
             }
-            for(var i = 0; i < self.userInfo.otherCode.length; i++) {
+            for(var i = 0; i < self.userInfo.otherCode.length; i++) {   //otherCodes에 자신의 입장코드를 제외한 다른사람들의 입장코드를 저장
               if(self.userInfo.otherCode[i] != self.userInfo.code) {
                 self.otherCodes.push(self.userInfo.otherCode[i])
               }
@@ -101,7 +101,7 @@ export default {
 
           })
     },
-    confirmEdit() {
+    confirmEdit() {   //버튼 클릭시 수정된 유저정보가 firebase에 저장됨
       const self = this;
       const db = firebase.firestore();
 
@@ -118,7 +118,7 @@ export default {
             alert("수정 완료!")
           })
     },
-    codeInput() {
+    codeInput() {   //입장코드 등록 함수
       const self = this;
       const db = firebase.firestore();
       // const _data = {
@@ -142,7 +142,7 @@ export default {
           })
 
     },
-    goOtherMap(otherCode){
+    goOtherMap(otherCode){    //다른사람 맵으로 이동
       localStorage.otherCode = otherCode
       this.$router.push('/otherMap')
     },
@@ -179,9 +179,13 @@ export default {
   z-index:10;
   background: white;
   width: 400px;
+  margin-left: 350px;
 }
 .input-line {
   display: flex;
   height: 38px;
+}
+b-sidebar {
+  margin-left: 350px;
 }
 </style>
