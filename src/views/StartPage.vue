@@ -1,6 +1,5 @@
 <template>
   <div class="backgroundImg">
-    <img class="backgroundImg" src="@/assets/images/bgPhoto.jpg">
     <div class = "title">
       <h2><span class = "text-red">T</span>rip</h2>
       <h2><span class = "text-red">M</span>emory</h2>
@@ -9,8 +8,10 @@
     <hr align = "center" width = "550px" color="white"/>
 
     <h3>추억을 한 눈에 보고 싶을 때</h3>
-    <button class = "loginButton white" @click="googleLoginBtn">Sign in with Google</button>
+    <button class = "googleLoginButton white btn-outline-white" @click="googleLogin">Sign in with Google</button>
+    <button class = "kakaoLoginButton btn-outline-yellow" @click="kakaoLogin">Sign in with kakao</button>
     <img class = "googleImg" src = "@/assets/images/googleImage.png">
+    <img class = "kakaoImg" src = "@/assets/images/kakaologo.png">
 
     <router-link to="login" class="loginLink">로그인</router-link>
     <router-link to="signUp" class="signUpLink">회원가입</router-link>
@@ -28,7 +29,7 @@ export default {
     }
   },
   methods: {
-    googleLoginBtn() {
+    googleLogin() {
       const self = this;
       const db = firebase.firestore();
       const provider = new firebase.auth.GoogleAuthProvider();
@@ -42,7 +43,7 @@ export default {
         const user = result.user;
         console.log(user);
         db.collection(self.fbCollection)
-            .where("googleId",'==',user.email)
+            .where("gmail",'==',user.email)
             .get()
             .then((querySnapshot) => {
               if (querySnapshot.size === 0) {
@@ -67,16 +68,36 @@ export default {
         // ...
       });
     },
+    kakaoLogin() {
+      const self = this;
+      window.Kakao.Auth.login({
+        scope: 'account_email',   //동의 항목
+        success: self.getKakaoAccount
+      });
+    },
+    getKakaoAccount() {
+      window.Kakao.API.request({
+        url: '/v2/user/me',
+        success: res => {
+          const kakao_account = res.kakao_account;
+          console.log(kakao_account);
+        },
+        fail: error => {
+          console.log(error)
+        }
+      })
+    }
   },
 }
 </script>
 
 <style scoped>
 .backgroundImg {
-  /*background-image: url("../assets/images/bgPhoto.jpg");*/
+  background-image: url("../assets/images/startBackground.jpg");
   background-color:rgba(0, 0, 0, 0.5);
   height: 100vh;
   width: 100%;
+  background-size: cover;
 }
 a {
   text-decoration:none;
@@ -89,14 +110,13 @@ a {
   /*width: 35%;*/
   /*height: 40%;*/
   left: 30%;
-  top: 300px;
+  top: 21vh;
 
   /*font-family: 'Roboto';*/
   font-style: normal;
   font-weight: 700;
   font-size: 500px;
   line-height: 59px;
-
   color: #FFFFFF;
 
   text-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25);
@@ -109,15 +129,15 @@ h2{
 }
 hr {
   position: absolute;
-  left: 37%;
-  top: 74%;
+  left: 36.5%;
+  top: 38vh;
   height: 3px;
-  color: white;
+  color: #ffffff;
 }
 h3{
   position: absolute;
   left: 46%;
-  top: 70%;
+  top: 40%;
   font-style: normal;
   font-weight: 500;
   font-size: 27px;
@@ -125,14 +145,14 @@ h3{
   line-height: 59px;
 }
 .text-red {
-  color: red;
+  color: rgba(105, 120, 168, 0.99);
 }
-.loginButton{
+.googleLoginButton{
   position: absolute;
   width: 350px;
   height: 60px;
   left: 41%;
-  top: 78%;
+  top: 78vh;
   font-size:23px;
   line-height: 50px;
   text-align: center;
@@ -141,10 +161,31 @@ h3{
   /*border: solid 2px grey;*/
   border-radius: 12px;
 }
+.kakaoLoginButton {
+  position: absolute;
+  width: 350px;
+  height: 60px;
+  left: 41%;
+  top: 73vh;
+  font-size:23px;
+  line-height: 50px;
+  text-align: center;
+  background: #fdd101;
+  color: saddlebrown;
+  /*border: solid 2px grey;*/
+  border-radius: 12px;
+}
 .googleImg {
   position: absolute;
   left: 42%;
   top: 78.8%;
+  width: 40px;
+  height: 40px;
+}
+.kakaoImg {
+  position: absolute;
+  left: 42%;
+  top: 73.8%;
   width: 40px;
   height: 40px;
 }
