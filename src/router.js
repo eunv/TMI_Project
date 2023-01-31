@@ -56,6 +56,16 @@ const router = new Router({
       component: () => import('./views/SignUp'),
     },
     {
+      path: '/signUp/google',
+      name: 'GoogleSignUp',
+      component: () => import('./views/GoogleSignUp'),
+    },
+    {
+      path: '/signUp/kakao',
+      name: 'KakaoSignUp',
+      component: () => import('./views/KakaoSignUp.vue'),
+    },
+    {
       path: '/otherMap',
       name: 'OtherMap',
       component: () => import('./views/OtherMap.vue'),
