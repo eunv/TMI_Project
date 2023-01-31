@@ -4,9 +4,9 @@
       <div class="px-3 py-2">
 
         <h4><b style="margin: 10px">{{userInfo.nickName}}</b></h4>
-        <b-button size="sm" @click="confirmEdit">
+        <button class="btn-mdb-color" @click="confirmEdit">
           <b-icon icon="pencil-fill" aria-hidden="true"></b-icon> Settings
-        </b-button>
+        </button>
 <!--        <b-icon icon="pencil-fill" font-scale="1" @click="editInfo"></b-icon>-->
         <hr>
 
@@ -25,7 +25,6 @@
           <div class="px-3 py-2 dataFalse" v-if="connCode">
             <div v-for = "otherCode in otherCodes" :key = "otherCode"  style="margin:10px">
               {{otherCode}} <button @click="goOtherMap(otherCode)" class="btn-outline-light-blue">입장</button>
-
             </div>
           </div>
           <div v-else>
@@ -39,7 +38,6 @@
               <input v-model="codeAdd" type="text" id="otherCode" class="form-control">
               <button class="btn-outline-light-blue" @click="codeInput" style="width: 50px;">등록</button>
             </div>
-
           </div>
           <hr/>
           <div>
@@ -108,7 +106,7 @@ export default {
       const _data = {
         name: self.userInfo.name,
         phoneNum: self.userInfo.phoneNum,
-        googleId: self.userInfo.googleId,
+        gmail: self.userInfo.gmail,
 
       }
       db.collection(self.fbCollection)

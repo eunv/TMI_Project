@@ -32,21 +32,24 @@
         </div>
       </div>
       <div class="px-3 py-2 dataFalse" v-if="whatData">
-        <p style="margin-bottom: 100vh">
+        <p>
           추억을 남겨보세요
         </p>
       </div>
       <!--      <b-button v-b-toggle.sidebar-2 id="sidebar_openBtn">subPage</b-button>-->
-      <b-icon v-b-toggle.sidebar-2 v-show="cantOpen3 == true" id="sidebar_openBtn" icon="person-fill" font-scale="1.5" class="goMypage"></b-icon>
-      <b-icon v-b-toggle.sidebar-3 id="sidebar_openBtn" icon="plus-lg" font-scale="1.5" class="goAddMemory"></b-icon>
+
+      <b-icon @click="goMypage" v-b-toggle.sidebar-2 id="sidebar_openBtn" icon="person-fill" font-scale="1.5" class="goMypage" ref="imMypage"></b-icon>
+      <div v-if="imMypage">
+        <MyPage></MyPage>
+      </div>
+      <b-icon @click="goAddmemory" v-b-toggle.sidebar-3 id="sidebar_openBtn" icon="plus-lg" font-scale="1.5" class="goAddMemory" ref="imAddmemory"></b-icon>
+      <div v-if="imAddmemory">
+        <AddMemorySideBar></AddMemorySideBar>
+      </div>
       <b-icon @click="onCheck" id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="deleteCheck"></b-icon>
       <b-button v-if="deleteCheck == true" @click="deleteList" variant="danger" class="deleteBtn"> 삭제하기 </b-button>
       <b-button v-if="deleteCheck == true" @click="offCheck" variant="primary" class="cancelBtn"> 취소하기 </b-button>
-      <button @click="logout" class="logOutBtn btn-outline-light-blue" >
-        <b-icon icon="power" aria-hidden="true"></b-icon> Logout
-      </button>
-      <MyPage v-if="cant"></MyPage>
-      <AddMemorySideBar></AddMemorySideBar>
+
     </b-sidebar>
   </div>
 </template>
@@ -72,7 +75,8 @@ export default {
       long1: this.moveLong,
       deleteCheck: false,
       arr: [],
-      cantOpen3: false,
+      imMypage: false,
+      imAddmemory: false,
     }
   },
   mounted() {
@@ -84,6 +88,14 @@ export default {
       const self = this;
       self.getData();
       self.getDatalist();
+    },
+    goMypage() {
+      this.imMypage = !this.imMypage
+      this.imAddmemory = false;
+    },
+    goAddmemory() {
+      this.imAddmemory= !this.imAddmemory
+      this.imMypage = false;
     },
     changeCenter() {
       this.$emit("changeCenter", this.memoryList.marker._lat)
@@ -166,10 +178,6 @@ export default {
             self.$router.go();
           })
     },
-    logout() {
-      firebase.auth().signOut()
-      this.$router.push('/')
-    },
   },
   props: {
     lat: Number,
@@ -181,15 +189,6 @@ export default {
 </script>
 
 <style scoped>
-.logOutBtn {
-  position: absolute;
-  z-index: 2;
-  font-size: 15px;
-  width: 100px;
-  height: 35px;
-  left: 3%;
-  top: 1%;
-}
 .deleteBtn{
   position: absolute;
   z-index: 2;

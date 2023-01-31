@@ -1,6 +1,6 @@
 <template>
   <div class="backgroundImg">
-    <img class="backgroundImg" src="@/assets/images/bgPhoto.jpg">
+<!--    <img class="backgroundImg" src="@/assets/images/bgPhoto.jpg">-->
     <div class = "title">
       <h2><span class = "text-red">T</span>rip</h2>
       <h2><span class = "text-red">M</span>emory</h2>
@@ -9,9 +9,8 @@
     <hr align = "center" width = "550px" color="white"/>
 
     <h3>추억을 한 눈에 보고 싶을 때</h3>
-    <button class = "googleLoginButton white" @click="googleLogin">Sign in with Google</button>
-    <button class = "kakaoLoginButton" @click="kakaoLogin">Sign in with kakao</button>
-    <button class = "naverLoginButton" >Sign in with naver</button>
+    <button class = "googleLoginButton white btn-outline-white" @click="googleLogin">Sign in with Google</button>
+    <button class = "kakaoLoginButton btn-outline-yellow" @click="kakaoLogin">Sign in with kakao</button>
     <img class = "googleImg" src = "@/assets/images/googleImage.png">
     <img class = "kakaoImg" src = "@/assets/images/kakaologo.png">
 
@@ -115,10 +114,11 @@ export default {
 
 <style scoped>
 .backgroundImg {
-  /*background-image: url("../assets/images/bgPhoto.jpg");*/
+  background-image: url("../assets/images/startBackground.jpg");
   background-color:rgba(0, 0, 0, 0.5);
   height: 100vh;
   width: 100%;
+  background-size: cover;
 }
 a {
   text-decoration:none;
@@ -131,14 +131,13 @@ a {
   /*width: 35%;*/
   /*height: 40%;*/
   left: 30%;
-  top: 300px;
+  top: 21vh;
 
   /*font-family: 'Roboto';*/
   font-style: normal;
   font-weight: 700;
   font-size: 500px;
   line-height: 59px;
-
   color: #FFFFFF;
 
   text-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25);
@@ -151,10 +150,10 @@ h2{
 }
 hr {
   position: absolute;
-  left: 37%;
-  top: 43%;
+  left: 36.5%;
+  top: 38vh;
   height: 3px;
-  color: white;
+  color: #ffffff;
 }
 h3{
   position: absolute;
@@ -167,14 +166,14 @@ h3{
   line-height: 59px;
 }
 .text-red {
-  color: red;
+  color: rgba(105, 120, 168, 0.99);
 }
 .googleLoginButton{
   position: absolute;
-  width: 40vh;
-  height: 5vh;
+  width: 350px;
+  height: 60px;
   left: 41%;
-  top: 80vh;
+  top: 78vh;
   font-size:23px;
   line-height: 50px;
   text-align: center;
@@ -185,10 +184,10 @@ h3{
 }
 .kakaoLoginButton {
   position: absolute;
-  width: 40vh;
-  height: 5vh;
+  width: 350px;
+  height: 60px;
   left: 41%;
-  top: 73vh;
+  top: 73%;
   font-size:23px;
   line-height: 50px;
   text-align: center;
@@ -197,38 +196,17 @@ h3{
   /*border: solid 2px grey;*/
   border-radius: 12px;
 }
-.naverLoginButton {
-  position: absolute;
-  width: 40vh;
-  height: 5vh;
-  left: 41%;
-  top: 66vh;
-  font-size:23px;
-  line-height: 50px;
-  text-align: center;
-  background: #19ce60;
-  color: white;
-  /*border: solid 2px grey;*/
-  border-radius: 12px;
-}
 .googleImg {
   position: absolute;
   left: 42%;
-  top: 80vh;
+  top: 78.8%;
   width: 40px;
   height: 40px;
 }
 .kakaoImg {
   position: absolute;
   left: 42%;
-  top: 73%;
-  width: 40px;
-  height: 40px;
-}
-.naverImg {
-  position: absolute;
-  left: 42%;
-  top: 66%;
+  top: 73.8%;
   width: 40px;
   height: 40px;
 }
