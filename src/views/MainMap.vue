@@ -75,6 +75,11 @@ export default {
       items: [],
       modal : false,
       obj: {},
+
+      api_key: "d8b132a03019c381e7e9c0ce9e5145ab",
+      url_base: "https://api.openweathermap.org/data/2.5/",
+      query: "",
+      weather: {},
     }
   },
   mounted() {
