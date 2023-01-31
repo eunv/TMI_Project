@@ -23,7 +23,7 @@
           <div class="input-line">
             <input v-bind:disabled="closeInput==true" v-model="id" type="text" id="defaultFormRegisterEmailEx"
                    class="form-control" @change="validateId(id)" placeholder="영문자+숫자 조합" />
-            <button class="btn btn-unique ImButton" type="submit" @click="overlapCheckId(id)">중복확인</button>
+            <button class="btn btn-indigo" type="submit" @click="overlapCheckId(id)">중복확인</button>
           </div>
         </div>
         <div>
@@ -38,8 +38,8 @@
           <h10>{{ compare }}</h10>
         </div>
         <div class="text-center mt-4">
-          <button class="btn-outline-mdb-color" type="submit" @click="signup">회원가입</button>
-          <button class="btn btn-unique" type="submit" @click="goMain">뒤로가기</button>
+          <button class="btn btn-indigo" type="submit" @click="signup">회원가입</button>
+          <button class="btn btn-indigo" type="submit" @click="goMain">뒤로가기</button>
         </div>
       </div>
     </div>
