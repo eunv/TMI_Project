@@ -51,11 +51,11 @@ export default {
                   if (querySnapshot.size === 0) {
                     alert('회원가입 필요')
                     console.log('회원가입 안됨')
-                    self.$router.push("/SignUp");
+                    self.$router.push("/signUp/google");
                   }
                   if (querySnapshot.size !== 0) {
-                    alert('구글 로그인 성공! 일반 로그인으로 로그인 하세요')
-
+                    alert('구글 로그인 성공!')
+                    this.$router.push('/mainMap');
                   }
                   // self.$router.push("/mainMAp");
                 })
@@ -78,11 +78,31 @@ export default {
       });
     },
     getKakaoAccount() {
+      const self = this;
+      const db = firebase.firestore();
       window.Kakao.API.request({
         url: '/v2/user/me',
         success: res => {
           const kakao_account = res.kakao_account;
           console.log(kakao_account);
+
+          db.collection(self.fbCollection)
+              .where("kakaomail",'==',kakao_account.email)
+              .get()
+              .then((querySnapshot) => {
+                if (querySnapshot.size === 0) {
+                  alert('회원가입 필요')
+                  console.log('회원가입 안됨')
+                  this.$router.push({name: 'KakaoSignUp', params: {id: kakao_account.email}})
+                }
+                if (querySnapshot.size !== 0) {
+                  alert('카카오 로그인 성공!')
+                  this.$router.push('/mainMap');
+
+                }
+                // self.$router.push("/mainMAp");
+              })
+
         },
         fail: error => {
           console.log(error)
@@ -151,10 +171,10 @@ h3{
 }
 .googleLoginButton{
   position: absolute;
-  width: 350px;
-  height: 60px;
+  width: 40vh;
+  height: 5vh;
   left: 41%;
-  top: 78%;
+  top: 80vh;
   font-size:23px;
   line-height: 50px;
   text-align: center;
@@ -165,10 +185,10 @@ h3{
 }
 .kakaoLoginButton {
   position: absolute;
-  width: 350px;
-  height: 60px;
+  width: 40vh;
+  height: 5vh;
   left: 41%;
-  top: 73%;
+  top: 73vh;
   font-size:23px;
   line-height: 50px;
   text-align: center;
@@ -179,10 +199,10 @@ h3{
 }
 .naverLoginButton {
   position: absolute;
-  width: 350px;
-  height: 60px;
+  width: 40vh;
+  height: 5vh;
   left: 41%;
-  top: 68%;
+  top: 66vh;
   font-size:23px;
   line-height: 50px;
   text-align: center;
@@ -194,21 +214,21 @@ h3{
 .googleImg {
   position: absolute;
   left: 42%;
-  top: 78.8%;
+  top: 80vh;
   width: 40px;
   height: 40px;
 }
 .kakaoImg {
   position: absolute;
   left: 42%;
-  top: 73.8%;
+  top: 73%;
   width: 40px;
   height: 40px;
 }
 .naverImg {
   position: absolute;
   left: 42%;
-  top: 67.8%;
+  top: 66%;
   width: 40px;
   height: 40px;
 }
