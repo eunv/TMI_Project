@@ -80,7 +80,8 @@ export default {
                       nickName: self.nickName,
                       phoneNum: self.phoneNum,
                       id: self.id,
-                      googleId: '',
+                      howLogin: '일반 로그인',
+
                       code: self.randomStr,
                       otherCode: [self.randomStr]
                     })
