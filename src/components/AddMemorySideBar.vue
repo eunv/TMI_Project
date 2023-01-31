@@ -139,34 +139,25 @@ export default {
     //   // this.onUpload()
     // },
     onUpload() {
-      const files = this.$refs.fileInput.files
+      const files = this.$refs.fileInput.files;
       if(files.length >= 1) {
+        const promises = [];
         for (let i = 0; i < files.length; i++) {
-          this.imageData = files[i]
+          this.imageData = files[i];
           const storageRef = firebase
               .storage()
               .ref(`${this.currentUser}`)
-              .child(`${this.imageData.name}`)
-              .put(this.imageData);
-          storageRef.on(`state_changed`, snapshot => {
-                this.uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              }, error => {
-                console.log(error.message);
-              }, () => {
-                this.uploadValue = 100;
-                storageRef.snapshot.ref.getDownloadURL().then((url) => {
-                  this.img1.push(url);
-                  if (i == files.length - 1) {
-                    this.addMemory();
-                  }
-                  console.log(this.img1);
-                });
-              }
-          );
+              .child(`${this.imageData.name}`);
+          promises.push(storageRef.put(this.imageData).then((snapshot) => {
+            return snapshot.ref.getDownloadURL();
+          }));
         }
-      }
-      else{
-        this.addMemory()
+        Promise.all(promises).then((urls) => {
+          this.img1 = this.img1.concat(urls);
+          this.addMemory();
+        });
+      } else {
+        this.addMemory();
       }
     },
     onLoad(map, daum) {

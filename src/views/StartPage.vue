@@ -1,6 +1,6 @@
 <template>
   <div class="backgroundImg">
-    <img class="backgroundImg" src="@/assets/images/bgPhoto.jpg">
+    <!--    <img class="backgroundImg" src="@/assets/images/bgPhoto.jpg">-->
     <div class = "title">
       <h2><span class = "text-red">T</span>rip</h2>
       <h2><span class = "text-red">M</span>emory</h2>
@@ -9,8 +9,11 @@
     <hr align = "center" width = "550px" color="white"/>
 
     <h3>추억을 한 눈에 보고 싶을 때</h3>
-    <button class = "loginButton white" @click="googleLoginBtn">Sign in with Google</button>
+    <button class = "googleLoginButton white" @click="googleLogin">Sign in with Google</button>
+    <button class = "kakaoLoginButton" @click="kakaoLogin">Sign in with kakao</button>
+    <button class = "naverLoginButton" >Sign in with naver</button>
     <img class = "googleImg" src = "@/assets/images/googleImage.png">
+    <img class = "kakaoImg" src = "@/assets/images/kakaologo.png">
 
     <router-link to="login" class="loginLink">로그인</router-link>
     <router-link to="signUp" class="signUpLink">회원가입</router-link>
@@ -28,7 +31,7 @@ export default {
     }
   },
   methods: {
-    googleLoginBtn() {
+    googleLogin() {
       const self = this;
       const db = firebase.firestore();
       const provider = new firebase.auth.GoogleAuthProvider();
@@ -38,25 +41,25 @@ export default {
       // 로그인 팝업창 띄우기
       firebase.auth().signInWithPopup(provider)
           .then(function(result) {
-        const token = result.credential.accessToken;  //eslint-disable-line no-unused-vars
-        const user = result.user;
-        console.log(user);
-        db.collection(self.fbCollection)
-            .where("googleId",'==',user.email)
-            .get()
-            .then((querySnapshot) => {
-              if (querySnapshot.size === 0) {
-                alert('회원가입 필요')
-                console.log('회원가입 안됨')
-                self.$router.push("/SignUp");
-              }
-              if (querySnapshot.size !== 0) {
-                alert('구글 로그인 성공! 일반 로그인으로 로그인 하세요')
+            const token = result.credential.accessToken;  //eslint-disable-line no-unused-vars
+            const user = result.user;
+            console.log(user);
+            db.collection(self.fbCollection)
+                .where("gmail",'==',user.email)
+                .get()
+                .then((querySnapshot) => {
+                  if (querySnapshot.size === 0) {
+                    alert('회원가입 필요')
+                    console.log('회원가입 안됨')
+                    self.$router.push("/SignUp");
+                  }
+                  if (querySnapshot.size !== 0) {
+                    alert('구글 로그인 성공! 일반 로그인으로 로그인 하세요')
 
-              }
-              // self.$router.push("/mainMAp");
-            })
-      }).catch(function(error) {
+                  }
+                  // self.$router.push("/mainMAp");
+                })
+          }).catch(function(error) {
         // Handle Errors here.
         const errorCode = error.code; //eslint-disable-line no-unused-vars
         const errorMessage = error.message; //eslint-disable-line no-unused-vars
@@ -67,6 +70,25 @@ export default {
         // ...
       });
     },
+    kakaoLogin() {
+      const self = this;
+      window.Kakao.Auth.login({
+        scope: 'account_email',   //동의 항목
+        success: self.getKakaoAccount
+      });
+    },
+    getKakaoAccount() {
+      window.Kakao.API.request({
+        url: '/v2/user/me',
+        success: res => {
+          const kakao_account = res.kakao_account;
+          console.log(kakao_account);
+        },
+        fail: error => {
+          console.log(error)
+        }
+      })
+    }
   },
 }
 </script>
@@ -110,14 +132,14 @@ h2{
 hr {
   position: absolute;
   left: 37%;
-  top: 74%;
+  top: 43%;
   height: 3px;
   color: white;
 }
 h3{
   position: absolute;
   left: 46%;
-  top: 70%;
+  top: 40%;
   font-style: normal;
   font-weight: 500;
   font-size: 27px;
@@ -127,7 +149,7 @@ h3{
 .text-red {
   color: red;
 }
-.loginButton{
+.googleLoginButton{
   position: absolute;
   width: 350px;
   height: 60px;
@@ -141,10 +163,52 @@ h3{
   /*border: solid 2px grey;*/
   border-radius: 12px;
 }
+.kakaoLoginButton {
+  position: absolute;
+  width: 350px;
+  height: 60px;
+  left: 41%;
+  top: 73%;
+  font-size:23px;
+  line-height: 50px;
+  text-align: center;
+  background: #fdd101;
+  color: saddlebrown;
+  /*border: solid 2px grey;*/
+  border-radius: 12px;
+}
+.naverLoginButton {
+  position: absolute;
+  width: 350px;
+  height: 60px;
+  left: 41%;
+  top: 68%;
+  font-size:23px;
+  line-height: 50px;
+  text-align: center;
+  background: #19ce60;
+  color: white;
+  /*border: solid 2px grey;*/
+  border-radius: 12px;
+}
 .googleImg {
   position: absolute;
   left: 42%;
   top: 78.8%;
+  width: 40px;
+  height: 40px;
+}
+.kakaoImg {
+  position: absolute;
+  left: 42%;
+  top: 73.8%;
+  width: 40px;
+  height: 40px;
+}
+.naverImg {
+  position: absolute;
+  left: 42%;
+  top: 67.8%;
   width: 40px;
   height: 40px;
 }

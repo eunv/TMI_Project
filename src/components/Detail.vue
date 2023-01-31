@@ -11,7 +11,9 @@
         <h5 class="date1">{{memory.date}}</h5>
         <h5 class="title1" >제목: {{memory.title}}</h5>
         <h5 class="content1 ">{{memory.content}}</h5>
-        <img :src="memory.image" />
+        <img :src="memory.image[cnt]" />
+          <b-icon @click="beforeImage" id="beforeBtn" icon="chevron-left" font-scale="1.5" class="changeImageLeft fs-2"></b-icon>
+          <b-icon @click="nextImage" id="nextBtn" icon="chevron-right" font-scale="1.5" class="changeImageRight fs-2"></b-icon>
       </div>
       <!--      수정버튼을 누르면 수정페이지 출력-->
       <div v-if="edit == true ">
@@ -44,7 +46,10 @@ export default {
       owner: true,
       caption : '',
       img1: [],
-      imageData: null
+      imageData: null,
+      cnt: 0,
+      beforeBtn: false,
+      nextBtn: true,
     }
   },
   watch : {
@@ -60,6 +65,7 @@ export default {
   },
   mounted() {
     this.ownerCheck()
+    console.log('111', this.memory.image)
   },
   methods: {
     goEdit() {
@@ -108,37 +114,56 @@ export default {
     //   // this.onUpload()
     // },
     onUpload() {
-      const files = this.$refs.fileInput.files
+      const files = this.$refs.fileInput.files;
       if(files.length >= 1) {
+        const promises = [];
         for (let i = 0; i < files.length; i++) {
-          this.imageData = files[i]
+          this.imageData = files[i];
           const storageRef = firebase
               .storage()
               .ref(`${this.currentUser}`)
-              .child(`${this.imageData.name}`)
-              .put(this.imageData);
-          storageRef.on(`state_changed`, snapshot => {
-                this.uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              }, error => {
-                console.log(error.message);
-              }, () => {
-                this.uploadValue = 100;
-                storageRef.snapshot.ref.getDownloadURL().then((url) => {
-                  this.img1.push(url);
-                  if (i == files.length - 1) {
-                    this.confirm();
-                  }
-                  console.log(this.img1);
-                });
-              }
-          );
+              .child(`${this.imageData.name}`);
+          promises.push(storageRef.put(this.imageData).then((snapshot) => {
+            return snapshot.ref.getDownloadURL();
+          }));
         }
-      }
-      else{
+        Promise.all(promises).then((urls) => {
+          this.img1 = this.img1.concat(urls);
+          this.confirm();
+        });
+      } else {
         this.img1 = this.memory.image
-        this.confirm()
+        this.confirm();
       }
     },
+    beforeImage(){
+      if(this.cnt == 0){
+        // this.beforeBtn = false;
+        // this.nextBtn = true;
+        this.cnt = this.memory.image.length-1
+        console.log(this.beforeBtn)
+      }
+      else{
+        this.cnt--;
+        // this.nextBtn = true;
+        console.log(this.beforeBtn)
+      }
+    },
+    nextImage(){
+      if(this.cnt == this.memory.image.length-1){
+        // this.nextBtn = false;
+        // this.beforeBtn = true;
+        this.cnt = 0;
+        console.log(this.nextBtn)
+
+      }
+      else{
+        this.cnt++;
+        // this.beforeBtn = true;
+        console.log(this.nextBtn)
+
+      }
+    }
 
   }
 
@@ -182,12 +207,12 @@ img {
   /*object-fit: cover;*/
   position: absolute;
   top: 45px;
-  left: 20px;
+  left: 35px;
 }
 .title1 {
   position: absolute;
   top: 100px;
-  left: 400px;
+  left: 410px;
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
@@ -196,7 +221,7 @@ img {
 .content1 {
   position: absolute;
   top: 150px;
-  left: 400px;
+  left: 410px;
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
@@ -245,11 +270,18 @@ img {
   position:absolute;
   width: 300px;
   top:350px;
-  left: 20px;
+  left: 35px;
 }
 .date1 {
   position: absolute;
   top: 10px;
   left: 20px;
+}
+.changeImageLeft {
+  margin-top: 180px;
+}
+.changeImageRight {
+  margin-top: 180px;
+  margin-left: 314px;
 }
 </style>
