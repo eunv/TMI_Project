@@ -22,8 +22,8 @@
       </div>
 
       <div class="text-center mt-4">
-        <button class="btn btn-unique" type="submit" @click="signup">저장하기</button>
-        <button class="btn btn-unique" type="submit" @click="goMain">뒤로가기</button>
+        <button class="btn btn-indigo" type="submit" @click="signup" style="color: white;">저장하기</button>
+        <button class="btn btn-indigo" type="submit" @click="goMain" style="color: white;">뒤로가기</button>
       </div>
     </div>
   </div>

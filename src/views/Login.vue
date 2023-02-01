@@ -10,8 +10,8 @@
         <label for="pwIn" class="grey-text">Your password</label>
         <input type="password" id="pwIn" class="form-control" v-model = "password" v-on:keypress.enter.prevent=login>
         <div class="text-center mt-4">
-          <button class="btn btn-indigo" type="submit" @click="login">Login</button>
-          <button class="btn btn-indigo" type="submit" @click="goMain">뒤로가기</button>
+          <button class="btn btn-indigo" type="submit" @click="login" style="color: white;">Login</button>
+          <button class="btn btn-indigo" type="submit" @click="goMain" style="color: white;">뒤로가기</button>
         </div>
         <!-- Default form login -->
       </div>
