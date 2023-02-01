@@ -68,10 +68,12 @@ export default {
       items: [],
       modal : false,
       obj: {},
+      userInfo: [],
     }
   },
   mounted() {
     this.getDataList()
+    this.getData()
   },
   methods: {
     moveLoc() {
@@ -128,6 +130,16 @@ export default {
           map.setBounds(bounds);
         }
       }
+    },
+    getData() {
+      const self = this;
+      const db = firebase.firestore();
+      db.collection("users")
+          .doc(self.$store.state.user.uid)
+          .get()
+          .then((snapshot) => {
+            self.userInfo = snapshot.data();
+          })
     },
     getDataList() {
       const self = this;
@@ -211,6 +223,17 @@ export default {
       });
     },
     logout() {
+      if(this.userInfo.howLogin == "kakao 로그인") {
+        window.Kakao.API.request({
+          url: '/v1/user/unlink',
+          success: function (response) {
+            console.log(response);
+          },
+          fail: function (error) {
+            console.log(error);
+          },
+        });
+      }
       firebase.auth().signOut()
       this.$router.push('/')
     },
