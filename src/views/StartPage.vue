@@ -44,7 +44,7 @@ export default {
             const user = result.user;
             console.log(user);
             db.collection(self.fbCollection)
-                .where("gmail",'==',user.email)
+                .where("gmail",'==',result.user.email)
                 .get()
                 .then((querySnapshot) => {
                   if (querySnapshot.size === 0) {
@@ -86,7 +86,7 @@ export default {
           console.log(kakao_account);
 
           db.collection(self.fbCollection)
-              .where("kakaomail",'==',kakao_account.email)
+              .where("id",'==',kakao_account.email)
               .get()
               .then((querySnapshot) => {
                 if (querySnapshot.size === 0) {
@@ -95,9 +95,8 @@ export default {
                   self.$router.push({name: 'KakaoSignUp', params: {id: kakao_account.email}})
                 }
                 if (querySnapshot.size !== 0) {
-                  alert('카카오 로그인 성공!')
-                  self.$router.push('/mainMap');
-
+                  const id = kakao_account.email
+                  this.login(id);
                 }
                 // self.$router.push("/mainMAp");
               })
@@ -107,7 +106,18 @@ export default {
           console.log(error)
         }
       })
-    }
+    },
+    login(id) {
+      const self = this;
+      firebase.auth().signInWithEmailAndPassword(id , id + 'tmi')
+          .then(() => {
+            alert('카카오 로그인 성공!')
+            self.$router.push('/mainMap')
+          })
+          .catch((error) => {
+            alert(error)
+          })
+    },
   },
 }
 </script>

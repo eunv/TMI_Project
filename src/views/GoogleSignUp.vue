@@ -22,8 +22,8 @@
       </div>
 
       <div class="text-center mt-4">
-        <button class="btn btn-indigo" type="submit" @click="signup" style="color:white">저장하기</button>
-        <button class="btn btn-indigo" type="submit" @click="goMain" style="color:white">뒤로가기</button>
+        <button class="btn btn-unique" type="submit" @click="signup">저장하기</button>
+        <button class="btn btn-unique" type="submit" @click="goMain">뒤로가기</button>
       </div>
     </div>
   </div>
@@ -40,7 +40,6 @@ export default {
       nickName: '',
       phoneNum: '',
       id: this.$store.state.user.email,
-      gmail: '',
       password: '',
       comparePassword: '',
       autoHyphen: '',
@@ -56,14 +55,14 @@ export default {
       const db = firebase.firestore();
       if ((self.nickName != '') && (self.phoneNum != '')) {
                 db.collection(self.fbCollection)
-                    .doc(this.$store.state.user.uid)
+                    .doc(self.$store.state.user.uid)
                     .set({
                       name: self.name,
                       nickName: self.nickName,
                       phoneNum: self.phoneNum,
                       id: '',
                       howLogin: 'google 로그인',
-                      gmail:self.$store.state.user.email,
+                      gmail: self.$store.state.user.email,
                       code: self.randomStr,
                       otherCode: [self.randomStr]
                     })
