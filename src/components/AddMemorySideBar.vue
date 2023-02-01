@@ -14,7 +14,7 @@
         <div>
           <label for="example-datepicker" class="grey-text" style="margin:10px" >날짜 선택</label>
           <date-picker  v-model="date" valueType="format"></date-picker>
-<!--          <b-datepicker id="example-datepicker" v-model="date" class="mb-2 dateSelect"></b-datepicker>-->
+          <!--          <b-datepicker id="example-datepicker" v-model="date" class="mb-2 dateSelect"></b-datepicker>-->
         </div>
         <hr>
         <label for="content" class="grey-text" style="margin:10px">위치 지정하기</label>
@@ -90,6 +90,7 @@ export default {
     init() {
       const self = this;
       self.getData();
+      // self.reLayout()
     },
     getData() {
       const self = this;
@@ -160,9 +161,15 @@ export default {
         this.addMemory();
       }
     },
+    reLayout(map) {
+      this.map = map;
+      this.map.relayout()
+    },
     onLoad(map, daum) {
       this.map = map;
       this.maps = daum.map
+      console.log("111",this.map.relayout())
+
 
       let marker = new kakao.maps.Marker({
         position: map.getCenter()
@@ -181,6 +188,7 @@ export default {
         // this.changeLatLng();
         this.lat = latlng.getLat();
         this.long = latlng.getLng();
+        console.log(this.map.relayout())
         console.log(this.lat)
       });
     },
