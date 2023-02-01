@@ -233,5 +233,9 @@ export default {
 table {
   height: 20px;
 }
-
+.dataFalse{
+  position: absolute;
+  top:40vh;
+  left:27%;
+}
 </style>

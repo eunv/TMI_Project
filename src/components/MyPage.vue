@@ -13,10 +13,10 @@
         <div>
           <label for="name" class="grey-text" style="margin:10px">Name</label>
           <input v-model="userInfo.name" type="text" id="name" class="form-control" >
-          <label for="name" class="grey-text" style="margin:10px">phone</label>
+          <label for="name" class="grey-text" style="margin:10px">Phone</label>
           <input v-model="userInfo.phoneNum" type="text" id="name" class="form-control">
-          <label for="name" class="grey-text" style="margin:10px">g-mail</label>
-          <input v-model="userInfo.gmail" type="text" id="name" class="form-control">
+          <label for="name" class="grey-text" style="margin:10px">로그인 방식</label>
+          <input v-model="userInfo.howLogin" type="text" id="name" class="form-control" disabled/>
         </div>
         <hr/>
 
@@ -45,7 +45,6 @@
             <label for="name" class="grey-text" style="margin:10px">{{ userInfo.code }}</label>
           </div>
         </div>
-
 
       </div>
     </b-sidebar>

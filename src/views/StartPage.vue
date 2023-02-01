@@ -1,5 +1,6 @@
 <template>
   <div class="backgroundImg">
+<!--    <img class="backgroundImg" src="@/assets/images/bgPhoto.jpg">-->
     <div class = "title">
       <h2><span class = "text-red">T</span>rip</h2>
       <h2><span class = "text-red">M</span>emory</h2>
@@ -39,25 +40,25 @@ export default {
       // 로그인 팝업창 띄우기
       firebase.auth().signInWithPopup(provider)
           .then(function(result) {
-        const token = result.credential.accessToken;  //eslint-disable-line no-unused-vars
-        const user = result.user;
-        console.log(user);
-        db.collection(self.fbCollection)
-            .where("gmail",'==',user.email)
-            .get()
-            .then((querySnapshot) => {
-              if (querySnapshot.size === 0) {
-                alert('회원가입 필요')
-                console.log('회원가입 안됨')
-                self.$router.push("/SignUp");
-              }
-              if (querySnapshot.size !== 0) {
-                alert('구글 로그인 성공! 일반 로그인으로 로그인 하세요')
-
-              }
-              // self.$router.push("/mainMAp");
-            })
-      }).catch(function(error) {
+            const token = result.credential.accessToken;  //eslint-disable-line no-unused-vars
+            const user = result.user;
+            console.log(user);
+            db.collection(self.fbCollection)
+                .where("gmail",'==',result.user.email)
+                .get()
+                .then((querySnapshot) => {
+                  if (querySnapshot.size === 0) {
+                    alert('회원가입 필요')
+                    console.log('회원가입 안됨')
+                    self.$router.push("/signUp/google");
+                  }
+                  if (querySnapshot.size !== 0) {
+                    alert('구글 로그인 성공!')
+                    self.$router.push('/mainMap');
+                  }
+                  // self.$router.push("/mainMAp");
+                })
+          }).catch(function(error) {
         // Handle Errors here.
         const errorCode = error.code; //eslint-disable-line no-unused-vars
         const errorMessage = error.message; //eslint-disable-line no-unused-vars
@@ -76,17 +77,47 @@ export default {
       });
     },
     getKakaoAccount() {
+      const self = this;
+      const db = firebase.firestore();
       window.Kakao.API.request({
         url: '/v2/user/me',
         success: res => {
           const kakao_account = res.kakao_account;
           console.log(kakao_account);
+
+          db.collection(self.fbCollection)
+              .where("id",'==',kakao_account.email)
+              .get()
+              .then((querySnapshot) => {
+                if (querySnapshot.size === 0) {
+                  alert('회원가입 필요')
+                  console.log('회원가입 안됨')
+                  self.$router.push({name: 'KakaoSignUp', params: {id: kakao_account.email}})
+                }
+                if (querySnapshot.size !== 0) {
+                  const id = kakao_account.email
+                  this.login(id);
+                }
+                // self.$router.push("/mainMAp");
+              })
+
         },
         fail: error => {
           console.log(error)
         }
       })
-    }
+    },
+    login(id) {
+      const self = this;
+      firebase.auth().signInWithEmailAndPassword(id , id + 'tmi')
+          .then(() => {
+            alert('카카오 로그인 성공!')
+            self.$router.push('/mainMap')
+          })
+          .catch((error) => {
+            alert(error)
+          })
+    },
   },
 }
 </script>
@@ -166,7 +197,7 @@ h3{
   width: 350px;
   height: 60px;
   left: 41%;
-  top: 73vh;
+  top: 73%;
   font-size:23px;
   line-height: 50px;
   text-align: center;

@@ -20,22 +20,7 @@
         </div>
         <div>
           <label for="defaultFormRegisterEmailEx" class="grey-text">아이디</label>
-          <div class="input-line">
-            <input v-bind:disabled="closeInput==true" v-model="id" type="text" id="defaultFormRegisterEmailEx"
-                   class="form-control" @change="validateId(id)" placeholder="영문자+숫자 조합" />
-            <button class="btn btn-indigo" type="submit" @click="overlapCheckId(id)" style="color: white; width: 90px; height: 35px;">중복확인</button>
-          </div>
-        </div>
-        <div>
-          <label for="defaultFormRegisterConfirmEx" class="grey-text">비밀번호</label>
-          <input v-model="password" type="password" id="defaultFormRegisterConfirmEx" class="form-control"
-                 @change="validatePw(password)" placeholder="영문자+숫자+특수문자 조합"/>
-        </div>
-        <div>
-          <label for="defaultFormRegisterPasswordEx" class="grey-text">비밀번호 확인</label>
-          <input v-model="comparePassword" type="password" id="defaultFormRegisterPasswordEx" class="form-control"
-                 @change="passwordConfirm" v-on:keypress.enter.prevent=signup>
-          <h10>{{ compare }}</h10>
+          <input  v-model="id" type="text" id="defaultFormRegisterEmailEx" class="form-control" readonly/>
         </div>
         <div class="text-center mt-4">
           <button class="btn btn-indigo" type="submit" @click="signup" style="color: white;">회원가입</button>
@@ -49,14 +34,14 @@
 <script>
 import {firebase} from '@/firebase/firebaseConfig';
 export default {
-  name: "SignUp",
+  name: "KakaoSignUp",
   data() {
     return {
       fbCollection: "users",
       name: "",
       nickName: '',
       phoneNum: '',
-      id: '',
+      id: this.$route.params.id,
       password: '',
       comparePassword: '',
       autoHyphen: '',
@@ -70,59 +55,33 @@ export default {
     signup() {
       const self = this;
       const db = firebase.firestore();
-      if ((self.name != '') && (self.nickName != '') && (self.phoneNum != '') && (self.id != '') && (self.password != '') && (self.comparePassword != '')) {
-        if (self.closeInput == true) {
-          firebase.auth().createUserWithEmailAndPassword(this.id + '@timproject.co.kr', this.password)
+      if ((self.name != '') && (self.nickName != '') && (self.phoneNum != '') && (self.id != '')) {
+          firebase.auth().createUserWithEmailAndPassword(this.id , this.id + 'tmi')
               .then((result) => {
                 let user = result.user;
                 db.collection(self.fbCollection)
-                    .doc(result.user.uid)
+                    .doc(user.uid)
                     .set({
                       name: self.name,
                       nickName: self.nickName,
                       phoneNum: self.phoneNum,
                       id: self.id,
-                      howLogin: '일반 로그인',
-
+                      howLogin: 'kakao 로그인',
                       code: self.randomStr,
                       otherCode: [self.randomStr]
                     })
-                alert('회원가입 완료!');
-                user.updateProfile({displayName: self.name, photoURL: self.randomStr})
+                alert('정보입력 완료!');
                 // firebase.auth().signOut()
-                this.$router.push('/');
+                this.$router.push('/mainMap');
+
               }).catch(err => {
             console.error(err);
             alert('에러 : ' + err.message)
           })
         } else {
-          alert('아이디 중복을 확인해주세요')
-          return false
-        }
-      } else {
         alert('모든 항목을 입력해주세요.')
         return false
       }
-    },
-    overlapCheckId(id) {
-      const self = this;
-      const db = firebase.firestore();
-      db.collection(self.fbCollection)
-          .where("id", "==", id)
-          .get()
-          .then((querySnapshot) => {
-            console.log(querySnapshot.size)
-            if (querySnapshot.size >= 1) {
-              alert('중복된 아이디가 있습니다')
-              self.id = ''
-              self.openBtn = false
-              self.closeInput = false
-            } else {
-              alert('사용 가능합니다')
-              self.openBtn = true
-              self.closeInput = true
-            }
-          })
     },
     validateName(name) {
       const nameRegExp = /^[가-힣]{2,4}$/;
@@ -152,54 +111,7 @@ export default {
         return true; //확인이 완료되었을 때
       }
     },
-    validateId(id) {
-      let checkId = /[ㄱ-ㅎㅏ-ㅣ가-힣~₩!@#$%^&*()+._=,/?"':;'><]/
-      if (id.length < 6) {
-        alert("아이디는 최소 6자리 이상입니다.")
-        this.id = ''
-        return false
-      } else if (id.search(/\s/) !== -1) {
-        alert("아이디에 공백은 불가능합니다.")
-        this.id = ''
-        return false
-      } else if (checkId.test(id)) {
-        alert("올바른 아이디 형식이 아닙니다.");
-        this.id = ''
-        return false;
-      } else {
-        return true
-      }
-    },
-    validatePw(pw) {
-      let number = pw.search(/[0-9]/g);
-      let english = pw.search(/[a-z]/ig);
-      let specialCharacter = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-      if (pw.length < 8 || pw.length > 20) {
-        alert("8자리 ~ 20자리 이내로 입력해주세요.");
-        this.password = ''
-        return false;
-      } else if (pw.search(/\s/) !== -1) {
-        alert("비밀번호는 공백 없이 입력해주세요.");
-        this.password = ''
-        return false;
-      } else if (number < 0 || english < 0 || specialCharacter < 0) {
-        alert("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
-        this.password = ''
-        return false;
-      } else {
-        console.log("통과");
-        return true;
-      }
-    },
-    passwordConfirm() {
-      if (this.password === this.comparePassword) {
-        this.compare = '비밀번호가 일치합니다.'
-        return true
-      } else {
-        this.compare = '비밀번호 일치하지 않습니다.'
-        this.comparePassword = ''
-      }
-    },
+
     goMain() {
       this.$router.push('/')
     }
@@ -215,6 +127,10 @@ export default {
   width: 100%;
   background-size: cover;
 }
+body {
+  background-image: url("../assets/images/bgPhoto.jpg");
+  background-size: cover;
+}
 .black-bg {
   width: 100%;
   height: 100%;
@@ -228,7 +144,7 @@ export default {
   border-radius: 8px;
   padding: 50px;
   position: absolute;
-  top: 25%;
+  top: 17%;
   left: 24%;
   margin: -50px 0 0 -50px;
 }

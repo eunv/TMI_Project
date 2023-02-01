@@ -12,8 +12,8 @@
         <h5 class="title1" >제목: {{memory.title}}</h5>
         <h5 class="content1 ">{{memory.content}}</h5>
         <img :src="memory.image[cnt]" />
-        <b-icon @click="beforeImage" id="beforeBtn" icon="chevron-left" font-scale="1.5" class="changeImageLeft fs-2"></b-icon>
-        <b-icon @click="nextImage" id="nextBtn" icon="chevron-right" font-scale="1.5" class="changeImageRight fs-2"></b-icon>
+          <b-icon @click="beforeImage" id="beforeBtn" icon="chevron-left" font-scale="1.5" class="changeImageLeft fs-2"></b-icon>
+          <b-icon @click="nextImage" id="nextBtn" icon="chevron-right" font-scale="1.5" class="changeImageRight fs-2"></b-icon>
       </div>
       <!--      수정버튼을 누르면 수정페이지 출력-->
       <div v-if="edit == true ">
@@ -65,7 +65,6 @@ export default {
   },
   mounted() {
     this.ownerCheck()
-    console.log('111', this.memory.image)
   },
   methods: {
     goEdit() {
