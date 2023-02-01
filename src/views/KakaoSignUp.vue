@@ -23,8 +23,8 @@
           <input  v-model="id" type="text" id="defaultFormRegisterEmailEx" class="form-control" readonly/>
         </div>
         <div class="text-center mt-4">
-          <button class="btn btn-unique" type="submit" @click="signup">회원가입</button>
-          <button class="btn btn-unique" type="submit" @click="goMain">뒤로가기</button>
+          <button class="btn btn-indigo" type="submit" @click="signup" style="color: white;">회원가입</button>
+          <button class="btn btn-indigo" type="submit" @click="goMain" style="color: white;">뒤로가기</button>
         </div>
       </div>
     </div>
