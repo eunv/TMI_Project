@@ -16,15 +16,15 @@
         style="width:100%;height:100vh;position: fixed;"
     >
     </vue-daum-map>
-<!--    <button v-b-toggle.sidebar-1 id="sidebar_openBtn" class="listView">-->
-<!--      <b-icon  icon="list" font-scale="1.5" style="margin-left: 30px; color: white;" class="my-2 my-sm-0"></b-icon>TMI</button>-->
+    <!--    <button v-b-toggle.sidebar-1 id="sidebar_openBtn" class="listView">-->
+    <!--      <b-icon  icon="list" font-scale="1.5" style="margin-left: 30px; color: white;" class="my-2 my-sm-0"></b-icon>TMI</button>-->
     <button v-b-toggle.sidebar-1 id="sidebar_openBtn" class="listView">
       <b-icon icon="list" aria-hidden="true"></b-icon>TMI
     </button>
     <input v-model="geo" class="geoSearch" type="text" placeholder="Search" aria-label="Search" />
-<!--    <b-button  @click="searchGeo(geo)" class="moveBtn btn-mdb-color" >-->
-      <b-icon @click="searchGeo(geo)" icon="search" class="goSearch"></b-icon>
-<!--    </b-button>-->
+    <!--    <b-button  @click="searchGeo(geo)" class="moveBtn btn-mdb-color" >-->
+    <b-icon @click="searchGeo(geo)" icon="search" class="goSearch"></b-icon>
+    <!--    </b-button>-->
 
     <button @click="logout" class="logOutBtn" >
       <b-icon icon="power"></b-icon> Logout
@@ -68,15 +68,16 @@ export default {
       items: [],
       modal : false,
       obj: {},
+      userInfo: [],
     }
   },
   mounted() {
     this.getDataList()
+    this.getData()
   },
   methods: {
     moveLoc() {
       const moveLatLon = new kakao.maps.LatLng(this.center.lat, this.center.lng);
-
       this.map.panTo(moveLatLon)
     },
     openModal() {
@@ -128,6 +129,16 @@ export default {
           map.setBounds(bounds);
         }
       }
+    },
+    getData() {
+      const self = this;
+      const db = firebase.firestore();
+      db.collection("users")
+          .doc(self.$store.state.user.uid)
+          .get()
+          .then((snapshot) => {
+            self.userInfo = snapshot.data();
+          })
     },
     getDataList() {
       const self = this;
@@ -211,6 +222,17 @@ export default {
       });
     },
     logout() {
+      if(this.userInfo.howLogin == "kakao 로그인") {
+        window.Kakao.API.request({
+          url: '/v1/user/unlink',
+          success: function (response) {
+            console.log(response);
+          },
+          fail: function (error) {
+            console.log(error);
+          },
+        });
+      }
       firebase.auth().signOut()
       this.$router.push('/')
     },
@@ -250,29 +272,42 @@ div {
   left:15px;
   text-align: center;
   color: white;
+  border: none;
+  border-bottom-left-radius: 7px;
+  border-top-left-radius: 7px;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
 }
 .logOutBtn {
-  position: absolute;
+  position: relative;
   z-index: 2;
   font-size: 15px;
   width: 100px;
   height: 35px;
-  left: 94%;
+  float: right;
+  margin-right: 10px;
   top: 10px;
   color: #1b375d;
   background-color: #ffffff;
-  border-radius: 10px;
-  border-width: 1px;
+  border-radius: 7px;
+
+  /*border-width: 1px;*/
+  border: none;
+  /*box-shadow: 0 5px 5px -5px #333;*/
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+
 }
 .geoSearch{
   position:absolute;
   z-index: 2;
   width: 250px;
   height: 38px;
-  border-radius: 0;
+  border-bottom-right-radius: 7px;
+  border-top-right-radius: 7px;
   top: 10px;
   left:105px;
-  border-width: 1px;
+  border: none;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+  /*box-shadow: 0 5px 5px -5px #333;*/
 }
 .geoSearch:focus{
   outline: none;
@@ -283,4 +318,5 @@ div {
   top:20px;
   left: 320px;
 }
+
 </style>
