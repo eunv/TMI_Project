@@ -55,14 +55,14 @@ export default {
       const db = firebase.firestore();
       if ((self.nickName != '') && (self.phoneNum != '')) {
                 db.collection(self.fbCollection)
-                    .doc(this.$store.state.user.uid)
+                    .doc(self.$store.state.user.uid)
                     .set({
                       name: self.name,
                       nickName: self.nickName,
                       phoneNum: self.phoneNum,
                       id: '',
                       howLogin: 'google 로그인',
-
+                      gmail: self.$store.state.user.email,
                       code: self.randomStr,
                       otherCode: [self.randomStr]
                     })
