@@ -273,6 +273,9 @@ div {
   left:15px;
   text-align: center;
   color: white;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
 }
 .logOutBtn {
   position: absolute;
@@ -284,18 +287,24 @@ div {
   top: 10px;
   color: #1b375d;
   background-color: #ffffff;
-  border-radius: 10px;
-  border-width: 1px;
+  border-radius: 3px;
+  /*border-width: 1px;*/
+  border: none;
+  /*box-shadow: 0 5px 5px -5px #333;*/
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+
 }
 .geoSearch{
   position:absolute;
   z-index: 2;
   width: 250px;
   height: 38px;
-  border-radius: 0;
+  border-radius: 3px;
   top: 10px;
   left:105px;
-  border-width: 1px;
+  border: none;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+  /*box-shadow: 0 5px 5px -5px #333;*/
 }
 .geoSearch:focus{
   outline: none;
@@ -306,4 +315,5 @@ div {
   top:20px;
   left: 320px;
 }
+
 </style>
