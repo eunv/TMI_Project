@@ -73,7 +73,7 @@ const router = new Router({
   ]
 })
 const makeTitle = (title) =>
-    title ? `${title} | KoROM Database` : "KoROM Database";
+    title ? `${title} | TMI` : "TMI";
 
 router.afterEach((to) => {
   Vue.nextTick(() => {
