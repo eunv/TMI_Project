@@ -54,7 +54,7 @@ export default {
                   }
                   if (querySnapshot.size !== 0) {
                     alert('구글 로그인 성공!')
-                    this.$router.push('/mainMap');
+                    self.$router.push('/mainMap');
                   }
                   // self.$router.push("/mainMAp");
                 })
@@ -92,11 +92,11 @@ export default {
                 if (querySnapshot.size === 0) {
                   alert('회원가입 필요')
                   console.log('회원가입 안됨')
-                  this.$router.push({name: 'KakaoSignUp', params: {id: kakao_account.email}})
+                  self.$router.push({name: 'KakaoSignUp', params: {id: kakao_account.email}})
                 }
                 if (querySnapshot.size !== 0) {
                   alert('카카오 로그인 성공!')
-                  this.$router.push('/mainMap');
+                  self.$router.push('/mainMap');
 
                 }
                 // self.$router.push("/mainMAp");

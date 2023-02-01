@@ -1,29 +1,31 @@
 <template>
-  <div class="black-bg">
-    <div class="white-bg">
-      <p class="h4 text-center mb-4">회원가입 하기</p>
-      <div>
-        <label for="defaultFormRegisterNameEx" class="grey-text">이름</label>
-        <input v-model="name" type="text" id="defaultFormRegisterNameEx" class="form-control" maxlength=10
-               @change="validateName(name)"/>
-      </div>
-      <div>
-        <label for="defaultFormRegisterNameEx" class="grey-text">닉네임</label>
-        <input v-model="nickName" type="text" id="defaultFormRegisterNameEx" class="form-control" maxlength="10"
-               @change="validateNickName(nickName)"/>
-      </div>
-      <div>
-        <label for="defaultFormRegisterConfirmEx" class="grey-text">전화번호</label>
-        <input v-model="phoneNum" type="text" id="defaultFormRegisterConfirmEx" class="form-control" maxlength="13"
-               oninput="javascript: this.value = this.value.replace(/[^0-9]/, '').replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);"/>
-      </div>
-      <div>
-        <label for="defaultFormRegisterEmailEx" class="grey-text">아이디</label>
-        <input  v-model="id" type="text" id="defaultFormRegisterEmailEx" class="form-control" readonly/>
-      </div>
-      <div class="text-center mt-4">
-        <button class="btn btn-unique" type="submit" @click="signup">회원가입</button>
-        <button class="btn btn-unique" type="submit" @click="goMain">뒤로가기</button>
+  <div class="backgroundImg">
+    <div class="black-bg">
+      <div class="white-bg">
+        <p class="h4 text-center mb-4">회원가입 하기</p>
+        <div>
+          <label for="defaultFormRegisterNameEx" class="grey-text">이름</label>
+          <input v-model="name" type="text" id="defaultFormRegisterNameEx" class="form-control" maxlength=10
+                 @change="validateName(name)"/>
+        </div>
+        <div>
+          <label for="defaultFormRegisterNameEx" class="grey-text">닉네임</label>
+          <input v-model="nickName" type="text" id="defaultFormRegisterNameEx" class="form-control" maxlength="10"
+                 @change="validateNickName(nickName)"/>
+        </div>
+        <div>
+          <label for="defaultFormRegisterConfirmEx" class="grey-text">전화번호</label>
+          <input v-model="phoneNum" type="text" id="defaultFormRegisterConfirmEx" class="form-control" maxlength="13"
+                 oninput="javascript: this.value = this.value.replace(/[^0-9]/, '').replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);"/>
+        </div>
+        <div>
+          <label for="defaultFormRegisterEmailEx" class="grey-text">아이디</label>
+          <input  v-model="id" type="text" id="defaultFormRegisterEmailEx" class="form-control" readonly/>
+        </div>
+        <div class="text-center mt-4">
+          <button class="btn btn-unique" type="submit" @click="signup">회원가입</button>
+          <button class="btn btn-unique" type="submit" @click="goMain">뒤로가기</button>
+        </div>
       </div>
     </div>
   </div>
@@ -118,6 +120,13 @@ export default {
 </script>
 
 <style scoped>
+.backgroundImg {
+  background-image: url("../assets/images/startBackground.jpg");
+  background-color:rgba(0, 0, 0, 0.5);
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+}
 body {
   background-image: url("../assets/images/bgPhoto.jpg");
   background-size: cover;
