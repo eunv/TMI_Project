@@ -1,29 +1,31 @@
 <template>
-  <div class="black-bg">
-    <div class="white-bg">
-      <p class="h4 text-center mb-4">회원정보 입력</p>
-      <div>
-        <label for="defaultFormRegisterNameEx" class="grey-text">이름</label>
-        <input v-model="name" type="text" id="defaultFormRegisterNameEx" class="form-control" maxlength=10 readonly/>
-      </div>
-      <div>
-        <label for="defaultFormRegisterNameEx" class="grey-text">닉네임</label>
-        <input v-model="nickName" type="text" id="defaultFormRegisterNameEx" class="form-control" maxlength="10"
-               @change="validateNickName(nickName)"/>
-      </div>
-      <div>
-        <label for="defaultFormRegisterConfirmEx" class="grey-text">전화번호</label>
-        <input v-model="phoneNum" type="text" id="defaultFormRegisterConfirmEx" class="form-control" maxlength="13"
-               oninput="javascript: this.value = this.value.replace(/[^0-9]/, '').replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);"/>
-      </div>
-      <div>
-        <label for="defaultFormRegisterEmailEx" class="grey-text">아이디</label>
+  <div class="backgroundImg">
+    <div class="black-bg">
+      <div class="white-bg">
+        <p class="h4 text-center mb-4">회원정보 입력</p>
+        <div>
+          <label for="defaultFormRegisterNameEx" class="grey-text">이름</label>
+          <input v-model="name" type="text" id="defaultFormRegisterNameEx" class="form-control" maxlength=10 readonly/>
+        </div>
+        <div>
+          <label for="defaultFormRegisterNameEx" class="grey-text">닉네임</label>
+          <input v-model="nickName" type="text" id="defaultFormRegisterNameEx" class="form-control" maxlength="10"
+                 @change="validateNickName(nickName)"/>
+        </div>
+        <div>
+          <label for="defaultFormRegisterConfirmEx" class="grey-text">전화번호</label>
+          <input v-model="phoneNum" type="text" id="defaultFormRegisterConfirmEx" class="form-control" maxlength="13"
+                 oninput="javascript: this.value = this.value.replace(/[^0-9]/, '').replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);"/>
+        </div>
+        <div>
+          <label for="defaultFormRegisterEmailEx" class="grey-text">아이디</label>
           <input  v-model="id" type="text" id="defaultFormRegisterEmailEx" class="form-control" readonly/>
-      </div>
+        </div>
 
-      <div class="text-center mt-4">
-        <button class="btn btn-indigo" type="submit" @click="signup" style="color: white;">저장하기</button>
-        <button class="btn btn-indigo" type="submit" @click="goMain" style="color: white;">뒤로가기</button>
+        <div class="text-center mt-4">
+          <button class="btn btn-indigo" type="submit" @click="signup" style="color: white;">저장하기</button>
+          <button class="btn btn-indigo" type="submit" @click="goMain" style="color: white;">뒤로가기</button>
+        </div>
       </div>
     </div>
   </div>
@@ -112,7 +114,7 @@ export default {
 
 <style scoped>
 body {
-  background-image: url("../assets/images/bgPhoto.jpg");
+  background-image: url("../assets/images/startBackground.jpg");
   background-size: cover;
 }
 .black-bg {

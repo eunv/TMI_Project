@@ -508,8 +508,8 @@ div {
   text-align: center;
 }
 #btnSkyview.selected_btn {
-  color:#fff;
-  background:#24376e;
+  color: #fff;
+  background: #24376e;
   /*background:linear-gradient(#425470, #5b6d8a);*/
   width: 81px;
   height: 38px;
@@ -518,10 +518,9 @@ div {
   /*padding-top: 4px;*/
   padding: 3px 0 3px;
   text-align: center;
-
+  margin:0px;
 }
 .btn{
   margin:0px;
 }
-
 </style>
