@@ -26,23 +26,30 @@
     <b-icon @click="searchGeo(geo)" icon="search" class="goSearch"></b-icon>
     <!--    </b-button>-->
 
-    <button @click="logout" class="logOutBtn" >
-      <b-icon icon="power"></b-icon> Logout
-    </button>
+
     <div class="geoCard" style="text-align: center" >
       <div style="position: relative; top:10px;">
         <span  id="centerAddr"></span>
       </div>
     </div>
-    <div class="weatherCard">
-      <i class="fas fa-crosshairs fa-lg" style="position: relative; left: 30px; top: 10px;" @click="getCurrentPosBtn"></i>
+
+    <div class="viewsBack">
+      <button id="btnRoadmap" class="selected_btn" @click="setMapType('roadmap')">지도</button>
+      <button id="btnSkyview" class="btn" @click="setMapType('skyview')">스카이뷰</button>
     </div>
-    <div style="position: relative">
-      <div class="viewsBack">
-        <button id="btnRoadmap" class="selected_btn" @click="setMapType('roadmap')">지도</button>
-        <button id="btnSkyview" class="btn" @click="setMapType('skyview')">스카이뷰</button>
-      </div>
-      <div style="position:absolute">
+
+    <div class="weatherCard">
+      <i class="fas fa-crosshairs fa-lg" style="position: relative; left: 15px; top: 10px;" @click="getCurrentPosBtn"></i>
+    </div>
+
+    <div style="position: absolute;
+                right: 9px;
+                z-index: 420;
+                width: 38px;">
+      <button @click="logout" class="logOutBtn" style="display: block; position: relative; padding: 1px 3px 5px;" >
+        <b-icon icon="power"></b-icon> Logout
+      </button>
+      <div style="position:relative; right: 9px;">
         <button class="plusBtn" @click="zoomIn">
           <i class="fas fa-plus"></i>
         </button>
@@ -53,7 +60,6 @@
     </div>
   </div>
 </template>
-
 <script>
 
 
@@ -425,7 +431,7 @@ div {
   /*display: inline-block;*/
   left: 400px;
   height: 43px;
-  width: 300px;
+  width: 260px;
   box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
 }
 .weatherCard {
@@ -435,9 +441,9 @@ div {
   border-top-right-radius: 7px;
   top: 10px;
   /*display: inline-block;*/
-  left: 700px;
+  left: 640px;
   height: 43px;
-  width: 80px;
+  width: 50px;
   box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
 }
 .plusBtn{
@@ -461,7 +467,7 @@ div {
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
 .minusBtn{
-  position: absolute;
+  position: relative;
   display: block;
   float: right;
   z-index: 2;
@@ -469,7 +475,7 @@ div {
   width: 40px;
   height: 40px;
   /*margin-right: 10px;*/
-  top: 120px;
+  top: 80px;
   color: #1b375d;
   background-color: #ffffff;
   border-bottom-left-radius: 7px;
@@ -483,7 +489,7 @@ div {
   display: inline-block;
   /*margin: 0 50px;*/
   float: right;
-  margin-right: 20px;
+  margin-right: 150px;
   margin-top: 10px;
   background-color: white;
   border-radius: 7px;
@@ -491,25 +497,31 @@ div {
 }
 #btnRoadmap.selected_btn {
   color:#fff;
-  background: #506380;
+  background: #24376e;
   /*background:linear-gradient(#425470, #5b6d8a);*/
   width: 54px;
   height: 38px;
   border-radius: 7px;
   border: none;
+  /*padding-top: 4px;*/
+  padding: 5px 0 5px;
+  text-align: center;
 }
 #btnSkyview.selected_btn {
   color:#fff;
-  background:#506380;
+  background:#24376e;
   /*background:linear-gradient(#425470, #5b6d8a);*/
   width: 81px;
   height: 38px;
   border-radius: 7px;
   border: none;
+  /*padding-top: 4px;*/
+  padding: 3px 0 3px;
+  text-align: center;
 
 }
 .btn{
-  margin:0;
+  margin:0px;
 }
 
 </style>
