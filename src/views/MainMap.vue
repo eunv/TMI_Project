@@ -16,19 +16,41 @@
         style="width:100%;height:100vh;position: fixed;"
     >
     </vue-daum-map>
-<!--    <button v-b-toggle.sidebar-1 id="sidebar_openBtn" class="listView">-->
-<!--      <b-icon  icon="list" font-scale="1.5" style="margin-left: 30px; color: white;" class="my-2 my-sm-0"></b-icon>TMI</button>-->
+    <!--    <button v-b-toggle.sidebar-1 id="sidebar_openBtn" class="listView">-->
+    <!--      <b-icon  icon="list" font-scale="1.5" style="margin-left: 30px; color: white;" class="my-2 my-sm-0"></b-icon>TMI</button>-->
     <button v-b-toggle.sidebar-1 id="sidebar_openBtn" class="listView">
       <b-icon icon="list" aria-hidden="true"></b-icon>TMI
     </button>
-    <input v-model="geo" class="geoSearch" type="text" placeholder="Search" aria-label="Search" />
-<!--    <b-button  @click="searchGeo(geo)" class="moveBtn btn-mdb-color" >-->
-      <b-icon @click="searchGeo(geo)" icon="search" class="goSearch"></b-icon>
-<!--    </b-button>-->
+    <input v-model="geo" class="geoSearch" type="text" placeholder="Search" aria-label="Search" v-on:keypress.enter.prevent=searchGeo(geo)>
+    <!--    <b-button  @click="searchGeo(geo)" class="moveBtn btn-mdb-color" >-->
+    <b-icon @click="searchGeo(geo)" icon="search" class="goSearch"></b-icon>
+    <!--    </b-button>-->
 
     <button @click="logout" class="logOutBtn" >
       <b-icon icon="power"></b-icon> Logout
     </button>
+    <div class="geoCard" style="text-align: center" >
+      <div style="position: relative; top:10px;">
+        <span  id="centerAddr"></span>
+      </div>
+    </div>
+    <div class="weatherCard">
+      <i class="fas fa-crosshairs fa-lg" style="position: relative; left: 30px; top: 10px;" @click="getCurrentPosBtn"></i>
+    </div>
+    <div style="position: relative">
+      <div class="viewsBack">
+        <button id="btnRoadmap" class="selected_btn" @click="setMapType('roadmap')">지도</button>
+        <button id="btnSkyview" class="btn" @click="setMapType('skyview')">스카이뷰</button>
+      </div>
+      <div style="position:absolute">
+        <button class="plusBtn" @click="zoomIn">
+          <i class="fas fa-plus"></i>
+        </button>
+        <button class="minusBtn" @click="zoomOut">
+          <i class="fas fa-minus"></i>
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -69,7 +91,11 @@ export default {
       modal : false,
       obj: {},
       userInfo: [],
+      maptype: '',
     }
+  },
+  computed: {
+
   },
   mounted() {
     this.getDataList()
@@ -78,7 +104,6 @@ export default {
   methods: {
     moveLoc() {
       const moveLatLon = new kakao.maps.LatLng(this.center.lat, this.center.lng);
-
       this.map.panTo(moveLatLon)
     },
     openModal() {
@@ -91,11 +116,38 @@ export default {
       this.map = map;
       this.maps = daum.map
 
+
+      function searchAddrFromCoords(coords, callback) {
+        // 좌표로 행정동 주소 정보를 요청합니다
+        const geocoder = new kakao.maps.services.Geocoder();
+        geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
+      }
+
+      // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+      function displayCenterInfo(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+          const infoDiv = document.getElementById('centerAddr');
+
+          for(var i = 0; i < result.length; i++) {
+            // 행정동의 region_type 값은 'H' 이므로
+            if (result[i].region_type === 'H') {
+              infoDiv.innerHTML = result[i].address_name;
+              break;
+            }
+          }
+        }
+      }
+
+      setTimeout(function() {
+        searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+      }, 1000);
       // let marker = new kakao.maps.Marker({
       //   position: map.getCenter()
       // });
       //
-      //
+      kakao.maps.event.addListener(map, 'idle', function() {
+        searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+      });
       // kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
       //
       //   // 클릭한 위도, 경도 정보를 가져옵니다
@@ -108,7 +160,51 @@ export default {
       //   this.long = latlng.Ma;
       //   console.log(this.lat)
       // });
+
     },
+    zoomIn() {
+      this.map.setLevel(this.map.getLevel() - 1,{animate: true});
+    },
+
+// 지도 확대, 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
+    zoomOut() {
+      this.map.setLevel(this.map.getLevel() + 1,{animate: true});
+    },
+    //지도 타입 바꾸는 함수
+    setMapType(maptype) {
+      const roadmapControl = document.getElementById('btnRoadmap');
+      const skyviewControl = document.getElementById('btnSkyview');
+      if (maptype === 'roadmap') {
+        this.map.setMapTypeId(kakao.maps.MapTypeId.ROADMAP);
+        roadmapControl.className = 'selected_btn';
+        skyviewControl.className = 'btn';
+      } else {
+        this.map.setMapTypeId(kakao.maps.MapTypeId.HYBRID);
+        skyviewControl.className = 'selected_btn';
+        roadmapControl.className = 'btn';
+      }
+    },
+
+    locationLoadSuccess(pos){
+      // 현재 위치 받아오기
+      const currentPos = new kakao.maps.LatLng(pos.coords.latitude,pos.coords.longitude);
+
+      // 지도 이동(기존 위치와 가깝다면 부드럽게 이동)
+      this.map.panTo(currentPos);
+
+    },
+
+    locationLoadError(){
+      alert('위치 정보를 가져오는데 실패했습니다.');
+    },
+
+// 위치 가져오기 버튼 클릭시
+    getCurrentPosBtn(){
+      navigator.geolocation.getCurrentPosition(this.locationLoadSuccess,this.locationLoadError);
+    },
+
+
+
     searchGeo(geo){
 
       const ps = new kakao.maps.services.Places();
@@ -238,9 +334,10 @@ export default {
       this.$router.push('/')
     },
   },
-  watch:{
+  watch: {
 
-  }
+
+  },
 }
 </script>
 
@@ -268,34 +365,47 @@ div {
   background-color: #24376e;
   border-radius: 2px;
   width: 90px;
-  height: 38px;
+  height: 42px;
   top: 10px;
   left:15px;
   text-align: center;
   color: white;
+  border: none;
+  border-bottom-left-radius: 7px;
+  border-top-left-radius: 7px;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
 }
 .logOutBtn {
-  position: absolute;
+  position: relative;
+  overflow: hidden;
   z-index: 2;
   font-size: 15px;
   width: 100px;
-  height: 35px;
-  left: 94%;
+  height: 38px;
+  float: right;
+  margin-right: 10px;
   top: 10px;
   color: #1b375d;
   background-color: #ffffff;
-  border-radius: 10px;
-  border-width: 1px;
+  border-radius: 7px;
+
+  /*border-width: 1px;*/
+  border: none;
+  /*box-shadow: 0 5px 5px -5px #333;*/
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
 }
 .geoSearch{
   position:absolute;
   z-index: 2;
   width: 250px;
-  height: 38px;
-  border-radius: 0;
+  height: 42px;
+  border-bottom-right-radius: 7px;
+  border-top-right-radius: 7px;
   top: 10px;
   left:105px;
-  border-width: 1px;
+  border: none;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+  /*box-shadow: 0 5px 5px -5px #333;*/
 }
 .geoSearch:focus{
   outline: none;
@@ -306,4 +416,100 @@ div {
   top:20px;
   left: 320px;
 }
+.geoCard {
+  position: absolute;
+  background-color:white;
+  border-bottom-left-radius: 7px;
+  border-top-left-radius: 7px;
+  top: 10px;
+  /*display: inline-block;*/
+  left: 400px;
+  height: 43px;
+  width: 300px;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+}
+.weatherCard {
+  position: absolute;
+  background-color:white;
+  border-bottom-right-radius: 7px;
+  border-top-right-radius: 7px;
+  top: 10px;
+  /*display: inline-block;*/
+  left: 700px;
+  height: 43px;
+  width: 80px;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+}
+.plusBtn{
+  position: relative;
+  display: block;
+  float: right;
+  z-index: 2;
+  font-size: 15px;
+  width: 40px;
+  height: 40px;
+  /*margin-right: 10px;*/
+  top: 80px;
+  color: #1b375d;
+  background-color: #ffffff;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  border-top:none;
+  border-left: none;
+  border-right: none;
+  border-bottom-style: solid;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+.minusBtn{
+  position: absolute;
+  display: block;
+  float: right;
+  z-index: 2;
+  font-size: 15px;
+  width: 40px;
+  height: 40px;
+  /*margin-right: 10px;*/
+  top: 120px;
+  color: #1b375d;
+  background-color: #ffffff;
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+  border: none;
+}
+.viewsBack{
+  position:relative;
+  /*z-index: 100;*/
+  /*left: 50%;*/
+  display: inline-block;
+  /*margin: 0 50px;*/
+  float: right;
+  margin-right: 20px;
+  margin-top: 10px;
+  background-color: white;
+  border-radius: 7px;
+  padding: 2px;
+}
+#btnRoadmap.selected_btn {
+  color:#fff;
+  background: #506380;
+  /*background:linear-gradient(#425470, #5b6d8a);*/
+  width: 54px;
+  height: 38px;
+  border-radius: 7px;
+  border: none;
+}
+#btnSkyview.selected_btn {
+  color:#fff;
+  background:#506380;
+  /*background:linear-gradient(#425470, #5b6d8a);*/
+  width: 81px;
+  height: 38px;
+  border-radius: 7px;
+  border: none;
+
+}
+.btn{
+  margin:0;
+}
+
 </style>

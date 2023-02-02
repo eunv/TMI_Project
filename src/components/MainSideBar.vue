@@ -2,13 +2,13 @@
   <div>
     <b-sidebar id="sidebar-1" shadow>
       <div class="px-3 py-2">
-        <div>
-          <h4>
+        <div class="sideTitle">
+          <h3>
             {{userInfo.nickName}}'s Map
-          </h4>
+          </h3>
         </div>
 
-        <div class="listTable" style="width:100%; height:78vh; overflow:auto">
+        <div class="listTable" style="width:100%; height:78vh; overflow:auto; margin-top: 10px;">
           <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
             <thead>
             <tr>
@@ -237,5 +237,10 @@ table {
   position: absolute;
   top:40vh;
   left:27%;
+}
+.sideTitle {
+  position: absolute;
+  top: 0px;
+  margin-top: 10px;
 }
 </style>

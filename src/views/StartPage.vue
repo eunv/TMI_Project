@@ -1,21 +1,36 @@
 <template>
   <div class="backgroundImg">
-<!--    <img class="backgroundImg" src="@/assets/images/bgPhoto.jpg">-->
-    <div class = "title">
-      <h2><span class = "text-red">T</span>rip</h2>
-      <h2><span class = "text-red">M</span>emory</h2>
-      <h2><span class = "text-red">I</span>nformation</h2>
+    <div style="width: 750px; height: 100vh; margin: 0 auto">
+
+      <div class = "title">
+        <h2><span class = "text-red">T</span>rip</h2>
+        <h2><span class = "text-red">M</span>emory</h2>
+        <h2><span class = "text-red">I</span>nformation</h2>
+
+
+      </div>
+      <div class="smallTitle">
+        <hr align = "center" width = "550px" color="white"/>
+        <h3>추억을 한 눈에 보고 싶을 때</h3>
+      </div>
+
+
+
+      <div class ="simpleLogin">
+        <!--        <div class="google">-->
+        <button class = "googleLoginButton white btn-outline-white" @click="googleLogin"><img style="float: left;" class = "googleImg" src = "@/assets/images/googleImage.png">Sign in with Google</button>
+        <!--        </div>-->
+        <!--        <div class="kakao">-->
+        <button class = "kakaoLoginButton btn-outline-yellow" @click="kakaoLogin"><img style="float: left;" class = "kakaoImg" src = "@/assets/images/kakaologo.png">Sign in with kakao</button>
+        <!--        </div>-->
+      </div>
+
+      <div class="textLink">
+        <router-link to="login" class="loginLink">로그인</router-link>
+        <router-link to="signUp" class="signUpLink">회원가입</router-link>
+      </div>
+
     </div>
-    <hr align = "center" width = "550px" color="white"/>
-
-    <h3>추억을 한 눈에 보고 싶을 때</h3>
-    <button class = "googleLoginButton white btn-outline-white" @click="googleLogin">Sign in with Google</button>
-    <button class = "kakaoLoginButton btn-outline-yellow" @click="kakaoLogin">Sign in with kakao</button>
-    <img class = "googleImg" src = "@/assets/images/googleImage.png">
-    <img class = "kakaoImg" src = "@/assets/images/kakaologo.png">
-
-    <router-link to="login" class="loginLink">로그인</router-link>
-    <router-link to="signUp" class="signUpLink">회원가입</router-link>
   </div>
 </template>
 
@@ -140,8 +155,8 @@ a {
   position: absolute;
   /*width: 35%;*/
   /*height: 40%;*/
-  left: 30%;
-  top: 21vh;
+  /*left: 10px;*/
+  top: 15vh;
 
   /*font-family: 'Roboto';*/
   font-style: normal;
@@ -152,6 +167,12 @@ a {
 
   text-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25);
 }
+.smallTitle  {
+  position: relative;
+  top: 3vh;
+  padding-bottom: 30px;
+  padding-top: 10px;
+}
 h2{
   font-style: normal;
   font-weight: 700;
@@ -159,31 +180,34 @@ h2{
   line-height: 59px;
 }
 hr {
-  position: absolute;
-  left: 36.5%;
-  top: 38vh;
+  position: relative;
+  top: 30vh;
   height: 3px;
   color: #ffffff;
+  float: right;
 }
 h3{
-  position: absolute;
-  left: 46%;
-  top: 40%;
+  position: relative;
+  top: 29vh;
   font-style: normal;
   font-weight: 500;
   font-size: 27px;
   color: white;
   line-height: 59px;
+  float: right;
+  padding-right: 15px;
 }
 .text-red {
   color: rgba(105, 120, 168, 0.99);
 }
 .googleLoginButton{
-  position: absolute;
-  width: 350px;
+  position: relative;
+  width: 300px;
   height: 60px;
-  left: 41%;
-  top: 78vh;
+  top:60vh;
+  /*margin: auto;*/
+  /*display: inline-block;*/
+
   font-size:23px;
   line-height: 50px;
   text-align: center;
@@ -193,11 +217,11 @@ h3{
   border-radius: 12px;
 }
 .kakaoLoginButton {
-  position: absolute;
-  width: 350px;
+  position: relative;
+  width: 300px;
   height: 60px;
-  left: 41%;
-  top: 73%;
+  top:61vh;
+
   font-size:23px;
   line-height: 50px;
   text-align: center;
@@ -205,33 +229,53 @@ h3{
   color: saddlebrown;
   /*border: solid 2px grey;*/
   border-radius: 12px;
+  /*margin: auto;*/
+  /*display: block;*/
 }
 .googleImg {
-  position: absolute;
-  left: 42%;
-  top: 78.8%;
+  /*position: relative;*/
+  /*left: 40px;*/
+  /*top: 78.8%;*/
   width: 40px;
   height: 40px;
 }
 .kakaoImg {
-  position: absolute;
-  left: 42%;
-  top: 73.8%;
+  /*position: relative;*/
+  /*left: 40px;*/
+  /*top: 73.8%;*/
   width: 40px;
   height: 40px;
 }
 .loginLink {
-  position: absolute;
-  left: 42%;
-  top: 85%;
+  position: relative;
   font-size:23px;
   color: white;
+  padding:15px;
+  top: 65vh;
 }
 .signUpLink {
-  position: absolute;
-  left: 50%;
-  top: 85%;
+  position: relative;
   font-size:23px;
   color: white;
+  padding:15px;
+  top: 65vh;
+}
+.simpleLogin {
+  position: relative;
+  width: 330px;
+  top: -4vh;
+  margin: 0 auto;
+  padding:10px;
+}
+/*.google {*/
+
+/*}*/
+/*.kakao {*/
+/*  padding-top:10px;*/
+/*}*/
+.textLink {
+  position: relative;
+  top: -4vh;
+  text-align: center;
 }
 </style>
