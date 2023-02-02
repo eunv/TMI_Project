@@ -85,13 +85,14 @@ export default {
   mounted() {
     const self = this;
     self.init();
+
   },
   methods: {
     init() {
       const self = this;
       self.getData();
-      // self.reLayout()
     },
+
     getData() {
       const self = this;
       const db = firebase.firestore();
@@ -132,13 +133,6 @@ export default {
             alert("저장에 실패했습니다.")
           })
     },
-    // previewImage(event) {
-    //   this.uploadValue = 0;
-    //   this.img1 = null;
-    //   this.imageData = event.target.files[0];
-    //   console.log(this.imageData)
-    //   // this.onUpload()
-    // },
     onUpload() {
       const files = this.$refs.fileInput.files;
       if(files.length >= 1) {
@@ -161,14 +155,12 @@ export default {
         this.addMemory();
       }
     },
-    reLayout(map) {
-      this.map = map;
-      this.map.relayout()
-    },
     onLoad(map, daum) {
       this.map = map;
       this.maps = daum.map
-      console.log("111",this.map.relayout())
+      setTimeout(function() {
+        console.log("111",map.relayout())
+      }, 1);
 
 
       let marker = new kakao.maps.Marker({
