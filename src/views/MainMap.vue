@@ -26,7 +26,6 @@
     <b-icon @click="searchGeo(geo)" icon="search" class="goSearch"></b-icon>
     <!--    </b-button>-->
 
-
     <div class="geoCard" style="text-align: center" >
       <div style="position: relative; top:10px;">
         <span  id="centerAddr"></span>
@@ -50,6 +49,7 @@
         <b-icon icon="power"></b-icon> Logout
       </button>
       <div style="position:relative; right: 9px; top: 300px">
+
         <button class="plusBtn" @click="zoomIn">
           <i class="fas fa-plus"></i>
         </button>
@@ -209,6 +209,7 @@ export default {
     getCurrentPosBtn(){
       navigator.geolocation.getCurrentPosition(this.locationLoadSuccess,this.locationLoadError);
     },
+
 
 
 
@@ -385,6 +386,7 @@ div {
 .logOutBtn {
   position: relative;
   /*overflow: hidden;*/
+
   z-index: 2;
   font-size: 15px;
   width: 100px;
@@ -449,6 +451,7 @@ div {
 }
 .plusBtn{
   /*position: relative;*/
+
   display: block;
   float: right;
   z-index: 2;
@@ -522,4 +525,57 @@ div {
 .sky{
   /*top: ;*/
 }
+</style>
+=======
+  position: absolute;
+  display: block;
+  float: right;
+  z-index: 2;
+  font-size: 15px;
+  width: 40px;
+  height: 40px;
+  /*margin-right: 10px;*/
+  top: 120px;
+  color: #1b375d;
+  background-color: #ffffff;
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+  border: none;
+}
+.viewsBack{
+  position:relative;
+  /*z-index: 100;*/
+  /*left: 50%;*/
+  display: inline-block;
+  /*margin: 0 50px;*/
+  float: right;
+  margin-right: 20px;
+  margin-top: 10px;
+  background-color: white;
+  border-radius: 7px;
+  padding: 2px;
+}
+#btnRoadmap.selected_btn {
+  color:#fff;
+  background: #506380;
+  /*background:linear-gradient(#425470, #5b6d8a);*/
+  width: 54px;
+  height: 38px;
+  border-radius: 7px;
+  border: none;
+}
+#btnSkyview.selected_btn {
+  color:#fff;
+  background:#506380;
+  /*background:linear-gradient(#425470, #5b6d8a);*/
+  width: 81px;
+  height: 38px;
+  border-radius: 7px;
+  border: none;
+
+}
+.btn{
+  margin:0;
+}
+
 </style>

@@ -7,19 +7,22 @@
 
         <label for="content" class="grey-text" style="margin:10px">내용</label>
         <input v-model="content" type="textarea" id="content" class="form-control" >
+
         <hr>
-        <label for="content" class="grey-text" style="margin:10px">이미지 저장</label> <br>
-        <input type="file" class="form-control" ref="fileInput" accept="image/jpeg, image/jpg" id="inputGroupFile02"  multiple>
+        <label htmlFor="content" className="grey-text" style="margin:10px">이미지 저장</label> <br>
+        <input type="file" className="form-control" ref="fileInput" accept="image/jpeg, image/jpg" id="inputGroupFile02"
+               multiple>
         <hr>
         <div>
           <label for="example-datepicker" class="grey-text" style="margin:10px" >날짜 선택</label>
           <date-picker  v-model="date" valueType="format"></date-picker>
+
           <!--          <b-datepicker id="example-datepicker" v-model="date" class="mb-2 dateSelect"></b-datepicker>-->
         </div>
         <hr>
-        <label for="content" class="grey-text" style="margin:10px">위치 지정하기</label>
-        <input v-model="geo" class="form-control" type="text" placeholder="Search" aria-label="Search" />
-        <b-button  @click="searchGeo(geo)" class="moveBtn btn-mdb-color" >이동</b-button>
+        <label htmlFor="content" className="grey-text" style="margin:10px">위치 지정하기</label>
+        <input v-model="geo" className="form-control" type="text" placeholder="Search" aria-label="Search"/>
+        <b-button @click="searchGeo(geo)" class="moveBtn btn-mdb-color">이동</b-button>
 
         <vue-daum-map id="addMap"
                       :appKey="appkey"
@@ -77,7 +80,7 @@ export default {
       lat: 0.0,
       long: 0.0,
 
-      caption : '',
+      caption: '',
       img1: [],
       imageData: null
     }
@@ -135,7 +138,7 @@ export default {
     },
     onUpload() {
       const files = this.$refs.fileInput.files;
-      if(files.length >= 1) {
+      if (files.length >= 1) {
         const promises = [];
         for (let i = 0; i < files.length; i++) {
           this.imageData = files[i];
@@ -203,7 +206,7 @@ export default {
           // LatLngBounds 객체에 좌표를 추가합니다
           const bounds = new kakao.maps.LatLngBounds();
 
-          for (var i=0; i<data.length; i++) {
+          for (var i = 0; i < data.length; i++) {
             bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
           }
           // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
@@ -212,15 +215,13 @@ export default {
       }
     },
   },
-  props: {
-
-  }
+  props: {}
 
 }
 </script>
 
 <style scoped>
-#sidebar-3{
+#sidebar-3 {
   position: absolute;
   left: 320px;
   width: 400px;
