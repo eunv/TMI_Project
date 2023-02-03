@@ -223,12 +223,12 @@ export default {
 }
 .goAddMemory {
   position: absolute;
-  left: 170px;
+  left: 167px;
   top: 90%;
 }
 .deleteCheck {
   position: absolute;
-  left: 303px;
+  left: 298px;
   top: 90%;
 }
 .img1 {

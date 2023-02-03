@@ -10,7 +10,7 @@
         </div>
 
         <div style="width:100%; height:73vh; overflow:auto; margin-top: 60px;">
-          <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
+        <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
             <thead>
             <tr>
             </tr>
@@ -163,8 +163,9 @@ export default {
 
 .goMypage {
   position: absolute;
-  left:10px;
-  top:90%;
+  left:250px;
+  top:40px;
+  color: white;
 }
 .img1 {
   /*width: auto; height: auto;*/
@@ -176,3 +177,4 @@ export default {
 }
 
 </style>
+

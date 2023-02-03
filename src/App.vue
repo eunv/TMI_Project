@@ -28,6 +28,7 @@ div#sidebar-1 {
   .close {
     z-index:100;
     color: white !important;
+    background-color: #24376e;
   }
 }
 </style>

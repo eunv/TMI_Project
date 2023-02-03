@@ -18,8 +18,11 @@
         </div>
         <hr>
         <label for="content" class="grey-text" style="margin:10px">위치 지정하기</label>
-        <input v-model="geo" class="form-control" type="text" placeholder="Search" aria-label="Search" />
-        <b-button  @click="searchGeo(geo)" class="moveBtn btn-mdb-color" >이동</b-button>
+        <div class = "input-line">
+          <input v-model="geo" class="form-control" type="text" placeholder="Search" aria-label="Search" />
+          <b-button class="upload moveBtn"  @click="searchGeo(geo)" >이동</b-button>
+        </div>
+
 
         <vue-daum-map id="addMap"
                       :appKey="appkey"
@@ -31,7 +34,7 @@
                       @load="onLoad"
         >
         </vue-daum-map>
-        <b-button @click="onUpload()">저장하기</b-button>
+        <b-button class="upload" @click="onUpload()">저장하기</b-button>
       </div>
     </b-sidebar>
   </div>
@@ -77,7 +80,7 @@ export default {
       lat: 0.0,
       long: 0.0,
 
-      caption : '',
+      caption: '',
       img1: [],
       imageData: null
     }
@@ -135,7 +138,7 @@ export default {
     },
     onUpload() {
       const files = this.$refs.fileInput.files;
-      if(files.length >= 1) {
+      if (files.length >= 1) {
         const promises = [];
         for (let i = 0; i < files.length; i++) {
           this.imageData = files[i];
@@ -203,7 +206,7 @@ export default {
           // LatLngBounds 객체에 좌표를 추가합니다
           const bounds = new kakao.maps.LatLngBounds();
 
-          for (var i=0; i<data.length; i++) {
+          for (var i = 0; i < data.length; i++) {
             bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
           }
           // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
@@ -212,17 +215,32 @@ export default {
       }
     },
   },
-  props: {
-
-  }
+  props: {}
 
 }
 </script>
 
 <style scoped>
-#sidebar-3{
+#sidebar-3 {
   position: absolute;
   left: 320px;
   width: 400px;
+}
+.upload {
+  margin-top: 10px;
+  width: 80px;
+  height: 38px;
+  border: none;
+  color: white;
+  border-radius: 7px;
+  background-color: #79a3d3 !important;
+}
+.moveBtn {
+  margin:1.5px;
+}
+.input-line {
+  display: flex;
+  height: 38px;
+  margin-bottom: 10px;
 }
 </style>

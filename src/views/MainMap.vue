@@ -298,7 +298,6 @@ export default {
   },
 }
 </script>
-
 <style scoped>
 #mainMap {
   font-family: Avenir, Helvetica, Arial, sans-serif;

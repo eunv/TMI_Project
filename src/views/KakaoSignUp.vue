@@ -127,10 +127,6 @@ export default {
   width: 100%;
   background-size: cover;
 }
-body {
-  background-image: url("../assets/images/bgPhoto.jpg");
-  background-size: cover;
-}
 .black-bg {
   width: 100%;
   height: 100%;
