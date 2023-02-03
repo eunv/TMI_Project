@@ -1,6 +1,6 @@
 <template>
   <div class>
-    <b-sidebar  no-slide class="addMemory" id="sidebar-3">
+    <b-sidebar  no-slide class="addMemory" id="sidebar-3" shadow>
       <div class="px-3 py-2">
         <label for="title" class="grey-text" style="margin:10px">제목</label>
         <input v-model="title" type="text" id="title" class="form-control" >
