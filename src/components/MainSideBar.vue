@@ -244,7 +244,7 @@ table {
 }
 .dataFalse{
   position: absolute;
-  top:40vh;
+  top:50vh;
   left:27%;
 }
 .sideTitle {

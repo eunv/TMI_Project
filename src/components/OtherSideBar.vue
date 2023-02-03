@@ -25,7 +25,7 @@
           </table>
         </div>
       </div>
-      <div class="px-3 py-2 dataFalse" v-if="whatData">
+      <div class="px-3 py-2 dataFalse" v-if="whatData == true">
         <p>
           아직 등록하지 않았어요!
         </p>
@@ -69,6 +69,7 @@ export default {
     init() {
       const self = this;
       self.getData();
+      self.getDatalist();
     },
     changeCenter(){
       this.$emit("changeCenter", this.memoryList.marker._lat)
@@ -178,6 +179,10 @@ export default {
   /*height: 600px;*/
   object-fit: cover;
 }
-
+.dataFalse{
+  position: absolute;
+  top:50vh;
+  left:27%;
+}
 </style>
 
