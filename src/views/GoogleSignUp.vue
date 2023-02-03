@@ -19,7 +19,7 @@
         </div>
         <div>
           <label for="defaultFormRegisterEmailEx" class="grey-text">아이디</label>
-          <input  v-model="id" type="text" id="defaultFormRegisterEmailEx" class="form-control" readonly/>
+            <input  v-model="id" type="text" id="defaultFormRegisterEmailEx" class="form-control" readonly/>
         </div>
 
         <div class="text-center mt-4">
@@ -113,8 +113,11 @@ export default {
 </script>
 
 <style scoped>
-body {
+.backgroundImg {
   background-image: url("../assets/images/startBackground.jpg");
+  background-color:rgba(0, 0, 0, 0.5);
+  height: 100vh;
+  width: 100%;
   background-size: cover;
 }
 .black-bg {
