@@ -48,8 +48,8 @@
         <AddMemorySideBar></AddMemorySideBar>
       </div>
       <b-icon @click="onCheck" id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="deleteCheck"></b-icon>
-      <b-button v-if="deleteCheck == true" @click="deleteList" variant="danger" class="deleteBtn"> 삭제하기 </b-button>
-      <b-button v-if="deleteCheck == true" @click="offCheck" variant="primary" class="cancelBtn"> 취소하기 </b-button>
+      <button v-if="deleteCheck == true" @click="deleteList" class="deleteBtn"> 삭제하기 </button>
+      <button v-if="deleteCheck == true" @click="offCheck" class="cancelBtn"> 취소하기 </button>
 
     </b-sidebar>
   </div>
@@ -196,8 +196,12 @@ export default {
   font-size: 15px;
   width: 130px;
   height: 40px;
-  left: 1%;
+  left: 30px;
   top: 93%;
+  border: none;
+  background-color: #2c3e50;
+  border-radius: 7px;
+  color: white;
 }
 .cancelBtn{
   position: absolute;
@@ -205,22 +209,26 @@ export default {
   font-size: 15px;
   width: 130px;
   height: 40px;
-  left: 50%;
+  left: 195px;
   top: 93%;
+  border: none;
+  background-color: #688aaf;
+  border-radius: 7px;
+  color: white;
 }
 .goMypage {
   position: absolute;
-  left: 10%;
+  left: 40px;
   top: 90%;
 }
 .goAddMemory {
   position: absolute;
-  left: 48%;
+  left: 167px;
   top: 90%;
 }
 .deleteCheck {
   position: absolute;
-  left: 85%;
+  left: 298px;
   top: 90%;
 }
 .img1 {
