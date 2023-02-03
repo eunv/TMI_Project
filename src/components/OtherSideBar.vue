@@ -163,8 +163,9 @@ export default {
 
 .goMypage {
   position: absolute;
-  left:10px;
-  top:90%;
+  left:250px;
+  top:40px;
+  color: white;
 }
 .img1 {
   /*width: auto; height: auto;*/
