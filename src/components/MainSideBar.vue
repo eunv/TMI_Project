@@ -1,14 +1,15 @@
 <template>
   <div>
     <b-sidebar id="sidebar-1" shadow>
-      <div class="px-3 py-2">
-        <div class="sideTitle">
-          <h3>
+      <div class="px-3 py-2 sideTitle">
+        <br>
+        <div class="">
+          <h3 style="color: #FFFFFF;">
             {{userInfo.nickName}}'s Map
           </h3>
         </div>
 
-        <div class="listTable" style="width:100%; height:78vh; overflow:auto; margin-top: 10px;">
+        <div style="width:100%; height:73vh; overflow:auto; margin-top: 60px;">
           <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
             <thead>
             <tr>
@@ -241,6 +242,10 @@ table {
 .sideTitle {
   position: absolute;
   top: 0px;
-  margin-top: 10px;
+  /*margin-top: 10px;*/
+  background: #24376e;
+  height: 100px;
+  width: 360px;
 }
+
 </style>
