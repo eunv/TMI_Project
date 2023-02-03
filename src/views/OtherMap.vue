@@ -72,7 +72,7 @@ export default {
   components: {VueDaumMap, OtherSideBar, Detail },
   data() {
     return {
-      appkey: 'f486e714c436dbd1f7761ca8d96e43c8',
+      appkey: '149ca1b26e1a09a847fc3342c98b0a30',
       center: {lat: 37.5411, lng: 127.068},
       level: 3,
       mapTypeId: VueDaumMap.MapTypeId.NORMAL,

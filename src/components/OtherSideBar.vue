@@ -178,6 +178,10 @@ export default {
   /*height: 600px;*/
   object-fit: cover;
 }
-
+.dataFalse{
+  position: absolute;
+  top:40vh;
+  left:27%;
+}
 </style>
 
