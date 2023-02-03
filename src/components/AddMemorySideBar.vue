@@ -1,28 +1,28 @@
 <template>
   <div class>
-    <b-sidebar  no-slide class="addMemory" id="sidebar-3" shadow>
+    <b-sidebar  no-slide class="addMemory" id="sidebar-3">
       <div class="px-3 py-2">
         <label for="title" class="grey-text" style="margin:10px">제목</label>
         <input v-model="title" type="text" id="title" class="form-control" >
 
         <label for="content" class="grey-text" style="margin:10px">내용</label>
         <input v-model="content" type="textarea" id="content" class="form-control" >
-
         <hr>
-        <label htmlFor="content" className="grey-text" style="margin:10px">이미지 저장</label> <br>
-        <input type="file" className="form-control" ref="fileInput" accept="image/jpeg, image/jpg" id="inputGroupFile02"
-               multiple>
+        <label for="content" class="grey-text" style="margin:10px">이미지 저장</label> <br>
+        <input type="file" class="form-control" ref="fileInput" accept="image/jpeg, image/jpg" id="inputGroupFile02"  multiple>
         <hr>
         <div>
           <label for="example-datepicker" class="grey-text" style="margin:10px" >날짜 선택</label>
           <date-picker  v-model="date" valueType="format"></date-picker>
-
           <!--          <b-datepicker id="example-datepicker" v-model="date" class="mb-2 dateSelect"></b-datepicker>-->
         </div>
         <hr>
-        <label htmlFor="content" className="grey-text" style="margin:10px">위치 지정하기</label>
-        <input v-model="geo" className="form-control" type="text" placeholder="Search" aria-label="Search"/>
-        <b-button @click="searchGeo(geo)" class="moveBtn btn-mdb-color">이동</b-button>
+        <label for="content" class="grey-text" style="margin:10px">위치 지정하기</label>
+        <div class = "input-line">
+          <input v-model="geo" class="form-control" type="text" placeholder="Search" aria-label="Search" />
+          <b-button class="upload moveBtn"  @click="searchGeo(geo)" >이동</b-button>
+        </div>
+
 
         <vue-daum-map id="addMap"
                       :appKey="appkey"
@@ -34,7 +34,7 @@
                       @load="onLoad"
         >
         </vue-daum-map>
-        <b-button @click="onUpload()">저장하기</b-button>
+        <b-button class="upload" @click="onUpload()">저장하기</b-button>
       </div>
     </b-sidebar>
   </div>
@@ -225,5 +225,22 @@ export default {
   position: absolute;
   left: 320px;
   width: 400px;
+}
+.upload {
+  margin-top: 10px;
+  width: 80px;
+  height: 38px;
+  border: none;
+  color: white;
+  border-radius: 7px;
+  background-color: #79a3d3 !important;
+}
+.moveBtn {
+  margin:1.5px;
+}
+.input-line {
+  display: flex;
+  height: 38px;
+  margin-bottom: 10px;
 }
 </style>

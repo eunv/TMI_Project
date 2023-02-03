@@ -24,7 +24,7 @@
           <h5 style="margin:10px"><b>연결된 사람</b></h5>
           <div class="px-3 py-2 dataFalse" v-if="connCode">
             <div v-for = "otherCode in otherCodes" :key = "otherCode"  style="margin:10px">
-              {{otherCode}} <button @click="goOtherMap(otherCode)" class="btn-outline-light-blue" style="border-radius: 7px;">입장</button>
+              {{otherCode}} <button @click="goOtherMap(otherCode)" class="btn-outline-mdb-color" style="border-radius: 7px;">입장</button>
             </div>
           </div>
           <div v-else>
@@ -36,7 +36,7 @@
             <h5 style="margin:10px"><b>입장코드 입력</b></h5>
             <div class = "input-line">
               <input v-model="codeAdd" type="text" id="otherCode" class="form-control">
-              <button class="btn-outline-light-blue" @click="codeInput" style="width: 50px; border-radius: 7px;">등록</button>
+              <button class="btn-outline-mdb-color" @click="codeInput" style="width: 50px; border-radius: 7px;">등록</button>
             </div>
           </div>
           <hr/>

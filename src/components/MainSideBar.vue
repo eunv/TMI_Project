@@ -1,14 +1,15 @@
 <template>
   <div>
     <b-sidebar id="sidebar-1" shadow>
-      <div class="px-3 py-2">
-        <div class="sideTitle">
-          <h3>
+      <div class="px-3 py-2 sideTitle">
+        <br>
+        <div class="">
+          <h3 style="color: #FFFFFF;">
             {{userInfo.nickName}}'s Map
           </h3>
         </div>
 
-        <div class="listTable" style="width:100%; height:78vh; overflow:auto; margin-top: 10px;">
+        <div style="width:100%; height:73vh; overflow:auto; margin-top: 60px;">
           <table class="table " border="1" style="margin-left: auto; margin-right: auto;">
             <thead>
             <tr>
@@ -47,8 +48,8 @@
         <AddMemorySideBar></AddMemorySideBar>
       </div>
       <b-icon @click="onCheck" id="sidebar_openBtn" icon="pencil-fill" font-scale="1.5" class="deleteCheck"></b-icon>
-      <b-button v-if="deleteCheck == true" @click="deleteList" variant="danger" class="deleteBtn"> 삭제하기 </b-button>
-      <b-button v-if="deleteCheck == true" @click="offCheck" variant="primary" class="cancelBtn"> 취소하기 </b-button>
+      <button v-if="deleteCheck == true" @click="deleteList" class="deleteBtn"> 삭제하기 </button>
+      <button v-if="deleteCheck == true" @click="offCheck" class="cancelBtn"> 취소하기 </button>
 
     </b-sidebar>
   </div>
@@ -195,8 +196,12 @@ export default {
   font-size: 15px;
   width: 130px;
   height: 40px;
-  left: 1%;
+  left: 30px;
   top: 93%;
+  border: none;
+  background-color: #2c3e50;
+  border-radius: 7px;
+  color: white;
 }
 .cancelBtn{
   position: absolute;
@@ -204,22 +209,26 @@ export default {
   font-size: 15px;
   width: 130px;
   height: 40px;
-  left: 50%;
+  left: 195px;
   top: 93%;
+  border: none;
+  background-color: #688aaf;
+  border-radius: 7px;
+  color: white;
 }
 .goMypage {
   position: absolute;
-  left: 10%;
+  left: 40px;
   top: 90%;
 }
 .goAddMemory {
   position: absolute;
-  left: 48%;
+  left: 167px;
   top: 90%;
 }
 .deleteCheck {
   position: absolute;
-  left: 85%;
+  left: 298px;
   top: 90%;
 }
 .img1 {
@@ -241,6 +250,10 @@ table {
 .sideTitle {
   position: absolute;
   top: 0px;
-  margin-top: 10px;
+  /*margin-top: 10px;*/
+  background: #24376e;
+  height: 100px;
+  width: 360px;
 }
+
 </style>

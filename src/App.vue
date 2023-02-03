@@ -24,4 +24,11 @@ div#sidebar-3 {
   left: 360px;
   width: 360px;
 }
+div#sidebar-1 {
+  .close {
+    z-index:100;
+    color: white !important;
+    background-color: #24376e;
+  }
+}
 </style>
