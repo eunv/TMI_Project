@@ -8,5 +8,5 @@
 - 가동서버 : [Firebase](https://firebase.google.com/)
 
 ## 프로그램 기능 및 사용법
-![image](https://user-images.githubusercontent.com/107538112/216516375-1ff5e12c-e673-4487-bf47-a5f0b94e08c2.png)
+![image](https://user-images.githubusercontent.com/107538112/216516445-41d70264-1fbf-41aa-8313-72b9eec86e45.png)
 
