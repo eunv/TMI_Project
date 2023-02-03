@@ -26,6 +26,7 @@
     <b-icon @click="searchGeo(geo)" icon="search" class="goSearch"></b-icon>
     <!--    </b-button>-->
 
+
     <div class="geoCard" style="text-align: center" >
       <div style="position: relative; top:10px;">
         <span  id="centerAddr"></span>
@@ -34,11 +35,11 @@
 
     <div class="viewsBack">
       <button id="btnRoadmap" class="selected_btn" @click="setMapType('roadmap')">지도</button>
-      <button id="btnSkyview" class="btn sky" @click="setMapType('skyview')">스카이뷰</button>
+      <button id="btnSkyview" class="btn" @click="setMapType('skyview')">스카이뷰</button>
     </div>
 
     <div class="weatherCard">
-      <i class="fas fa-crosshairs fa-lg" style="position: relative; left: 30px; top: 10px;" @click="getCurrentPosBtn"></i>
+      <i class="fas fa-crosshairs fa-lg" style="position: relative; left: 15px; top: 10px;" @click="getCurrentPosBtn"></i>
     </div>
 
     <div style="position: absolute;
@@ -48,8 +49,7 @@
       <button @click="logout" class="logOutBtn" style="display: block; position: relative; padding: 1px 3px 5px;" >
         <b-icon icon="power"></b-icon> Logout
       </button>
-      <div style="position:relative; right: 9px; top: 300px">
-
+      <div style="position:relative; right: 9px;">
         <button class="plusBtn" @click="zoomIn">
           <i class="fas fa-plus"></i>
         </button>
@@ -60,7 +60,6 @@
     </div>
   </div>
 </template>
-
 <script>
 
 
@@ -209,7 +208,6 @@ export default {
     getCurrentPosBtn(){
       navigator.geolocation.getCurrentPosition(this.locationLoadSuccess,this.locationLoadError);
     },
-
 
 
 
@@ -385,8 +383,7 @@ div {
 }
 .logOutBtn {
   position: relative;
-  /*overflow: hidden;*/
-
+  overflow: hidden;
   z-index: 2;
   font-size: 15px;
   width: 100px;
@@ -434,7 +431,7 @@ div {
   /*display: inline-block;*/
   left: 400px;
   height: 43px;
-  width: 300px;
+  width: 260px;
   box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
 }
 .weatherCard {
@@ -444,14 +441,13 @@ div {
   border-top-right-radius: 7px;
   top: 10px;
   /*display: inline-block;*/
-  left: 700px;
+  left: 640px;
   height: 43px;
-  width: 80px;
+  width: 50px;
   box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
 }
 .plusBtn{
-  /*position: relative;*/
-
+  position: relative;
   display: block;
   float: right;
   z-index: 2;
@@ -471,16 +467,15 @@ div {
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
 .minusBtn{
-  /*position: absolute;*/
+  position: relative;
   display: block;
-
   float: right;
   z-index: 2;
   font-size: 15px;
   width: 40px;
   height: 40px;
   /*margin-right: 10px;*/
-  top: 120px;
+  top: 80px;
   color: #1b375d;
   background-color: #ffffff;
   border-bottom-left-radius: 7px;
@@ -498,84 +493,34 @@ div {
   margin-top: 10px;
   background-color: white;
   border-radius: 7px;
-  padding: 1px;
-}
-#btnRoadmap.selected_btn {
-  color:#fff;
-  background: #506380;
-  /*background:linear-gradient(#425470, #5b6d8a);*/
-  width: 54px;
-  height: 38px;
-  border-radius: 7px;
-  border: none;
-}
-#btnSkyview.selected_btn {
-  color:#fff;
-  background:#506380;
-  /*background:linear-gradient(#425470, #5b6d8a);*/
-  width: 81px;
-  height: 38px;
-  border-radius: 7px;
-  border: none;
-
-}
-.btn{
-  margin:0;
-}
-.sky{
-  /*top: ;*/
-}
-</style>
-=======
-  position: absolute;
-  display: block;
-  float: right;
-  z-index: 2;
-  font-size: 15px;
-  width: 40px;
-  height: 40px;
-  /*margin-right: 10px;*/
-  top: 120px;
-  color: #1b375d;
-  background-color: #ffffff;
-  border-bottom-left-radius: 7px;
-  border-bottom-right-radius: 7px;
-  border: none;
-}
-.viewsBack{
-  position:relative;
-  /*z-index: 100;*/
-  /*left: 50%;*/
-  display: inline-block;
-  /*margin: 0 50px;*/
-  float: right;
-  margin-right: 20px;
-  margin-top: 10px;
-  background-color: white;
-  border-radius: 7px;
   padding: 2px;
 }
 #btnRoadmap.selected_btn {
   color:#fff;
-  background: #506380;
+  background: #24376e;
   /*background:linear-gradient(#425470, #5b6d8a);*/
   width: 54px;
   height: 38px;
   border-radius: 7px;
   border: none;
+  /*padding-top: 4px;*/
+  padding: 5px 0 5px;
+  text-align: center;
 }
 #btnSkyview.selected_btn {
-  color:#fff;
-  background:#506380;
+  color: #fff;
+  background: #24376e;
   /*background:linear-gradient(#425470, #5b6d8a);*/
   width: 81px;
   height: 38px;
   border-radius: 7px;
   border: none;
-
+  /*padding-top: 4px;*/
+  padding: 3px 0 3px;
+  text-align: center;
+  margin:0px;
 }
 .btn{
-  margin:0;
+  margin:0px;
 }
-
 </style>
