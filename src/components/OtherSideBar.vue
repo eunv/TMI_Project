@@ -30,7 +30,10 @@
           아직 등록하지 않았어요!
         </p>
       </div>
-      <b-icon @click="goMyMap" id="sidebar_openBtn" icon="house" font-scale="1.5" class="goMypage"></b-icon>
+      <div @click="goMyMap" class="goMypage">
+        <b-icon  id="sidebar_openBtn" icon="house" font-scale="1.5" ></b-icon>
+        <span style="top: 0px"> MyPage</span>
+      </div>
       <MyPage></MyPage>
       <AddMemorySideBar></AddMemorySideBar>
     </b-sidebar>
@@ -163,8 +166,8 @@ export default {
 
 .goMypage {
   position: absolute;
-  left:250px;
-  top:40px;
+  left:260px;
+  top:60px;
   color: white;
 }
 .img1 {
