@@ -16,16 +16,11 @@
         style="width:100%;height:100vh;position: fixed;"
     >
     </vue-daum-map>
-    <!--    <button v-b-toggle.sidebar-1 id="sidebar_openBtn" class="listView">-->
-    <!--      <b-icon  icon="list" font-scale="1.5" style="margin-left: 30px; color: white;" class="my-2 my-sm-0"></b-icon>TMI</button>-->
     <button v-b-toggle.sidebar-1 id="sidebar_openBtn" class="listView">
       <b-icon icon="list" aria-hidden="true"></b-icon>TMI
     </button>
     <input v-model="geo" class="geoSearch" type="text" placeholder="Search" aria-label="Search" v-on:keypress.enter.prevent=searchGeo(geo)>
-    <!--    <b-button  @click="searchGeo(geo)" class="moveBtn btn-mdb-color" >-->
     <b-icon @click="searchGeo(geo)" icon="search" class="goSearch"></b-icon>
-    <!--    </b-button>-->
-
 
     <div class="geoCard" style="text-align: center" >
       <div style="position: relative; top:10px;">
@@ -40,6 +35,12 @@
 
     <div class="weatherCard">
       <i class="fas fa-crosshairs fa-lg" style="position: relative; left: 15px; top: 10px;" @click="getCurrentPosBtn"></i>
+    </div>
+
+    <div class="whoseMap" style="text-align: center" >
+      <div style="position: relative; top:10px;">
+        <span style="color:#ffffff;"><span style="font-weight: bold">{{userInfo.nickName}}</span>&nbsp;&nbsp;Map</span>
+      </div>
     </div>
 
     <div style="position: absolute;
@@ -83,6 +84,7 @@ export default {
       rows: [],
       fbCollection: 'memory',
       userId: this.$store.state.user.uid,
+      userInfo: "",
       markersInMap: [],
       geo: '',
       lat: 0,
@@ -97,6 +99,7 @@ export default {
     }
   },
   mounted() {
+    this.getData()
     this.getDataList()
   },
   methods: {
@@ -120,12 +123,10 @@ export default {
         const geocoder = new kakao.maps.services.Geocoder();
         geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
       }
-
       // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
       function displayCenterInfo(result, status) {
         if (status === kakao.maps.services.Status.OK) {
           const infoDiv = document.getElementById('centerAddr');
-
           for(var i = 0; i < result.length; i++) {
             // 행정동의 region_type 값은 'H' 이므로
             if (result[i].region_type === 'H') {
@@ -135,35 +136,16 @@ export default {
           }
         }
       }
-
       setTimeout(function() {
         searchAddrFromCoords(map.getCenter(), displayCenterInfo);
       }, 1000);
-      // let marker = new kakao.maps.Marker({
-      //   position: map.getCenter()
-      // });
-      //
       kakao.maps.event.addListener(map, 'idle', function() {
         searchAddrFromCoords(map.getCenter(), displayCenterInfo);
       });
-      // kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
-      //
-      //   // 클릭한 위도, 경도 정보를 가져옵니다
-      //   let latlng = mouseEvent.latLng;
-      //
-      //   // 마커 위치를 클릭한 위치로 옮깁니다
-      //   marker.setPosition(latlng);
-      //
-      //   this.lat = latlng.La;
-      //   this.long = latlng.Ma;
-      //   console.log(this.lat)
-      // });
-
     },
     zoomIn() {
       this.map.setLevel(this.map.getLevel() - 1,{animate: true});
     },
-
 // 지도 확대, 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
     zoomOut() {
       this.map.setLevel(this.map.getLevel() + 1,{animate: true});
@@ -182,41 +164,28 @@ export default {
         roadmapControl.className = 'btn';
       }
     },
-
     locationLoadSuccess(pos){
       // 현재 위치 받아오기
       const currentPos = new kakao.maps.LatLng(pos.coords.latitude,pos.coords.longitude);
-
       // 지도 이동(기존 위치와 가깝다면 부드럽게 이동)
       this.map.panTo(currentPos);
-
     },
-
     locationLoadError(){
       alert('위치 정보를 가져오는데 실패했습니다.');
     },
-
 // 위치 가져오기 버튼 클릭시
     getCurrentPosBtn(){
       navigator.geolocation.getCurrentPosition(this.locationLoadSuccess,this.locationLoadError);
     },
-
-
-
     searchGeo(geo){
-
       const ps = new kakao.maps.services.Places();
       ps.keywordSearch(geo, placesSearchCB);
       const map=this.map
-
       function placesSearchCB (data,status) {
-
         if (status === kakao.maps.services.Status.OK) {
-
           // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
           // LatLngBounds 객체에 좌표를 추가합니다
           const bounds = new kakao.maps.LatLngBounds();
-
           for (var i=0; i<data.length; i++) {
             bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
           }
@@ -224,6 +193,21 @@ export default {
           map.setBounds(bounds);
         }
       }
+    },
+    getData() {
+      const self = this;
+      const db = firebase.firestore();
+      db.collection("users")
+          .where('code', '==', localStorage.otherCode)
+          .get()
+          .then((querySnapshot) => {
+            if (querySnapshot.size === 0) {
+              return
+            }
+            querySnapshot.forEach((doc) => {
+              self.userInfo = doc.data();
+            });
+          })
     },
     getDataList() {
       const self = this;
@@ -268,13 +252,6 @@ export default {
       const markerPosition = new kakao.maps.LatLng(lat, long);
       const mappingData ={};
       console.log(markerPosition)
-      // const markerImageUrl = '/images/marker2.png',
-      //     markerImageSize = new this.maps.Size(20, 20), // 마커 이미지의 크기
-      //     markerImageOptions = {
-      //       // offset: new this.maps.Point(62, 28)// 마커 좌표에 일치시킬 이미지 안의 좌표
-      //     };
-      //
-      // const markerImage = new this.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
 // 마커를 생성합니다
       const marker = new kakao.maps.Marker({
         map: self.map,
@@ -302,9 +279,6 @@ export default {
         }
         self.modal = true
         self.openModal()
-        // }
-        // 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
-        // this.selectedMarker = marker;
       });
     },
     logout() {
@@ -323,9 +297,6 @@ export default {
       this.$router.push('/')
     },
   },
-  watch:{
-
-  }
 }
 </script>
 
@@ -351,7 +322,6 @@ div {
 .listView{
   position: absolute;
   background-color: #24376e;
-  border-radius: 2px;
   width: 90px;
   height: 42px;
   top: 10px;
@@ -376,7 +346,6 @@ div {
   color: #1b375d;
   background-color: #ffffff;
   border-radius: 7px;
-
   /*border-width: 1px;*/
   border: none;
   /*box-shadow: 0 5px 5px -5px #333;*/
@@ -416,6 +385,17 @@ div {
   width: 260px;
   box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
 }
+.whoseMap{
+  position: absolute;
+  background: #24376e;
+  border-radius: 7px;
+  top: 10px;
+  /*display: inline-block;*/
+  left: 780px;
+  height: 43px;
+  width: 230px;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+}
 .weatherCard {
   position: absolute;
   background-color:white;
@@ -436,7 +416,6 @@ div {
   font-size: 15px;
   width: 40px;
   height: 40px;
-  /*margin-right: 10px;*/
   top: 80px;
   color: #1b375d;
   background-color: #ffffff;
@@ -449,15 +428,13 @@ div {
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
 .minusBtn{
-  /*position: absolute;*/
+  /*position: relative;*/
   display: block;
-
   float: right;
   z-index: 2;
   font-size: 15px;
   width: 40px;
   height: 40px;
-  /*margin-right: 10px;*/
   top: 120px;
   color: #1b375d;
   background-color: #ffffff;
@@ -480,27 +457,29 @@ div {
 }
 #btnRoadmap.selected_btn {
   color:#fff;
-  background: #506380;
+  background: #24376e;
   /*background:linear-gradient(#425470, #5b6d8a);*/
   width: 54px;
   height: 38px;
   border-radius: 7px;
   border: none;
+  /*padding-top: 4px;*/
+  padding: 5px 0 5px;
+  text-align: center;
 }
 #btnSkyview.selected_btn {
-  color:#fff;
-  background:#506380;
+  color: #fff;
   /*background:linear-gradient(#425470, #5b6d8a);*/
   width: 81px;
   height: 38px;
   border-radius: 7px;
   border: none;
-
+  /*padding-top: 4px;*/
+  padding: 3px 0 3px;
+  text-align: center;
+  margin:0px;
 }
 .btn{
   margin:0;
-}
-.sky{
-  /*top: ;*/
 }
 </style>
