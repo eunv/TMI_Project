@@ -1,20 +1,22 @@
 <template>
-  <div className>
-    <b-sidebar no-slide className="addMemory" id="sidebar-3">
-      <div className="px-3 py-2">
-        <label htmlFor="title" className="grey-text" style="margin:10px">제목</label>
-        <input v-model="title" type="text" id="title" className="form-control">
+  <div class>
+    <b-sidebar  no-slide class="addMemory" id="sidebar-3" shadow>
+      <div class="px-3 py-2">
+        <label for="title" class="grey-text" style="margin:10px">제목</label>
+        <input v-model="title" type="text" id="title" class="form-control" >
 
-        <label htmlFor="content" className="grey-text" style="margin:10px">내용</label>
-        <input v-model="content" type="textarea" id="content" className="form-control">
+        <label for="content" class="grey-text" style="margin:10px">내용</label>
+        <input v-model="content" type="textarea" id="content" class="form-control" >
+
         <hr>
         <label htmlFor="content" className="grey-text" style="margin:10px">이미지 저장</label> <br>
         <input type="file" className="form-control" ref="fileInput" accept="image/jpeg, image/jpg" id="inputGroupFile02"
                multiple>
         <hr>
         <div>
-          <label htmlFor="example-datepicker" className="grey-text" style="margin:10px">날짜 선택</label>
-          <date-picker v-model="date" valueType="format"></date-picker>
+          <label for="example-datepicker" class="grey-text" style="margin:10px" >날짜 선택</label>
+          <date-picker  v-model="date" valueType="format"></date-picker>
+
           <!--          <b-datepicker id="example-datepicker" v-model="date" class="mb-2 dateSelect"></b-datepicker>-->
         </div>
         <hr>
@@ -159,8 +161,8 @@ export default {
     onLoad(map, daum) {
       this.map = map;
       this.maps = daum.map
-      setTimeout(function () {
-        console.log("111", map.relayout())
+      setTimeout(function() {
+        console.log("111",map.relayout())
       }, 1);
 
 

@@ -169,7 +169,7 @@ a {
 }
 .smallTitle  {
   position: relative;
-  top: 3vh;
+  top: 6vh;
   padding-bottom: 30px;
   padding-top: 10px;
 }
