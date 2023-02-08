@@ -9,13 +9,13 @@ import "firebase/auth";
 
 
 firebase.initializeApp({
-    apiKey: "AIzaSyCn5j2MN9kr6UAW5WyKcndsUd2D6tqLqII",
-    authDomain: "tmi-project-f00ef.firebaseapp.com",
-    projectId: "tmi-project-f00ef",
-    storageBucket: "tmi-project-f00ef.appspot.com",
-    messagingSenderId: "940364583403",
-    appId: "1:940364583403:web:4581a95bee632776a5c9ae",
-    measurementId: "G-RFNVY5ETJQ"
+    apiKey: "AIzaSyBafCnYhxIUKitujbC2vmof5__Jl_bNBjg",
+    authDomain: "tmi-project-57cdd.firebaseapp.com",
+    projectId: "tmi-project-57cdd",
+    storageBucket: "tmi-project-57cdd.appspot.com",
+    messagingSenderId: "677251735734",
+    appId: "1:677251735734:web:5d3ae8389dce80118f4617",
+    measurementId: "G-V7RT6MKFYV"
 });
 
 firebase.auth().languageCode = 'ko'
